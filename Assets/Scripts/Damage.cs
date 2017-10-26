@@ -10,7 +10,6 @@ public class Damage : MonoBehaviour {
     private int maxHealth = 5;
     private Rigidbody2D rb;
     public Text healthText;
-    public GameObject iteractionText;
 
     #endregion
 
@@ -40,31 +39,7 @@ public class Damage : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Enemy")
             Health--;
-
-        
         
     }
-
-    // to Cross class
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Cross")
-        {
-            iteractionText.SetActive(false);
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Cross")
-        {
-            iteractionText.SetActive(true);
-        }
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Cross" && Input.GetKeyDown(KeyCode.E))
-            Health = maxHealth;
-    }
-
-
+    
 }
