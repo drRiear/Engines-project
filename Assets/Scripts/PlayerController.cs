@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
     private CircleCollider2D circleCollider;
     private bool onGround = false;
     [SerializeField] private LayerMask groundLayer;
+    public float colliderMargin;
 
     private bool lookRight;
     private float direction;
@@ -60,7 +61,7 @@ public class PlayerController : MonoBehaviour {
         direction = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(direction * playerStats.runSpeed, rb.velocity.y);
 
-        onGround = Physics2D.OverlapCircle(circleCollider.transform.position, circleCollider.radius + 1.5f, groundLayer);
+        onGround = Physics2D.OverlapCircle(circleCollider.transform.position, circleCollider.radius + colliderMargin, groundLayer);
 
         if (Input.GetButtonDown("Jump") && onGround)
             rb.AddForce(Vector2.up * jumpPower * playerStats.jumpHeight);
@@ -74,11 +75,13 @@ public class PlayerController : MonoBehaviour {
         {
             playerStats.runSpeed *= playerStats.sprintMultiplier;
             inSprint = true;
+            animator.speed *= playerStats.sprintMultiplier;
         }
         if (Input.GetKeyUp(KeyCode.LeftShift) && inSprint)
         {
             playerStats.runSpeed = playerStats.maxRunSpeed;
             inSprint = false;
+            animator.speed /= playerStats.sprintMultiplier;
         }
         if (playerStats.staminaPoints <= 0)
         {
