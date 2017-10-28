@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     #region Variables
-    [SerializeField] private float maxSpeed = 3;
-    [SerializeField] private float sprintMultiplier = 2;
-    [SerializeField] private float jumpMultiplier = 2;
-    private float jumpPower = 500;
+    [SerializeField] private PlayerStats playerStats;
+    private Animator animator;
+
+    [SerializeField] private float jumpPower = 500;
     private float speed;
     private bool inSprint = false;
     private Rigidbody2D rb;
@@ -17,58 +17,88 @@ public class PlayerController : MonoBehaviour {
     private bool onGround = false;
     [SerializeField] private LayerMask groundLayer;
 
-    private bool lookRight = true;
-    
+    private bool lookRight;
+    private float direction;
     #endregion
 
-    
-    void Start ()
+    #region Unity Events
+    private void Start()
     { 
         rb = GetComponent<Rigidbody2D>();
         circleCollider = GetComponent<CircleCollider2D>();
-        speed = maxSpeed;
+        animator = GetComponent<Animator>();
     }
-	
-	void FixedUpdate ()
+    private void FixedUpdate()
     {
         Movement();
     }
+    private void Update()
+    {
+        Sprint();
+
+        AnimationCtrl();
+    }
+
+    private void AnimationCtrl()
+    {
+        if (direction != 0)
+        {
+            Flip();
+            animator.SetBool("Running", true);
+        }
+        else
+            animator.SetBool("Running", false);
+
+        animator.SetBool("Jumping", !onGround);
+    }
+    #endregion
+
+    #region Private Methods
 
     private void Movement()
     {
-        float direction = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(direction * maxSpeed, rb.velocity.y);
+        direction = Input.GetAxis("Horizontal");
+        rb.velocity = new Vector2(direction * playerStats.runSpeed, rb.velocity.y);
 
         onGround = Physics2D.OverlapCircle(circleCollider.transform.position, circleCollider.radius + 1.5f, groundLayer);
 
         if (Input.GetButtonDown("Jump") && onGround)
-            rb.AddForce(Vector2.up * jumpPower * jumpMultiplier);
+            rb.AddForce(Vector2.up * jumpPower * playerStats.jumpHeight);
 
-        if ((direction < 0 && !lookRight) || (direction > 0 && lookRight))
-            Flip(direction);
-
-        Sprint();
+        
     }
 
     private void Sprint()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !inSprint)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && playerStats.staminaPoints > 0 && !inSprint)
         {
-            maxSpeed *= sprintMultiplier;
+            playerStats.runSpeed *= playerStats.sprintMultiplier;
             inSprint = true;
         }
         if (Input.GetKeyUp(KeyCode.LeftShift) && inSprint)
         {
-            maxSpeed = speed;
+            playerStats.runSpeed = playerStats.maxRunSpeed;
             inSprint = false;
         }
+        if (playerStats.staminaPoints <= 0)
+        {
+            playerStats.runSpeed = playerStats.maxRunSpeed;
+            inSprint = false;
+        }
+            
+        if (inSprint && playerStats.staminaPoints > 0)
+            playerStats.staminaPoints -= playerStats.staminaExpense * Time.deltaTime;
+        if (!inSprint && playerStats.staminaPoints < playerStats.maxStaminaPoints)
+            playerStats.staminaPoints += playerStats.staminaRegen * Time.deltaTime;
     }
 
-    private void Flip(float direction)
+    private void Flip()
     {
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Sign(direction);
         transform.localScale = scale;
-        lookRight = !lookRight;
     }
+
+
+    #endregion
 }

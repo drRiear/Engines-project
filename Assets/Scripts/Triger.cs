@@ -5,34 +5,22 @@ using UnityEngine;
 public class Triger : MonoBehaviour {
 
 
-    public GameObject iteractionText;
-    [SerializeField]private GameObject player;
+    public GameObject interactionText;
+    [SerializeField]private PlayerStats playerStats;
 
-    // Use this for initialization
-    void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Hero")
-        {
-            iteractionText.SetActive(false);
-        }
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Hero")
-        {
-            iteractionText.SetActive(true);
-        }
+            interactionText.SetActive(true);
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Hero")
+            interactionText.SetActive(false);
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        //if (collision.gameObject.tag == "Cross" && Input.GetKeyDown(KeyCode.E))
-            //player.Health = player.maxHealth;
+        if (collision.gameObject.tag == "Hero" && Input.GetKeyDown(KeyCode.E))
+            playerStats.healthPoints = playerStats.maxHealthPoints;
     }
 }

@@ -20,14 +20,15 @@ GameObject:
   m_Component:
   - component: {fileID: 4824635893558636}
   - component: {fileID: 212512087870562124}
-  - component: {fileID: 61827995189168570}
+  - component: {fileID: 61520666094557982}
   - component: {fileID: 58398925502726058}
   - component: {fileID: 50827971490237948}
-  - component: {fileID: 114546669543008280}
+  - component: {fileID: 114067381038773804}
   - component: {fileID: 114312518356582300}
+  - component: {fileID: 95477935409319290}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1280389280138540}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.59, y: -5.12, z: 0}
+  m_LocalPosition: {x: -14.59, y: -5.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,10 +78,10 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.12, y: -1.35}
+  m_Offset: {x: -0.10550976, y: -1.4778371}
   serializedVersion: 2
-  m_Radius: 0.5
---- !u!61 &61827995189168570
+  m_Radius: 0.4273014
+--- !u!61 &61520666094557982
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -92,7 +93,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.24631977, y: 0.3399229}
+  m_Offset: {x: -0.29503393, y: 0.37637186}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -103,8 +104,46 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.4956722, y: 3.1789904}
+  m_Size: {x: 2.380498, y: 3.1456594}
   m_EdgeRadius: 0
+--- !u!95 &95477935409319290
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1280389280138540}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 299cb035a891bfc45bec7dcf36d9d345, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114067381038773804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1280389280138540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e4f1958d8c277c4cba6917252705feb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 5
+  healthPoints: 5
+  maxStaminaPoints: 20
+  staminaPoints: 20
+  staminaExpense: 5
+  staminaRegen: 10
+  maxRunSpeed: 10
+  runSpeed: 10
+  sprintMultiplier: 2
+  jumpHeight: 2
 --- !u!114 &114312518356582300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,25 +155,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4e0cf3241465c4583e3a1188b39487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 10
-  sprintMultiplier: 2
-  jumpMultiplier: 2
+  playerStats: {fileID: 114067381038773804}
+  animator: {fileID: 0}
+  jumpPower: 500
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
---- !u!114 &114546669543008280
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1280389280138540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 714edbc7af4031e4fa75b9ef1d67bd9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthText: {fileID: 0}
-  iteractionText: {fileID: 0}
 --- !u!212 &212512087870562124
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -167,7 +193,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4436e8c459c32e04d8dc48d6a71b641a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 396f8c0b77a13704e929b2db271b779b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
