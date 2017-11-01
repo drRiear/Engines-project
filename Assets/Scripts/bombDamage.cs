@@ -6,7 +6,9 @@ using UnityEngine;
 public class bombDamage : MonoBehaviour {
     
     [SerializeField] private PlayerStats playerStats;
-    [SerializeField] private EnemyStats myStats;
+    private EnemyStats myStats;
+    private SpriteRenderer render;
+    private CircleCollider2D colider;
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -16,15 +18,32 @@ public class bombDamage : MonoBehaviour {
         
     }
 
+    private void Start()
+    {
+        render = GetComponent<SpriteRenderer>();
+        myStats = GetComponent<EnemyStats>();
+        colider = GetComponent<CircleCollider2D>();
+    }
+
     private void Update()
     {
         Death();
+
+        if (myStats.isAlive)
+        {
+            render.color = Color.white;
+            colider.enabled = true;
+        }
     }
 
     private void Death()
     {
         if (myStats.healthPoints <= 0)
-            Destroy(gameObject);
+        {
+            colider.enabled = false;
+            render.color = Color.black;
+            myStats.isAlive = false;
+        }
     }
     
 }

@@ -23,7 +23,10 @@ public class PlayerStats : MonoBehaviour {
     [HideInInspector] public bool inSprint;
     [HideInInspector] public bool inDash;
     [HideInInspector] public bool onGround;
+    [HideInInspector] public bool isAlive;
 
+    //Non-Player vars
+    public DisplayStats displayStats;
     #endregion
 
     void Awake()
@@ -44,5 +47,15 @@ public class PlayerStats : MonoBehaviour {
         maxDashDistance = 5f;
         dashCooldown = 1.0f;
         dashDuration = 0.15f;
+        
+    }
+    
+    public void IncreaseStamina(float newMaxStamina)
+    {
+        if (newMaxStamina == maxStaminaPoints)
+            return;
+
+        maxStaminaPoints = newMaxStamina;
+        displayStats.SetUpStaminaBar();
     }
 }
