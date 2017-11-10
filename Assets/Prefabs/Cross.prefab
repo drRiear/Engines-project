@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4847383583815362}
   - component: {fileID: 212598783389250488}
   - component: {fileID: 61297211774432186}
+  - component: {fileID: 114973224199448004}
   - component: {fileID: 114995870955885788}
   m_Layer: 0
   m_Name: Cross
@@ -67,6 +68,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5, y: 5.64}
   m_EdgeRadius: 0
+--- !u!114 &114973224199448004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1307296687406648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da292a47c5347984c8729ed0a019a857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionText: {fileID: 0}
+  playerStats: {fileID: 0}
 --- !u!114 &114995870955885788
 MonoBehaviour:
   m_ObjectHideFlags: 1

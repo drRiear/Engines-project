@@ -5,33 +5,26 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     #region Variables
-    [SerializeField] private PlayerStats myStats;
+    private PlayerStats myStats;
     private Animator animator;
         //simple movement vars
-    [SerializeField] private float jumpPower = 500;
+    private float jumpPower = 500;
     private Rigidbody2D rb;
-        //isOnGround vars
-    private CircleCollider2D circleCollider;
-    [SerializeField] private LayerMask groundLayer;
-    public float colliderMargin;
-        
     private float direction;
         //Dash vars
-    private enum DashState {ready, dashing, onCooldown};
     private Vector2 oldVelocity = Vector2.zero;
-    private DashState dashState = 0;
-    public float dashCooldownTimer = 0;
-    public float dashTimer;
-    
+    [HideInInspector] public float dashCooldownTimer = 0;
+    [HideInInspector] public float dashTimer;
+        //Ulti vars
+    private float ultiTimer = 0;
     #endregion
 
     #region Unity Events
     private void Start()
     { 
         rb = GetComponent<Rigidbody2D>();
-        circleCollider = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
-
+        myStats = GetComponent<PlayerStats>();
         dashTimer = myStats.dashDuration;
     }
     private void FixedUpdate()
@@ -39,37 +32,42 @@ public class PlayerController : MonoBehaviour {
         Movement();
 
         Dash();
+
+
     }
     private void Update()
     {
+        StaminaManagement();
+
         Sprint();
 
         AnimationCtrl();
 
         Attack();
 
+        Ulti();
+
         if (myStats.healthPoints <= 0)
             Death();
+        
     }
-
-    
     #endregion
 
     #region Private Methods
-
     private void Movement()
     {
         direction = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(direction * myStats.runSpeed, rb.velocity.y);
-
-        myStats.onGround = Physics2D.OverlapCircle(circleCollider.transform.position, circleCollider.radius + colliderMargin, groundLayer);
-
+        
+        
         if (Input.GetKeyDown(KeyCode.W) && myStats.onGround)
             rb.AddForce(Vector2.up * jumpPower * myStats.jumpHeight);
     }
 
     private void Sprint()
     {
+        if (direction == 0)
+            return;
         if (Input.GetKeyDown(KeyCode.LeftShift) && myStats.staminaPoints > 0 && !myStats.inSprint)
         {
             myStats.runSpeed *= myStats.sprintMultiplier;
@@ -81,8 +79,11 @@ public class PlayerController : MonoBehaviour {
             myStats.runSpeed = myStats.maxRunSpeed;
             myStats.inSprint = false;
             animator.speed /= myStats.sprintMultiplier;
-        }
-        //Stamina management    
+        }  
+    }
+
+    private void StaminaManagement()
+    {
         if (myStats.inSprint && myStats.staminaPoints > 0)
             myStats.staminaPoints -= myStats.staminaExpense * Time.deltaTime;
         if (!myStats.inSprint && myStats.staminaPoints < myStats.maxStaminaPoints)
@@ -103,8 +104,6 @@ public class PlayerController : MonoBehaviour {
         animator.SetBool("Attacking", myStats.inAttack);
         animator.SetBool("Sprinting", myStats.inSprint);
         animator.SetBool("Dashing", myStats.inDash);
-
-
     }
 
     private void Flip()
@@ -127,18 +126,18 @@ public class PlayerController : MonoBehaviour {
         float dashForse = Mathf.Sign(direction) * myStats.maxRunSpeed * myStats.maxDashDistance;
         bool canIDash = myStats.staminaPoints > 20 && direction != 0 ? true : false;
 
-        switch (dashState)
+        switch (myStats.dashState)
         {
-            case DashState.ready :
+            case PlayerStats.DashState.ready:
                 if (Input.GetKeyDown(KeyCode.Space) && dashCooldownTimer <= 0 && canIDash)
                 {
                     oldVelocity = rb.velocity;
-                    dashState = DashState.dashing;
+                    myStats.dashState = PlayerStats.DashState.dashing;
                     myStats.staminaPoints -= 20.0f;
                 }
                 break;
 
-            case DashState.dashing:
+            case PlayerStats.DashState.dashing:
                 dashTimer -= Time.deltaTime;
                 dashCooldownTimer = myStats.dashCooldown;
 
@@ -148,18 +147,54 @@ public class PlayerController : MonoBehaviour {
                 {
                     rb.velocity = oldVelocity;
                     myStats.inDash = false;
-                    dashState = DashState.onCooldown;
+                    myStats.dashState = PlayerStats.DashState.onCooldown;
                 }
                 break;
 
-            case DashState.onCooldown:
+            case PlayerStats.DashState.onCooldown:
                 dashCooldownTimer -= Time.deltaTime;
                 dashTimer = myStats.dashDuration;
-                if (dashCooldownTimer <= 0)
-                    dashState = DashState.ready;
+                if (dashCooldownTimer < 0)
+                {
+                    myStats.dashState = PlayerStats.DashState.ready;
+                    dashCooldownTimer = 0;
+                }
                 break;
         }
         
+    }
+    
+    private void Ulti()
+    {
+
+        switch (myStats.ultiState)
+        {
+            case PlayerStats.UltiState.charging:
+                myStats.damage = myStats.baseDamage;
+                ultiTimer = myStats.ultiDuration;
+                if (myStats.CanIUlti())
+                    myStats.ultiState = PlayerStats.UltiState.ready;
+                break;
+            case PlayerStats.UltiState.ready:
+                if (Input.GetKey(KeyCode.Q))
+                    myStats.ultiState = PlayerStats.UltiState.ulting;
+                break;
+            case PlayerStats.UltiState.ulting:
+                ultiTimer -= Time.deltaTime;
+
+                myStats.ultiPoints -= 5.0f * Time.deltaTime;
+                if (myStats.ultiPoints <= 0.0f)
+                    myStats.ultiPoints = 0.0f;
+
+                myStats.damage = myStats.ultiDamage;
+
+                if (ultiTimer <= 0)
+                {
+                    ultiTimer = 0;
+                    myStats.ultiState = PlayerStats.UltiState.charging;
+                }
+                break;
+        }
     }
 
     private void Death()
@@ -169,4 +204,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     #endregion
+
+    
 }
