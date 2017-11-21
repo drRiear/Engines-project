@@ -1,44 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Cross : MonoBehaviour {
     
     public GameObject interactionText;
     [SerializeField]private PlayerStats playerStats;
-    private GameObject[] enemies;
+    private CharacterManager manager;
 
    
     private void Start()
     {
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Hero")
-            interactionText.SetActive(true);
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Hero")
-            interactionText.SetActive(false);
+        manager = FindObjectOfType<CharacterManager>();
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Hero" && Input.GetKeyDown(KeyCode.E))
-        {
-            playerStats.healthPoints = playerStats.maxHealthPoints;
+        interactionText.SetActive(collision.gameObject == manager.player);
 
-            foreach (GameObject enemy in enemies)
-            {
-                EnemyStats enemyStats = enemy.GetComponent<EnemyStats>();
-                if (!enemyStats.isAlive)
-                {
-                    enemyStats.isAlive = true;
-                    enemyStats.healthPoints = enemyStats.maxHealthPoints;
-                }
-            }
+        if (collision.gameObject == manager.player && Input.GetKeyDown(KeyCode.E))
+        {
+            Player();
+
+            Enemies();
         }
+    }
+
+    private void Enemies()
+    {
+        foreach (GameObject enemy in manager.enemies)
+        {
+            EnemyStats enemyStats = enemy.GetComponent<EnemyStats>();
+            if (!enemyStats.isAlive)
+                enemyStats.healthPoints = enemyStats.maxHealthPoints;
+        }
+    }
+
+    private void Player()
+    {
+        playerStats.healthPoints = playerStats.maxHealthPoints;
     }
 }
