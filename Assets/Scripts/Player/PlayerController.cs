@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+
+
 public class PlayerController : MonoBehaviour {
 
     #region Variables
@@ -46,9 +48,28 @@ public class PlayerController : MonoBehaviour {
 
         if (!myStats.isAlive)
             Death();
-        
+
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) //rewrite 
+            StartCoroutine(ZoomIn());
+      
     }
+
+    
     #endregion
+
+    private IEnumerator ZoomIn()
+    {
+        float startSize = Camera.main.orthographicSize;
+        print("start");
+        float t = 0.0f;
+        while ( t < 1.0f)
+        {
+            Camera.main.orthographicSize = Mathf.Lerp(startSize, startSize / 2.0f, t);
+            t += Time.deltaTime * 2.0f;
+            yield return null;
+        }
+    }
 
     #region Private Methods
     private void Movement()

@@ -11,12 +11,20 @@ public class SwordAttack : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy" && playerStats.inAttack)
+        if (CharacterManager.Instance == null)
+            return;
+
+        foreach (var enemy in CharacterManager.Instance.enemiesList)
         {
-            EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
-            enemyStats.healthPoints -= playerStats.damage;
-            if (playerStats.ultiPoints < playerStats.ultiCost && playerStats.ultiState == PlayerStats.UltiState.charging)
-                playerStats.ultiPoints += playerStats.damage;
+            if (collision.gameObject == enemy.gameObject && playerStats.inAttack)
+            {
+                EnemyStats enemyStats = enemy.GetComponent<EnemyStats>();
+                enemyStats.healthPoints -= playerStats.damage;
+                if (playerStats.ultiPoints < playerStats.ultiCost && playerStats.ultiState == PlayerStats.UltiState.charging)
+                    playerStats.ultiPoints += playerStats.damage;
+            }
         }
+
+        
     }
 }

@@ -8,6 +8,7 @@ public class PlayerStats : MonoBehaviour {
     #region Variables
 
     [Header("HP/Stamina")]
+    [Tooltip("Maximum of player health")]
     public float maxHealthPoints;
     [HideInInspector] public float healthPoints;
     public float maxStaminaPoints;

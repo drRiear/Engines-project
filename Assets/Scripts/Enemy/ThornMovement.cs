@@ -23,7 +23,7 @@ public class ThornMovement : MonoBehaviour {
     {
         myStats = GetComponent<ThornStats>();
 
-        player = myStats.manager.player;
+        player = CharacterManager.Instance.player;
         playerStats = player.GetComponent<PlayerStats>();
 
         startPosition = transform.position;
@@ -44,7 +44,7 @@ public class ThornMovement : MonoBehaviour {
         if (collision.gameObject == player)
         {
             playerStats.healthPoints -= myStats.damage;
-            myStats.manager.thorns.Remove(gameObject);
+            CharacterManager.Instance.thornsList.Remove(gameObject);
             Destroy(gameObject);
         }
     }
@@ -61,7 +61,7 @@ public class ThornMovement : MonoBehaviour {
         onMove = true;
         while (transform.position != player.transform.position)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, myStats.runSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, myStats.speed * Time.deltaTime);
             yield return null;
         }
     }
