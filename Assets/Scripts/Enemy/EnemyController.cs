@@ -11,11 +11,11 @@ public class EnemyController : MonoBehaviour {
 
     private Vector2 startPosition;
     private Vector2 direction;
-    [SerializeField] private State state = State.patrol;
-    
+    private State state = State.patrol;
+
     //patrol
     private float distance;
-    private bool patrolFlip = true;
+    public bool patrolFlip = true;
     private float patrolDest;
 
     private Vector2 lastPlayerPosition;
@@ -38,9 +38,10 @@ public class EnemyController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         myStats = GetComponent<EnemyStats>();
+        StartCoroutine(MoveToDestination());
 
         startPosition = transform.position;
-        StartCoroutine(MoveToDestination());
+        destination.x = startPosition.x + patrolDistance;
         patrolDest = patrolDistance;
     }
     private void Update()
@@ -60,9 +61,7 @@ public class EnemyController : MonoBehaviour {
         Gizmos.DrawWireCube(transform.position, new Vector2(agrRadius * 2.0f, 5.0f));
     }
     #endregion
-
-    private float position;
-
+    
     #region Private Methods
     private void Movement()
     {
@@ -126,14 +125,13 @@ public class EnemyController : MonoBehaviour {
     
     private IEnumerator MoveToDestination()
     {
-
         distance = Vector2.Distance(transform.position, destination);
         while (distance != 0)
         {
             distance = Vector2.Distance(transform.position, destination);
             direction.x = Mathf.Sign(transform.position.x - destination.x) * -1;
             rb.velocity = direction * myStats.runSpeed;
-
+            
             if (distance <= 1)
                 rb.velocity = Vector2.zero;
             yield return null;

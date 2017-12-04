@@ -22,7 +22,7 @@ public class ThornMovement : MonoBehaviour {
     private void Start()
     {
         myStats = GetComponent<ThornStats>();
-
+        
         player = CharacterManager.Instance.player;
         playerStats = player.GetComponent<PlayerStats>();
 

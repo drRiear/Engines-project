@@ -52,9 +52,11 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) //rewrite 
             StartCoroutine(ZoomIn());
-      
-    }
 
+        if (Input.GetKeyDown(KeyCode.E))
+            EventManager.TriggerEvent("Interaction");
+        
+    }
     
     #endregion
 

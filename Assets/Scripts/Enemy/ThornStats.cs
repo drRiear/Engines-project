@@ -17,9 +17,6 @@ public class ThornStats : MonoBehaviour
         healthPoints = maxHealthPoints;
         speed = maxSpeed;
 
-    }
-    private void Start()
-    {
         CharacterManager.Instance.thornsList.Add(gameObject);
     }
 

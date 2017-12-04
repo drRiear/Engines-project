@@ -18,10 +18,7 @@ public class EnemyStats : MonoBehaviour {
     {
         healthPoints = maxHealthPoints;
         runSpeed = maxRunSpeed;
-    }
 
-    private void Start()
-    {
         CharacterManager.Instance.enemiesList.Add(gameObject);
     }
 

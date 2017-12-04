@@ -14,6 +14,8 @@ public class DisplayStats : MonoBehaviour {
     
 	void Start ()
     {
+        playerStats = CharacterManager.Instance.player.GetComponent<PlayerStats>();
+
         SetUpStaminaBar();
         SetUpHealthBar();
         SetUpUltiBar();

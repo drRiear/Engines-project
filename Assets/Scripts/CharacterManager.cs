@@ -2,24 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour {
+public class CharacterManager : MonoBehaviour
+{
 
-    public static CharacterManager Instance { get; private set; }
 
+    #region
     public GameObject player;
-    public List<GameObject> npcList;        
+    public List<GameObject> npcList;
     public List<GameObject> enemiesList;
     public List<GameObject> thornsList;
+    #endregion
 
-    private void Awake()
+
+    private static CharacterManager characterManager;
+
+    public static CharacterManager Instance
     {
-        if (Instance == null)
-            Instance = this;
-        else
+        get
         {
-            Debug.LogError("CharacterManager is already exist. Another object of this type was destroyed.");
-            Destroy(gameObject);
+            if (!characterManager)
+            {
+                characterManager = FindObjectOfType(typeof(CharacterManager)) as CharacterManager;
+
+                if (!characterManager)
+                    Debug.LogError("There needs to be one active CharacterManager script on a GameObject in your scene.");
+            }
+            return characterManager;
         }
     }
-
 }

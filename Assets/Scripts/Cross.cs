@@ -5,10 +5,13 @@ public class Cross : MonoBehaviour {
     private Rect textRect;
     private GUIStyle skin = new GUIStyle();
     private PlayerStats playerStats;
-    private bool drawText;
+    private bool playerOnTrigger;
 
+    #region Unity Events
     private void Start()
     {
+        EventManager.StartListening("Interaction", Inter);
+
         playerStats = CharacterManager.Instance.player.GetComponent<PlayerStats>();
 
         textRect = new Rect(Screen.width / 2.0f, Screen.height / 5.0f, 10.0f, 100.0f);
@@ -17,24 +20,26 @@ public class Cross : MonoBehaviour {
     }
     private void OnGUI()
     {
-        if (drawText)
+        if (playerOnTrigger)
             GUI.Label(textRect, "Press E to interact", skin);
     }
+    #endregion
+
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (CharacterManager.Instance == null)
-            return;
-        drawText = collision.gameObject == CharacterManager.Instance.player.gameObject;
-        
-        if (collision.gameObject == CharacterManager.Instance.player.gameObject && Input.GetKeyDown(KeyCode.E))
-        {
-            Player();
-
-            Enemies();
-        }
+        playerOnTrigger = collision.gameObject == CharacterManager.Instance.player.gameObject;
     }
 
+    #region Private Methods
+    private void Inter()
+    {
+        if (!playerOnTrigger) return;
+
+        print("Cross Interaction");
+        Player();
+        Enemies();
+    }
     private void Enemies()
     {
         foreach (GameObject enemy in CharacterManager.Instance.enemiesList)
@@ -49,4 +54,5 @@ public class Cross : MonoBehaviour {
     {
         playerStats.healthPoints = playerStats.maxHealthPoints;
     }
+    #endregion
 }

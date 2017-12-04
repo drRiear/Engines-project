@@ -49,10 +49,9 @@ public class PlayerStats : MonoBehaviour {
     //Non-Player vars
     [Header("Other")]
     public DisplayStats displayStats;
-    private CharacterManager manager;
     #endregion
 
-    void Awake()
+    private void Awake()
     {
         maxHealthPoints = 5.0f;
         healthPoints = maxHealthPoints;
@@ -81,10 +80,10 @@ public class PlayerStats : MonoBehaviour {
         ultiDamage = 3.0f;
         ultiState = 0;
 
-        manager = FindObjectOfType<CharacterManager>();
-        manager.player = gameObject;
+        CharacterManager.Instance.player = gameObject;
+        
     }
-    
+
     public void IncreaseStamina(float newMaxStamina)
     {
         if (newMaxStamina == maxStaminaPoints)
