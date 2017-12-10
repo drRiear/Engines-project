@@ -4,15 +4,12 @@ public class Cross : MonoBehaviour {
     
     private Rect textRect;
     private GUIStyle skin = new GUIStyle();
-    private PlayerStats playerStats;
-    private bool playerOnTrigger;
+    private bool playerOnTrigger = false;
 
     #region Unity Events
     private void Start()
     {
-        EventManager.StartListening("Interaction", Inter);
-
-        playerStats = CharacterManager.Instance.player.GetComponent<PlayerStats>();
+        MessageDispatcher.AddListener(this);
 
         textRect = new Rect(Screen.width / 2.0f, Screen.height / 5.0f, 10.0f, 100.0f);
         skin.fontSize = 40;
@@ -23,36 +20,24 @@ public class Cross : MonoBehaviour {
         if (playerOnTrigger)
             GUI.Label(textRect, "Press E to interact", skin);
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject == CharacterManager.Instance.player)
+            playerOnTrigger = true;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject == CharacterManager.Instance.player)
+            playerOnTrigger = false;
+    }
     #endregion
 
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        playerOnTrigger = collision.gameObject == CharacterManager.Instance.player.gameObject;
-    }
-
     #region Private Methods
-    private void Inter()
+    private void Interaction(Messages.Interaction message)
     {
         if (!playerOnTrigger) return;
-
-        print("Cross Interaction");
-        Player();
-        Enemies();
-    }
-    private void Enemies()
-    {
-        foreach (GameObject enemy in CharacterManager.Instance.enemiesList)
-        {
-            EnemyStats enemyStats = enemy.GetComponent<EnemyStats>();
-            if (!enemyStats.isAlive)
-                enemyStats.healthPoints = enemyStats.maxHealthPoints;
-        }
-    }
-
-    private void Player()
-    {
-        playerStats.healthPoints = playerStats.maxHealthPoints;
+       
+        MessageDispatcher.Send(new Messages.Cross());
     }
     #endregion
 }

@@ -43,6 +43,7 @@ public class PlayerStats : MonoBehaviour {
     [HideInInspector] public bool inAttack;
     [HideInInspector] public bool inSprint;
     [HideInInspector] public bool inDash;
+    [HideInInspector] public bool onMove;
     [HideInInspector] public bool onGround;
     [HideInInspector] public bool isAlive { get { return healthPoints > 0; } }
 
@@ -67,7 +68,7 @@ public class PlayerStats : MonoBehaviour {
         maxRunSpeed = 10.0f;
         runSpeed = maxRunSpeed;
         sprintMultiplier = 2.0f;
-        jumpHeight = 2.0f;
+        jumpHeight = 20.0f;             //+- = rb.velosity.y
 
         maxDashDistance = 5f;
         dashCooldown = 1.0f;
@@ -81,9 +82,10 @@ public class PlayerStats : MonoBehaviour {
         ultiState = 0;
 
         CharacterManager.Instance.player = gameObject;
-        
+        MessageDispatcher.AddListener(this);
     }
 
+    #region Private Methods
     public void IncreaseStamina(float newMaxStamina)
     {
         if (newMaxStamina == maxStaminaPoints)
@@ -92,8 +94,15 @@ public class PlayerStats : MonoBehaviour {
         maxStaminaPoints = newMaxStamina;
         displayStats.SetUpStaminaBar();
     }
-    
-    
+    private void CrossRegen(Messages.Cross message)
+    {
+        healthPoints = maxHealthPoints;
+    }
+    private void Hurt(Messages.PlayerHurted message)
+    {
+        healthPoints -= message.damage;
+    }
+    #endregion
 
     #region Enumerations
     public enum DashState { ready, dashing, onCooldown };

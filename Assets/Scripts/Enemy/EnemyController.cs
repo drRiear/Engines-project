@@ -72,10 +72,9 @@ public class EnemyController : MonoBehaviour {
                 LookForAPlayer(warningRadius);
                 break;
             case State.warning:
-                print("Hw, where is he?");
                 break;
             case State.agressive:
-                
+                animator.SetBool("Attacking", true);
                 break;
         }
     }

@@ -24,14 +24,15 @@ public class ThornMovement : MonoBehaviour {
         myStats = GetComponent<ThornStats>();
         
         player = CharacterManager.Instance.player;
-        playerStats = player.GetComponent<PlayerStats>();
 
         startPosition = transform.position;
+
+       
     }
     private void Update()
     {
         distance = Vector2.Distance(startPosition, player.transform.position);
-
+        
         CheckDistance();
     }
     private void OnDrawGizmos()
@@ -41,15 +42,14 @@ public class ThornMovement : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.gameObject == player)
         {
-            playerStats.healthPoints -= myStats.damage;
-            CharacterManager.Instance.thornsList.Remove(gameObject);
-            Destroy(gameObject);
+            PlayerCollision();
         }
     }
     #endregion
-    
+
     #region Private Methods
     private void CheckDistance()
     {
@@ -64,6 +64,13 @@ public class ThornMovement : MonoBehaviour {
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, myStats.speed * Time.deltaTime);
             yield return null;
         }
+    }
+    private void PlayerCollision()
+    {
+        Messages.PlayerHurted playerHurtMsg = new Messages.PlayerHurted(myStats.damage);
+        MessageDispatcher.Send(playerHurtMsg);
+        CharacterManager.Instance.thornsList.Remove(gameObject);
+        Destroy(gameObject);
     }
     #endregion
 

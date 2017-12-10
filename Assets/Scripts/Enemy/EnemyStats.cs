@@ -20,6 +20,8 @@ public class EnemyStats : MonoBehaviour {
         runSpeed = maxRunSpeed;
 
         CharacterManager.Instance.enemiesList.Add(gameObject);
+
+        MessageDispatcher.AddListener(this);
     }
 
     private void Update()
@@ -34,6 +36,11 @@ public class EnemyStats : MonoBehaviour {
     {
         CharacterManager.Instance.enemiesList.Remove(gameObject);
         Destroy(gameObject);
+    }
+    private void Revive(Messages.Cross message)
+    {
+        if(!isAlive)
+            healthPoints = maxHealthPoints;
     }
     #endregion
 }

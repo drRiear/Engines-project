@@ -43,15 +43,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: PlayerLeg
-    uniqueID: 3920992779
-    locked: 1
-  - name: PlayerLeftHand
-    uniqueID: 1343539883
+  - name: Player
+    uniqueID: 948120887
     locked: 0
-  - name: PlayerBody
-    uniqueID: 117536373
-    locked: 0
-  - name: PlayerRightHand
-    uniqueID: 1135957217
+  - name: NPC&Enemies
+    uniqueID: 3859872017
     locked: 0

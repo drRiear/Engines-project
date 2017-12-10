@@ -3,13 +3,12 @@ using UnityEngine;
 
 
 
-public class PlayerController : MonoBehaviour {
+public partial class PlayerController : MonoBehaviour {
 
     #region Variables
     private PlayerStats myStats;
-    private Animator animator;
         //simple movement vars
-    private float jumpPower = 500;
+    private float jumpPower = 50;
     private Rigidbody2D rb;
     private float direction;
         //Dash vars
@@ -24,9 +23,10 @@ public class PlayerController : MonoBehaviour {
     private void Start()
     { 
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         myStats = GetComponent<PlayerStats>();
         dashTimer = myStats.dashDuration;
+
+        MessageDispatcher.AddListener(this);
     }
     private void FixedUpdate()
     {
@@ -40,22 +40,15 @@ public class PlayerController : MonoBehaviour {
 
         Sprint();
 
-        AnimationCtrl();
-
         Attack();
 
         UltiMechanic();
-
-        if (!myStats.isAlive)
-            Death();
-
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) //rewrite 
             StartCoroutine(ZoomIn());
 
         if (Input.GetKeyDown(KeyCode.E))
-            EventManager.TriggerEvent("Interaction");
-        
+            MessageDispatcher.Send(new Messages.Interaction());
     }
     
     #endregion
@@ -71,16 +64,30 @@ public class PlayerController : MonoBehaviour {
             t += Time.deltaTime * 2.0f;
             yield return null;
         }
+        yield return new WaitForSeconds(0.5f);
+        print("start2");
+        while (t > 0.0f)
+        {
+            Camera.main.orthographicSize = Mathf.Lerp(startSize, startSize / 2.0f, t);
+            t -= Time.deltaTime * 2.0f;
+            yield return null;
+        }
+
     }
 
     #region Private Methods
     private void Movement()
     {
         direction = Input.GetAxis("Horizontal");
+        myStats.onMove = direction != 0;
         rb.velocity = new Vector2(direction * myStats.runSpeed, rb.velocity.y);
         
         if (Input.GetKeyDown(KeyCode.W) && myStats.onGround)
             rb.AddForce(Vector2.up * jumpPower * myStats.jumpHeight);
+        Mathf.Clamp(rb.velocity.y, myStats.jumpHeight * -1, myStats.jumpHeight);
+
+        if (direction != 0)
+            Flip();
     }
 
     private void Sprint()
@@ -91,13 +98,11 @@ public class PlayerController : MonoBehaviour {
         {
             myStats.runSpeed *= myStats.sprintMultiplier;
             myStats.inSprint = true;
-            animator.speed *= myStats.sprintMultiplier;
         }
         if ((Input.GetKeyUp(KeyCode.LeftShift) && myStats.inSprint) || myStats.staminaPoints <= 0)
         {
             myStats.runSpeed = myStats.maxRunSpeed;
             myStats.inSprint = false;
-            animator.speed /= myStats.sprintMultiplier;
         }  
     }
 
@@ -109,18 +114,6 @@ public class PlayerController : MonoBehaviour {
             myStats.staminaPoints += myStats.staminaRegen * Time.deltaTime;
     }
     
-    private void AnimationCtrl()
-    {
-        if (direction != 0)
-            Flip();
-
-        animator.SetBool("Running", direction != 0);
-
-        animator.SetBool("Jumping", !myStats.onGround);
-        animator.SetBool("Attacking", myStats.inAttack);
-        animator.SetBool("Sprinting", myStats.inSprint);
-        animator.SetBool("Dashing", myStats.inDash);
-    }
 
     private void Flip()
     {
@@ -131,10 +124,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Attack()
     {
-        if (Input.GetMouseButtonDown(0))
-            myStats.inAttack = true;
-        if (Input.GetMouseButtonUp(0))
-            myStats.inAttack = false;
+        myStats.inAttack = Input.GetMouseButton(0);
     }
     
     private void Dash()
@@ -218,13 +208,5 @@ public class PlayerController : MonoBehaviour {
         myStats.damage = myStats.ultiDamage;
     }
 
-    private void Death()
-    {
-        Time.timeScale = 0;
-        Destroy(gameObject);
-    }
-
     #endregion
-
-    
 }
