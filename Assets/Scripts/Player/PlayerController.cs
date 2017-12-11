@@ -56,7 +56,6 @@ public partial class PlayerController : MonoBehaviour {
     private IEnumerator ZoomIn()
     {
         float startSize = Camera.main.orthographicSize;
-        print("start");
         float t = 0.0f;
         while ( t < 1.0f)
         {
@@ -65,7 +64,6 @@ public partial class PlayerController : MonoBehaviour {
             yield return null;
         }
         yield return new WaitForSeconds(0.5f);
-        print("start2");
         while (t > 0.0f)
         {
             Camera.main.orthographicSize = Mathf.Lerp(startSize, startSize / 2.0f, t);
@@ -81,9 +79,12 @@ public partial class PlayerController : MonoBehaviour {
         direction = Input.GetAxis("Horizontal");
         myStats.onMove = direction != 0;
         rb.velocity = new Vector2(direction * myStats.runSpeed, rb.velocity.y);
-        
+
         if (Input.GetKeyDown(KeyCode.W) && myStats.onGround)
+        {
+            MessageDispatcher.Send(new Messages.PlayerJump());
             rb.AddForce(Vector2.up * jumpPower * myStats.jumpHeight);
+        }
         Mathf.Clamp(rb.velocity.y, myStats.jumpHeight * -1, myStats.jumpHeight);
 
         if (direction != 0)

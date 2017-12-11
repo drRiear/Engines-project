@@ -10,14 +10,27 @@ public class OnGroundCheck : MonoBehaviour {
     [SerializeField] private float radius;
     #endregion
 
+    Rigidbody2D rb;
+
     #region Unity Events
     void Start ()
     {
         myStats = GetComponentInParent<PlayerStats>();
+        rb = GetComponentInParent<Rigidbody2D>();
     }
-	void Update ()
+
+	void FixedUpdate ()
     {
         myStats.onGround = Physics2D.OverlapCircle(transform.position, radius, groundLayer);
+
+        if (myStats.onGround && rb.velocity.y < -1)
+            MessageDispatcher.Send(new Messages.PlayerDroped());
+        if (myStats.onGround && rb.velocity.y < myStats.jumpHeight * -2)
+        {
+            print(Mathf.Abs(rb.velocity.y));
+            MessageDispatcher.Send(new Messages.PlayerHurted(Mathf.Abs(rb.velocity.y) / 100.0f));
+        }
+        
     }
     private void OnDrawGizmos()
     {

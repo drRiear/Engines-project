@@ -30,4 +30,12 @@
         }
         #endregion
     }
+    public class PlayerJump
+    {
+        public int group;
+    }
+    public class PlayerDroped
+    {
+        public int group;
+    }
 }

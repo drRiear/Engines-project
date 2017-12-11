@@ -40,6 +40,7 @@ public class PlayerStats : MonoBehaviour {
     [HideInInspector] public bool CanIUlti { get { return ultiPoints == ultiCost; } }
     [HideInInspector] public UltiState ultiState;
 
+    //Bools
     [HideInInspector] public bool inAttack;
     [HideInInspector] public bool inSprint;
     [HideInInspector] public bool inDash;
@@ -68,7 +69,7 @@ public class PlayerStats : MonoBehaviour {
         maxRunSpeed = 10.0f;
         runSpeed = maxRunSpeed;
         sprintMultiplier = 2.0f;
-        jumpHeight = 20.0f;             //+- = rb.velosity.y
+        jumpHeight = 20.0f;             //+- = rb.velocity.y
 
         maxDashDistance = 5f;
         dashCooldown = 1.0f;
