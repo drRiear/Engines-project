@@ -9,7 +9,7 @@ public class PlayerAudioController : MonoBehaviour {
 
     [SerializeField] private AudioSource hurtSource;
     [SerializeField] private AudioSource jumpSource;
-    [SerializeField] private AudioSource dropSource;
+    [SerializeField] private AudioSource landSource;
     [SerializeField] private AudioSource footstepsSource;
     [SerializeField] private List<AudioClip> footstepClips;
     
@@ -36,9 +36,9 @@ public class PlayerAudioController : MonoBehaviour {
         jumpSource.Play();
     }
     
-    private void Drop(Messages.PlayerDroped message)
+    private void Land(Messages.PlayerDroped message)
     {
-        dropSource.Play();
+        landSource.Play();
     }
     #endregion
 
