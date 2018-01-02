@@ -114,7 +114,7 @@ public partial class PlayerController : MonoBehaviour {
         if (!myStats.inSprint && myStats.staminaPoints < myStats.maxStaminaPoints)
             myStats.staminaPoints += myStats.staminaRegen * Time.deltaTime;
     }
-    
+
 
     private void Flip()
     {
@@ -168,7 +168,6 @@ public partial class PlayerController : MonoBehaviour {
                 }
                 break;
         }
-        
     }
     
     private void UltiMechanic()

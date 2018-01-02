@@ -10,10 +10,10 @@ public class AudioAreasChanger : MonoBehaviour {
 
     public void EnterForest()
     {
-        forestSnapshot.TransitionTo(1.0f);
+        forestSnapshot.TransitionTo(0.5f);
     }
     public void EnterCave()
     {
-        caveSnapshot.TransitionTo(1.0f);
+        caveSnapshot.TransitionTo(0.5f);
     }
 }

@@ -2,49 +2,73 @@
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    #region Variables
+    #region Private Variables
+    private Rigidbody2D rb;
     private Animator animator;
     private PlayerStats myStats;
-
-    public PlayerAudioController audioController;
+    
+    private int sprintParamHash;
+    private int attackParamHash;
+    private int deadParamHash; 
+    private int hitParamHash;
+    private int velocityXParamHash;
+    private int velocityYParamHash;
     #endregion
-
+    #region Public Variables
+    public PlayerAudioController audioController;
+    
+    [Header("Animator Parameters")]
+    public string sprintParamName = "Sprinting";
+    public string attackParamName = "Attacking";
+    public string deadParamName = "Dead";
+    public string hitParamName = "Hited";
+    public string velocityXParamName = "Horizontal velocity";
+    public string velocityYParamName = "Vertical velocity";
+    #endregion
     #region Unity Events
-    private void Start()
+    private void Awake()
     {
+        MessageDispatcher.AddListener(this);
+
+        rb = GetComponentInParent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         myStats = GetComponentInParent<PlayerStats>();
-
-        MessageDispatcher.AddListener(this);
+                
+        GetParamsHash();
     }
+
+    private void GetParamsHash()
+    {
+        sprintParamHash = Animator.StringToHash(sprintParamName);
+        attackParamHash = Animator.StringToHash(attackParamName);
+
+        deadParamHash = Animator.StringToHash(deadParamName);
+        hitParamHash = Animator.StringToHash(hitParamName);
+        velocityXParamHash = Animator.StringToHash(velocityXParamName);
+        velocityYParamHash = Animator.StringToHash(velocityYParamName);
+    }
+
     private void Update()
     {
-        AnimationCtrl();
+        SetAnimatorParams();
     }
     #endregion
 
     #region Private Methods 
-    private void AnimationCtrl()
+    private void SetAnimatorParams()
     {
-        animator.SetBool("Running", myStats.onMove);
-        animator.SetBool("Sprinting", myStats.inSprint);
+        //animator.SetBool(deadParamHash, !myStats.isAlive);
 
-        animator.SetBool("Attacking", myStats.inAttack);
-
-        animator.SetBool("Dead", !myStats.isAlive);
+        Vector2 normalizedVelocity = rb.velocity.normalized;
+        animator.SetFloat(velocityXParamHash, normalizedVelocity.x);
+        animator.SetFloat(velocityYParamHash, normalizedVelocity.y);
         
-    }
-    private void Jump(Messages.PlayerJump message)
-    {
-        animator.SetTrigger("Jump");
-    }
-    private void Drop(Messages.PlayerDroped message)
-    {
-        animator.SetTrigger("Drop");
+        int intSprint = myStats.inSprint ? 1 : 0;
+        animator.SetFloat(sprintParamHash, intSprint);
     }
     private void Hurted(Messages.PlayerHurted message)
     {
-        animator.SetTrigger("Hited");
+        animator.SetTrigger(hitParamHash);
     }
     private void PlayFootstepsSound()
     {

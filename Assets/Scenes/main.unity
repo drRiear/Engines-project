@@ -152,6 +152,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 95094030896201272, guid: 6ea8de148c0884e45a3a4261690d6023,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031431381089714, guid: 6ea8de148c0884e45a3a4261690d6023, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6ea8de148c0884e45a3a4261690d6023, type: 2}
   m_IsPrefabParent: 0
@@ -1333,7 +1342,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 445718020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -98.2, y: 8.3, z: -10}
+  m_LocalPosition: {x: -32.96, y: -4.96, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1805,6 +1814,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9ffa36a0ec98f2c489f50fa09443a4c0, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &884920268 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114857882183993982, guid: a4514945106ed4d499a42c99d471226c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1172344931}
+  m_Script: {fileID: 11500000, guid: 167b7ede6ec1eed45889c42b67ef6f00, type: 3}
 --- !u!1 &889657622
 GameObject:
   m_ObjectHideFlags: 0
@@ -2140,7 +2155,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243342750271065778, guid: 6f143d8155a24264f9446402a7e6049b,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: b1ae58e2f2fd6974cb212e6b8ad04985, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c904b1039ac456d4393180b1d5620ef0, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -2488,6 +2503,54 @@ Prefab:
       propertyPath: landSource
       value: 
       objectReference: {fileID: 462125497}
+    - target: {fileID: 114670291056321656, guid: a4514945106ed4d499a42c99d471226c,
+        type: 2}
+      propertyPath: audioController
+      value: 
+      objectReference: {fileID: 884920268}
+    - target: {fileID: 114670291056321656, guid: a4514945106ed4d499a42c99d471226c,
+        type: 2}
+      propertyPath: runParamName
+      value: Running
+      objectReference: {fileID: 0}
+    - target: {fileID: 114670291056321656, guid: a4514945106ed4d499a42c99d471226c,
+        type: 2}
+      propertyPath: sprintParamName
+      value: Sprinting
+      objectReference: {fileID: 0}
+    - target: {fileID: 114670291056321656, guid: a4514945106ed4d499a42c99d471226c,
+        type: 2}
+      propertyPath: attackParamName
+      value: Attacking
+      objectReference: {fileID: 0}
+    - target: {fileID: 114670291056321656, guid: a4514945106ed4d499a42c99d471226c,
+        type: 2}
+      propertyPath: deadParamName
+      value: Dead
+      objectReference: {fileID: 0}
+    - target: {fileID: 114670291056321656, guid: a4514945106ed4d499a42c99d471226c,
+        type: 2}
+      propertyPath: jumpParamName
+      value: Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 114670291056321656, guid: a4514945106ed4d499a42c99d471226c,
+        type: 2}
+      propertyPath: landParamName
+      value: Land
+      objectReference: {fileID: 0}
+    - target: {fileID: 114670291056321656, guid: a4514945106ed4d499a42c99d471226c,
+        type: 2}
+      propertyPath: hitParamName
+      value: Hited
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702314945410998, guid: a4514945106ed4d499a42c99d471226c, type: 2}
+      propertyPath: m_LocalScale.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702314945410998, guid: a4514945106ed4d499a42c99d471226c, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a4514945106ed4d499a42c99d471226c, type: 2}
   m_IsPrefabParent: 0
