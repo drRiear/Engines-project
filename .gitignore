@@ -54,3 +54,5 @@ log-*
 /.vs
 CryptographicExceptions/
 Assets/Audio/
+Assets/PostProcessing/Editor Resources/Monitors/WaveformCompute.compute.meta
+Assets/PostProcessing/

@@ -8,7 +8,7 @@ public class PlayerAnimationController : MonoBehaviour
     private PlayerStats myStats;
     
     private int sprintParamHash;
-    private int attackParamHash;
+    //private int attackParamHash;
     private int deadParamHash; 
     private int hitParamHash;
     private int velocityXParamHash;
@@ -19,7 +19,7 @@ public class PlayerAnimationController : MonoBehaviour
     
     [Header("Animator Parameters")]
     public string sprintParamName = "Sprinting";
-    public string attackParamName = "Attacking";
+    //public string attackParamName = "Attacking";
     public string deadParamName = "Dead";
     public string hitParamName = "Hited";
     public string velocityXParamName = "Horizontal velocity";
@@ -40,7 +40,7 @@ public class PlayerAnimationController : MonoBehaviour
     private void GetParamsHash()
     {
         sprintParamHash = Animator.StringToHash(sprintParamName);
-        attackParamHash = Animator.StringToHash(attackParamName);
+        //attackParamHash = Animator.StringToHash(attackParamName);
 
         deadParamHash = Animator.StringToHash(deadParamName);
         hitParamHash = Animator.StringToHash(hitParamName);
@@ -57,7 +57,7 @@ public class PlayerAnimationController : MonoBehaviour
     #region Private Methods 
     private void SetAnimatorParams()
     {
-        //animator.SetBool(deadParamHash, !myStats.isAlive);
+        animator.SetBool(deadParamHash, !myStats.isAlive);
 
         Vector2 normalizedVelocity = rb.velocity.normalized;
         animator.SetFloat(velocityXParamHash, normalizedVelocity.x);

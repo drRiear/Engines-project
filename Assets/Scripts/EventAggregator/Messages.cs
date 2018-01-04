@@ -12,7 +12,6 @@
     {
         public int group;
         public float damage;
-
         #region Constructors
         public PlayerHurted()
         {
@@ -37,5 +36,19 @@
     public class PlayerDroped
     {
         public int group;
+    }
+    public class CoinPicketUp
+    {
+        public int group;
+        public float cost;
+        #region Constructors
+        public CoinPicketUp()
+        {
+        }
+        public CoinPicketUp(float cost)
+        {
+            this.cost = cost;
+        }
+        #endregion
     }
 }

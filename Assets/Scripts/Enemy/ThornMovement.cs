@@ -14,10 +14,10 @@ public class ThornMovement : MonoBehaviour {
     #endregion
 
     #region Public Variables
-    public float agrRadius;
-    [Tooltip("Only for returnable Thorns\ns")]
-    public float visionRaduis;
     public ThornType type;
+    public float agrRadius;
+    [Tooltip("Only for returnable Thorns")]
+    public float visionRaduis;
     #endregion
 
     #region Unity Events
@@ -108,8 +108,7 @@ public class ThornMovement : MonoBehaviour {
 
     private void PlayerCollision()
     {
-        Messages.PlayerHurted playerHurtMsg = new Messages.PlayerHurted(myStats.damage);
-        MessageDispatcher.Send(playerHurtMsg);
+        MessageDispatcher.Send(new Messages.PlayerHurted(myStats.damage));
         CharacterManager.Instance.thornsList.Remove(gameObject);
         Destroy(gameObject);
     }

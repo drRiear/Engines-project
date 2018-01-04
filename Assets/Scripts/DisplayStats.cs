@@ -4,36 +4,50 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class DisplayStats : MonoBehaviour {
-
+    #region Public Variables
+    [Header("Stats")]
     public Slider ultiBar;
     public Slider healthBar;
     public Slider staminaBar;
-    RectTransform sliderRT;
-    [SerializeField] private PlayerStats playerStats; 
+    [Header("Coins")]
+    public Text coinText;
+    #endregion
 
-    
-	void Start ()
+    #region Private Variables
+    RectTransform sliderRT;
+    private PlayerStats playerStats;
+    private float coinCount;
+    #endregion
+
+    #region Unity Events
+    void Start ()
     {
+        MessageDispatcher.AddListener(this);
         playerStats = CharacterManager.Instance.player.GetComponent<PlayerStats>();
 
         SetUpStaminaBar();
         SetUpHealthBar();
         SetUpUltiBar();
+        SetUpCoinText();
     }
-
     void Update ()
     {
         UpdateBars();
-        
     }
+    #endregion
 
+    #region Private Methods
     private void UpdateBars()
     {
         staminaBar.value = playerStats.staminaPoints;
         healthBar.value = playerStats.healthPoints;
         ultiBar.value = playerStats.ultiPoints;
     }
-
+    private void UpdateCoinText(Messages.CoinPicketUp msg)
+    {
+        SetUpCoinText();
+    }
+    #region SetUp Methods
     public void SetUpStaminaBar()
     {
         sliderRT = staminaBar.GetComponent<RectTransform>();
@@ -55,4 +69,17 @@ public class DisplayStats : MonoBehaviour {
         ultiBar.maxValue = playerStats.ultiCost;
         ultiBar.value = playerStats.ultiPoints;
     }
+    private void SetUpCoinText()
+    {
+        coinCount = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().inventory.coins;
+        if (coinCount == 0.0f)
+            coinText.transform.parent.gameObject.SetActive(false);
+        else
+        {
+            coinText.transform.parent.gameObject.SetActive(true);
+            coinText.text = coinCount.ToString();
+        }
+    }
+    #endregion
+    #endregion
 }

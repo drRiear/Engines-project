@@ -202,7 +202,6 @@ public partial class PlayerController : MonoBehaviour {
                 break;
         }
     }
-
     private void Ulti()
     {
         myStats.damage = myStats.ultiDamage;
