@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class MessageDispatcher
 {
-    private static readonly List<Component> _Listeners = new List<Component>();
+    public static readonly List<Component> _Listeners = new List<Component>();
 
     public static void Send<T>(T message) where T : class
     {

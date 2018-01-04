@@ -36,7 +36,7 @@ public class PlayerAudioController : MonoBehaviour {
         jumpSource.Play();
     }
     
-    private void Land(Messages.PlayerDroped message)
+    private void Land(Messages.PlayerLanded message)
     {
         landSource.Play();
     }

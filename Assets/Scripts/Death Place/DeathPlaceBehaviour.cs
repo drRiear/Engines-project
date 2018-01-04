@@ -1,19 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Cross : MonoBehaviour {
-    
+public class DeathPlaceBehaviour : MonoBehaviour
+{
     private Rect textRect;
     private GUIStyle skin = new GUIStyle();
     private bool playerOnTrigger = false;
+    private float coins;
 
     #region Unity Events
     private void Start()
     {
         MessageDispatcher.AddListener(this);
 
+        coins = CharacterManager.Instance.player.GetComponentInParent<PlayerInventoryManager>().dropedCoins;
+
         textRect = new Rect(Screen.width / 2.0f, Screen.height / 5.0f, 10.0f, 100.0f);
         skin.fontSize = 40;
         skin.alignment = TextAnchor.MiddleCenter;
+
     }
     private void OnGUI()
     {
@@ -27,7 +33,7 @@ public class Cross : MonoBehaviour {
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject == CharacterManager.Instance.player)
+        if (collision.gameObject == CharacterManager.Instance.player)
             playerOnTrigger = false;
     }
     #endregion
@@ -36,12 +42,8 @@ public class Cross : MonoBehaviour {
     private void Interaction(Messages.Interaction message)
     {
         if (!playerOnTrigger) return;
-       
-        MessageDispatcher.Send(new Messages.Cross());
-    }
-    private void Reviving(Messages.PlayerRevived message)
-    {
-        MessageDispatcher.Send(new Messages.Cross());
+        MessageDispatcher.Send(new Messages.CoinPicketUp(coins));
+        Destroy(gameObject);
     }
     #endregion
 }

@@ -47,6 +47,10 @@ public class DisplayStats : MonoBehaviour {
     {
         SetUpCoinText();
     }
+    private void UpdateCoinText(Messages.PlayerDead msg)
+    {
+        SetUpCoinText();
+    }
     #region SetUp Methods
     public void SetUpStaminaBar()
     {

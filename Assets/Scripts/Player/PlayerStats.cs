@@ -48,6 +48,9 @@ public class PlayerStats : MonoBehaviour {
     [HideInInspector] public bool onGround;
     [HideInInspector] public bool isAlive { get { return healthPoints > 0; } }
 
+    //Death
+    [HideInInspector] public Vector3 lastCrossPosition = new Vector3();
+
     //Non-Player vars
     [Header("Other")]
     public DisplayStats displayStats;
@@ -87,7 +90,7 @@ public class PlayerStats : MonoBehaviour {
     }
 
     #region Private Methods
-    public void IncreaseStamina(float newMaxStamina)
+    private void IncreaseStamina(float newMaxStamina)
     {
         if (newMaxStamina == maxStaminaPoints)
             return;
@@ -98,10 +101,23 @@ public class PlayerStats : MonoBehaviour {
     private void CrossRegen(Messages.Cross message)
     {
         healthPoints = maxHealthPoints;
+        lastCrossPosition = transform.position;
     }
     private void Hurt(Messages.PlayerHurted message)
     {
         healthPoints -= message.damage;
+
+        if (!isAlive)
+        {
+            MessageDispatcher.Send(new Messages.PlayerDead(transform.position));      //Insert player revive controller
+            Invoke("Reviving", 3.0f);
+        }
+    }
+    private void Reviving()
+    {
+        Transform currentTransform = GetComponent<Transform>();
+        currentTransform.position = lastCrossPosition;
+        MessageDispatcher.Send(new Messages.PlayerRevived());
     }
     #endregion
 

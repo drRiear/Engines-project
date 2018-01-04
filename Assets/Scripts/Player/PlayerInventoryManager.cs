@@ -4,13 +4,15 @@ using UnityEngine;
 using System.IO;
 
 public class PlayerInventoryManager : MonoBehaviour {
-
-    public string datafileName = "Inventory";
+    
+    public float dropedCoins = 0.0f;
 
     [HideInInspector]public Inventory inventory = new Inventory();
-    public Inventory inv = new Inventory();
 
+    public string datafileName = "Inventory";
+    public Inventory inv = new Inventory();
     private DataManager dataManager;
+
 
     #region Unity Events
     private void Awake ()
@@ -23,16 +25,20 @@ public class PlayerInventoryManager : MonoBehaviour {
         MessageDispatcher.AddListener(this);
 
         inventory.coins = 0.0f;
-
     }
     #endregion
 
     #region Private Methods
-    private void AddCoin(Messages.CoinPicketUp msg)
+    private void AddCoins(Messages.CoinPicketUp msg)
     {
         inventory.coins += msg.cost;
         
         //dataManager.SaveToJSON<Inventory>(inventory);
+    }
+    private void DropCoins(Messages.PlayerDead msg)
+    {
+        dropedCoins = inventory.coins;
+        inventory.coins = 0.0f;
     }
     #endregion
 

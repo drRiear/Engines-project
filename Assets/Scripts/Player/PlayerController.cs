@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-
-
-public partial class PlayerController : MonoBehaviour {
-
+public class PlayerController : MonoBehaviour
+{
     #region Variables
     private PlayerStats myStats;
         //simple movement vars
@@ -50,7 +48,6 @@ public partial class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.E))
             MessageDispatcher.Send(new Messages.Interaction());
     }
-    
     #endregion
 
     private IEnumerator ZoomIn()
@@ -90,7 +87,6 @@ public partial class PlayerController : MonoBehaviour {
         if (direction != 0)
             Flip();
     }
-
     private void Sprint()
     {
         if (direction == 0)
@@ -106,7 +102,6 @@ public partial class PlayerController : MonoBehaviour {
             myStats.inSprint = false;
         }  
     }
-
     private void StaminaManagement()
     {
         if (myStats.inSprint && myStats.staminaPoints > 0)
@@ -114,8 +109,6 @@ public partial class PlayerController : MonoBehaviour {
         if (!myStats.inSprint && myStats.staminaPoints < myStats.maxStaminaPoints)
             myStats.staminaPoints += myStats.staminaRegen * Time.deltaTime;
     }
-
-
     private void Flip()
     {
         Vector3 scale = transform.localScale;
@@ -127,7 +120,6 @@ public partial class PlayerController : MonoBehaviour {
     {
         myStats.inAttack = Input.GetMouseButton(0);
     }
-    
     private void Dash()
     {
         float dashForse = Mathf.Sign(direction) * myStats.maxRunSpeed * myStats.maxDashDistance;
@@ -169,7 +161,6 @@ public partial class PlayerController : MonoBehaviour {
                 break;
         }
     }
-    
     private void UltiMechanic()
     {
 

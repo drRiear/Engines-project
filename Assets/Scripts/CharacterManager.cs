@@ -13,7 +13,7 @@ public class CharacterManager : MonoBehaviour
     public List<GameObject> thornsList;
     #endregion
 
-
+    #region Singleton Implementation
     private static CharacterManager characterManager;
 
     public static CharacterManager Instance
@@ -30,4 +30,5 @@ public class CharacterManager : MonoBehaviour
             return characterManager;
         }
     }
+    #endregion
 }

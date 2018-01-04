@@ -24,7 +24,7 @@ public class OnGroundCheck : MonoBehaviour {
         myStats.onGround = Physics2D.OverlapCircle(transform.position, radius, groundLayer);
 
         if (myStats.onGround && rb.velocity.y < -1)
-            MessageDispatcher.Send(new Messages.PlayerDroped());
+            MessageDispatcher.Send(new Messages.PlayerLanded());
         if (myStats.onGround && rb.velocity.y < myStats.jumpHeight * -2)
         {
             print(Mathf.Abs(rb.velocity.y));

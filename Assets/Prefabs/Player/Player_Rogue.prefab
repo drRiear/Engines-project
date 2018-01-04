@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 4109137996888658}
   - component: {fileID: 82383815641076140}
   m_Layer: 0
-  m_Name: Drop
+  m_Name: Land
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,6 +326,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1499069844743636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4737760148738164}
+  - component: {fileID: 114059733809616216}
+  m_Layer: 0
+  m_Name: Death Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1502430896901238
 GameObject:
   m_ObjectHideFlags: 1
@@ -417,6 +433,7 @@ GameObject:
   - component: {fileID: 70122445319826626}
   - component: {fileID: 114433997156623226}
   - component: {fileID: 114313006464343318}
+  - component: {fileID: 114826342130400186}
   m_Layer: 0
   m_Name: Player_Rogue
   m_TagString: Untagged
@@ -1024,7 +1041,7 @@ Transform:
   m_GameObject: {fileID: 1296223667764590}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.11, y: -2.47, z: -0.07174803}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: -1}
   m_Children:
   - {fileID: 4307283053412468}
   m_Father: {fileID: 4963824798068440}
@@ -1058,6 +1075,19 @@ Transform:
   - {fileID: 4718099919063978}
   m_Father: {fileID: 4322396497017108}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4737760148738164
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1499069844743636}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4963824798068440}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4799782654526442
 Transform:
@@ -1150,12 +1180,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1575664024700340}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -32.96, y: -4.96, z: 0.07174803}
+  m_LocalPosition: {x: 31.24, y: -1.4, z: 0.07174803}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4282116462138220}
   - {fileID: 4702314945410998}
   - {fileID: 4959875675440300}
+  - {fileID: 4737760148738164}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1700,6 +1731,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114059733809616216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1499069844743636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144bd2a71bcaca04bb3eba503a96f238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathPlacePrefab: {fileID: 1939027939993800, guid: 561613f523559ce41a3d69e5a7f542be,
+    type: 2}
 --- !u!114 &114222769299644572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1752,6 +1796,7 @@ MonoBehaviour:
   inDash: 0
   onMove: 0
   onGround: 0
+  lastCrossPosition: {x: 0, y: 0, z: 0}
   displayStats: {fileID: 0}
 --- !u!114 &114433997156623226
 MonoBehaviour:
@@ -1778,6 +1823,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioController: {fileID: 114857882183993982}
+  sprintParamName: Sprinting
+  deadParamName: Dead
+  hitParamName: Hited
+  velocityXParamName: Horizontal velocity
+  velocityYParamName: Vertical velocity
+--- !u!114 &114826342130400186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1575664024700340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73ef235ec47a2ff4b957fc496cbd0f94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  datafileName: Inventory
+  inventory:
+    coins: 0
+  inv:
+    coins: 0
 --- !u!114 &114857882183993982
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1791,7 +1857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hurtSource: {fileID: 82497466127512418}
   jumpSource: {fileID: 82364534479260920}
-  dropSource: {fileID: 82383815641076140}
+  landSource: {fileID: 82383815641076140}
   footstepsSource: {fileID: 82798410286663770}
   footstepClips:
   - {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}

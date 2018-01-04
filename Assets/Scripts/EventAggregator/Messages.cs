@@ -1,16 +1,15 @@
-﻿public class Messages
+﻿using UnityEngine;
+
+public class Messages
 {
     public class Interaction
     {
-        public int group;
     }
     public class Cross
     {
-        public int group;
     }
     public class PlayerHurted
     {
-        public int group;
         public float damage;
         #region Constructors
         public PlayerHurted()
@@ -21,25 +20,29 @@
         {
             this.damage = damage;
         }
-
-        public PlayerHurted(int group, float damage)
-        {
-            this.group = group;
-            this.damage = damage;
-        }
         #endregion
     }
     public class PlayerJump
     {
-        public int group;
     }
-    public class PlayerDroped
+    public class PlayerLanded
     {
-        public int group;
+    }
+    public class PlayerDead
+    {
+        public Vector3 position;
+        #region Constructors
+        public PlayerDead(Vector3 position)
+        {
+            this.position = position;
+        }
+        #endregion
+    }
+    public class PlayerRevived
+    {
     }
     public class CoinPicketUp
     {
-        public int group;
         public float cost;
         #region Constructors
         public CoinPicketUp()
