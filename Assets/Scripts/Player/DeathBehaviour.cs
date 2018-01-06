@@ -6,9 +6,6 @@ public class DeathBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject deathPlacePrefab;
 
-    public List<Component> a = MessageDispatcher._Listeners;
-    
-
 	private void Awake ()
     {
         MessageDispatcher.AddListener(this);
@@ -17,5 +14,12 @@ public class DeathBehaviour : MonoBehaviour
     private void SpawnDeathPlace(Messages.PlayerDead msg)
     {
         Instantiate(deathPlacePrefab, msg.position, Quaternion.identity);
+        Invoke("Revive", 1.0f);
+    }
+    private void Revive()
+    {
+        Transform currentTransform = GetComponent<Transform>();
+        currentTransform.position = GetComponent<PlayerStats>().lastCrossPosition;
+        MessageDispatcher.Send(new Messages.PlayerRevived());
     }
 }

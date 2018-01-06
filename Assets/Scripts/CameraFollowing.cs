@@ -5,14 +5,15 @@ using UnityEngine;
 public class CameraFollowing : MonoBehaviour {
 
     #region Variables
-    [SerializeField] private GameObject player;
+    [SerializeField] float verticalOffset;
+
+    private Transform playerTransforn;
     #endregion
 
-    void Start () {
-		
+    void Start ()
+    {
+        playerTransforn = CharacterManager.Instance.player.transform;
 	}
-	
-	// Update is called once per frame
 	void Update ()
     {
         Follow();
@@ -20,8 +21,9 @@ public class CameraFollowing : MonoBehaviour {
 
     private void Follow()
     {
-        Vector3 followPosition = player.transform.position;
+        Vector3 followPosition = playerTransforn.transform.position;
         followPosition.z = transform.position.z;
+        followPosition.y += verticalOffset;
         transform.position = followPosition;
     }
 }

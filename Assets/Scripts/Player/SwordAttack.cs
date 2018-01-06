@@ -11,9 +11,6 @@ public class SwordAttack : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (CharacterManager.Instance == null)
-            return;
-
         foreach (var enemy in CharacterManager.Instance.enemiesList)
         {
             if (collision.gameObject == enemy.gameObject && playerStats.inAttack)
@@ -24,7 +21,5 @@ public class SwordAttack : MonoBehaviour {
                     playerStats.ultiPoints += playerStats.damage;
             }
         }
-
-        
     }
 }

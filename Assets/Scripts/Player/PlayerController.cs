@@ -4,19 +4,29 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region Variables
+    private bool CanIControll = true;
     private PlayerStats myStats;
-        //simple movement vars
+
+    //simple movement vars
     private float jumpPower = 50;
     private Rigidbody2D rb;
     private float direction;
-        //Dash vars
+
+    //Dash vars
     private Vector2 oldVelocity = Vector2.zero;
-    [HideInInspector] public float dashCooldownTimer = 0;
-    [HideInInspector] public float dashTimer;
-        //Ulti vars
+    private float dashCooldownTimer = 0;
+    private float dashTimer;
+
+    //Ulti vars
     private float ultiTimer = 0;
     #endregion
 
+    #region Inspector Variables
+    [SerializeField] private KeyCode interactionKey;
+    [SerializeField] private KeyCode jumpKey;
+    //[SerializeField] private 
+    #endregion
+    
     #region Unity Events
     private void Start()
     { 
@@ -26,50 +36,35 @@ public class PlayerController : MonoBehaviour
 
         MessageDispatcher.AddListener(this);
     }
+    
+
     private void FixedUpdate()
     {
-        Movement();
+        if (CanIControll)
+        {
+            Movement();
 
-        Dash();
+            Dash();
+        }
     }
     private void Update()
     {
-        StaminaManagement();
+        if (CanIControll)
+        {
+            StaminaManagement();
 
-        Sprint();
+            Sprint();
 
-        Attack();
+            Attack();
 
-        UltiMechanic();
+            UltiMechanic();
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) //rewrite 
-            StartCoroutine(ZoomIn());
-
-        if (Input.GetKeyDown(KeyCode.E))
-            MessageDispatcher.Send(new Messages.Interaction());
+            if (Input.GetKeyDown(interactionKey))
+                MessageDispatcher.Send(new Messages.Interaction());
+        }
     }
     #endregion
-
-    private IEnumerator ZoomIn()
-    {
-        float startSize = Camera.main.orthographicSize;
-        float t = 0.0f;
-        while ( t < 1.0f)
-        {
-            Camera.main.orthographicSize = Mathf.Lerp(startSize, startSize / 2.0f, t);
-            t += Time.deltaTime * 2.0f;
-            yield return null;
-        }
-        yield return new WaitForSeconds(0.5f);
-        while (t > 0.0f)
-        {
-            Camera.main.orthographicSize = Mathf.Lerp(startSize, startSize / 2.0f, t);
-            t -= Time.deltaTime * 2.0f;
-            yield return null;
-        }
-
-    }
-
+    
     #region Private Methods
     private void Movement()
     {
@@ -77,7 +72,7 @@ public class PlayerController : MonoBehaviour
         myStats.onMove = direction != 0;
         rb.velocity = new Vector2(direction * myStats.runSpeed, rb.velocity.y);
 
-        if (Input.GetKeyDown(KeyCode.W) && myStats.onGround)
+        if (Input.GetKeyDown(jumpKey) && myStats.onGround)
         {
             MessageDispatcher.Send(new Messages.PlayerJump());
             rb.AddForce(Vector2.up * jumpPower * myStats.jumpHeight);
@@ -115,7 +110,6 @@ public class PlayerController : MonoBehaviour
         scale.x = Mathf.Sign(direction);
         transform.localScale = scale;
     }
-
     private void Attack()
     {
         myStats.inAttack = Input.GetMouseButton(0);
@@ -196,6 +190,16 @@ public class PlayerController : MonoBehaviour
     private void Ulti()
     {
         myStats.damage = myStats.ultiDamage;
+    }
+
+
+    private void DisableControlls(Messages.PlayerDead msg)
+    {
+        CanIControll = false;
+    }
+    private void EnableControlls(Messages.PlayerRevived msg)
+    {
+        CanIControll = true;
     }
 
     #endregion

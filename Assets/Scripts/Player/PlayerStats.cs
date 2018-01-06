@@ -85,6 +85,8 @@ public class PlayerStats : MonoBehaviour {
         ultiDamage = 3.0f;
         ultiState = 0;
 
+        lastCrossPosition = transform.position;
+
         CharacterManager.Instance.player = gameObject;
         MessageDispatcher.AddListener(this);
     }
@@ -108,16 +110,7 @@ public class PlayerStats : MonoBehaviour {
         healthPoints -= message.damage;
 
         if (!isAlive)
-        {
             MessageDispatcher.Send(new Messages.PlayerDead(transform.position));      //Insert player revive controller
-            Invoke("Reviving", 3.0f);
-        }
-    }
-    private void Reviving()
-    {
-        Transform currentTransform = GetComponent<Transform>();
-        currentTransform.position = lastCrossPosition;
-        MessageDispatcher.Send(new Messages.PlayerRevived());
     }
     #endregion
 

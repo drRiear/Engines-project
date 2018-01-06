@@ -5,16 +5,14 @@ public class ThornMovement : MonoBehaviour {
 
     #region Private Variables
     private GameObject player;
-    private PlayerStats playerStats;
     private ThornStats myStats;
-    
-    private bool onMove = false;
-    private float distance;
+
     private Vector3 startPosition;
+    private bool agred = false;
     #endregion
 
     #region Public Variables
-    public ThornType type;
+    public ThornType type = ThornType.nonReturnable;
     public float agrRadius;
     [Tooltip("Only for returnable Thorns")]
     public float visionRaduis;
@@ -28,6 +26,8 @@ public class ThornMovement : MonoBehaviour {
         player = CharacterManager.Instance.player;
 
         startPosition = transform.position;
+
+        MessageDispatcher.AddListener(this);
     }
     private void Update()
     {
@@ -35,16 +35,17 @@ public class ThornMovement : MonoBehaviour {
             CheckDistance_NR();
         else if (type == ThornType.returnable)
             CheckDistance_R();
-        else
-            Debug.LogError("Thorn type not selected.");
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, agrRadius);
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, visionRaduis);
+        if (type == ThornType.returnable)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, visionRaduis);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -55,62 +56,43 @@ public class ThornMovement : MonoBehaviour {
 
 
     #region Private Methods
+    
+    private void CheckDistance_NR()
+    {
+        var distance = Vector2.Distance(transform.position, player.transform.position);
+        if (distance <= agrRadius)
+            agred = true;
+        Move();
+    }
+    private void CheckDistance_R()
+    {
+        var distance = Vector2.Distance(transform.position, player.transform.position);
 
-    #region NonReturnable
-        private void CheckDistance_NR()
-        {
-            distance = Vector2.Distance(transform.position, player.transform.position);
-            if (distance <= agrRadius && !onMove)
-                StartCoroutine(MoveToPlayer_NR());
-        }
-        private IEnumerator MoveToPlayer_NR()
-        {
-            onMove = true;
-            while (transform.position != player.transform.position)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, myStats.speed * Time.deltaTime);
-                yield return null;
-            }
-        }
-    #endregion
+        if (distance <= agrRadius)
+            agred = true;
+        else if (distance >= visionRaduis)
+            agred = false;
+        Move();
+    }
 
-    #region Returnable
-        //Thorn with return to self Pos when player out of visible range
-        Vector3 dest;
-        bool agred = false;
-        private void CheckDistance_R()
-        {
-            distance = Vector2.Distance(transform.position, player.transform.position);
-
-            if (!onMove)
-                StartCoroutine(MoveToPlayer_R());
-
-            if (distance <= agrRadius)
-                agred = true;
-            else if (distance >= visionRaduis)
-                agred = false;
-
-            if (agred)
-                dest = player.transform.position;
-            else
-                dest = startPosition;
-        }
-        private IEnumerator MoveToPlayer_R()
-        {
-            onMove = true;
-            while (onMove)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, dest, myStats.speed * Time.deltaTime);
-                yield return null;
-            }
-        }
-    #endregion
+    private void Move()
+    {
+        if (agred)
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, myStats.speed * Time.deltaTime);
+        else if (!agred && transform.position != startPosition)
+            transform.position = Vector3.MoveTowards(transform.position, startPosition, myStats.speed * Time.deltaTime);
+    }
 
     private void PlayerCollision()
     {
         MessageDispatcher.Send(new Messages.PlayerHurted(myStats.damage));
         CharacterManager.Instance.thornsList.Remove(gameObject);
         Destroy(gameObject);
+    }
+    private void CrossEffect(Messages.Cross msg)
+    {
+        transform.position = startPosition;
+        agred = false;
     }
     #endregion
 

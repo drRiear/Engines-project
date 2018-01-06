@@ -7,6 +7,7 @@ public class DeathPlaceBehaviour : MonoBehaviour
     private Rect textRect;
     private GUIStyle skin = new GUIStyle();
     private bool playerOnTrigger = false;
+    private bool playerIsAlive = false;
     private float coins;
 
     #region Unity Events
@@ -14,16 +15,13 @@ public class DeathPlaceBehaviour : MonoBehaviour
     {
         MessageDispatcher.AddListener(this);
 
-        coins = CharacterManager.Instance.player.GetComponentInParent<PlayerInventoryManager>().dropedCoins;
+        coins = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().dropedCoins;
 
-        textRect = new Rect(Screen.width / 2.0f, Screen.height / 5.0f, 10.0f, 100.0f);
-        skin.fontSize = 40;
-        skin.alignment = TextAnchor.MiddleCenter;
-
+        SetUpGUISkin();
     }
     private void OnGUI()
     {
-        if (playerOnTrigger)
+        if (playerOnTrigger && playerIsAlive)
             GUI.Label(textRect, "Press E to interact", skin);
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -39,10 +37,24 @@ public class DeathPlaceBehaviour : MonoBehaviour
     #endregion
 
     #region Private Methods
+    private void SetUpGUISkin()
+    {
+        textRect = new Rect(Screen.width / 2.0f, Screen.height / 5.0f, 10.0f, 100.0f);
+        skin.fontSize = 40;
+        skin.alignment = TextAnchor.MiddleCenter;
+    }
     private void Interaction(Messages.Interaction message)
     {
         if (!playerOnTrigger) return;
         MessageDispatcher.Send(new Messages.CoinPicketUp(coins));
+        Destroy(gameObject);
+    }
+    private void PlayerRevived(Messages.PlayerRevived msg)
+    {
+        playerIsAlive = true;
+    }
+    private void PlayerDead(Messages.PlayerDead msd)
+    {
         Destroy(gameObject);
     }
     #endregion

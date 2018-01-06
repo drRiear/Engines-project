@@ -11,16 +11,15 @@ public class PlayerInventoryManager : MonoBehaviour {
 
     public string datafileName = "Inventory";
     public Inventory inv = new Inventory();
-    private DataManager dataManager;
+    //private DataManager dataManager;
 
 
     #region Unity Events
     private void Awake ()
     {
-        dataManager = new DataManager(datafileName);
+        //dataManager = new DataManager(datafileName);
         //dataManager.CreateJSONFile();
-
-        inv = dataManager.LoadFromJSON<Inventory>();
+        //inv = dataManager.LoadFromJSON<Inventory>();
 
         MessageDispatcher.AddListener(this);
 

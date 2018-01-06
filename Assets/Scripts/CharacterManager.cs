@@ -14,20 +14,31 @@ public class CharacterManager : MonoBehaviour
     #endregion
 
     #region Singleton Implementation
-    private static CharacterManager characterManager;
+    private static CharacterManager _Instance;
 
     public static CharacterManager Instance
     {
         get
         {
-            if (!characterManager)
+            if (_Instance == null)
             {
-                characterManager = FindObjectOfType(typeof(CharacterManager)) as CharacterManager;
+                _Instance = (CharacterManager)FindObjectOfType(typeof(CharacterManager));
 
-                if (!characterManager)
-                    Debug.LogError("There needs to be one active CharacterManager script on a GameObject in your scene.");
+                if (FindObjectsOfType(typeof(CharacterManager)).Length > 1)
+                    Debug.LogError("There needs to have only one active CharacterManager script on a GameObject in your scene.");
+
+
+                if (_Instance == null)
+                {
+                    //Generic Implementation
+                    //GameObject singleton = new GameObject();
+                    //singleton.name = "Singleton<" + typeof(T).ToString() + ">";
+                    //singleton.AddComponent<T>();
+                    Debug.LogError("There needs to have active CharacterManager script on a GameObject in your scene.");
+                }
+
             }
-            return characterManager;
+            return _Instance;
         }
     }
     #endregion
