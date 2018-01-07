@@ -19,12 +19,15 @@ public class PlayerController : MonoBehaviour
 
     //Ulti vars
     private float ultiTimer = 0;
+    //Attack vars
+    private float attackDelay;
     #endregion
 
     #region Inspector Variables
+    [SerializeField] private GameObject knifePrefab;
+    [Header("Keys")]
     [SerializeField] private KeyCode interactionKey;
     [SerializeField] private KeyCode jumpKey;
-    //[SerializeField] private 
     #endregion
     
     #region Unity Events
@@ -35,9 +38,9 @@ public class PlayerController : MonoBehaviour
         dashTimer = myStats.dashDuration;
 
         MessageDispatcher.AddListener(this);
-    }
-    
 
+        attackDelay = myStats.attackDelay;
+    }
     private void FixedUpdate()
     {
         if (CanIControll)
@@ -112,7 +115,14 @@ public class PlayerController : MonoBehaviour
     }
     private void Attack()
     {
-        myStats.inAttack = Input.GetMouseButton(0);
+        attackDelay -= Time.deltaTime;
+
+        if (Input.GetMouseButton(0) && attackDelay <= 0)
+        {
+            attackDelay = myStats.attackDelay;
+            myStats.inAttack = true;
+            Instantiate(knifePrefab, transform.position, Quaternion.identity);
+        }
     }
     private void Dash()
     {

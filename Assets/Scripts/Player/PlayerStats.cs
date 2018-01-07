@@ -16,7 +16,8 @@ public class PlayerStats : MonoBehaviour {
     [HideInInspector] public float staminaExpense;
     [HideInInspector] public float staminaRegen;
 
-    [Header("Damage")]
+    [Header("Attack")]
+    public float attackDelay;
     public float baseDamage;
     public float damage;
 
@@ -66,6 +67,7 @@ public class PlayerStats : MonoBehaviour {
         staminaExpense = 5.0f;
         staminaRegen = 10.0f;
 
+        attackDelay = 0.5f;
         damage = 1.0f;
         baseDamage = damage;
 
