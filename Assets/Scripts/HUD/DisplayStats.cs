@@ -9,14 +9,15 @@ public class DisplayStats : MonoBehaviour {
     public Slider ultiBar;
     public Slider healthBar;
     public Slider staminaBar;
-    [Header("Coins")]
+    [Header("Inventory")]
     public Text coinText;
+    public Text soulsText;
     #endregion
 
     #region Private Variables
     RectTransform sliderRT;
     private PlayerStats playerStats;
-    private float coinCount;
+    private Inventory inventory;
     #endregion
 
     #region Unity Events
@@ -24,12 +25,11 @@ public class DisplayStats : MonoBehaviour {
     {
         MessageDispatcher.AddListener(this);
         playerStats = CharacterManager.Instance.player.GetComponent<PlayerStats>();
+        inventory = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().inventory;
 
-        SetUpStaminaBar();
-        SetUpHealthBar();
-        SetUpUltiBar();
-        SetUpCoinText();
+        SetUpAll();
     }
+
     void Update ()
     {
         UpdateBars();
@@ -43,15 +43,29 @@ public class DisplayStats : MonoBehaviour {
         healthBar.value = playerStats.healthPoints;
         ultiBar.value = playerStats.ultiPoints;
     }
-    private void UpdateCoinText(Messages.CoinPicketUp msg)
+    private void UpdateCoinText(Messages.CoinPicketUp message)
     {
         SetUpCoinText();
     }
-    private void UpdateCoinText(Messages.PlayerDead msg)
+    private void UpdateSoulText(Messages.EnemyDead message)
+    {
+        SetUpSoulsText();
+    }
+    private void Death(Messages.PlayerDead message)
     {
         SetUpCoinText();
+        SetUpSoulsText();
     }
+
     #region SetUp Methods
+    private void SetUpAll()
+    {
+        SetUpStaminaBar();
+        SetUpHealthBar();
+        SetUpUltiBar();
+        SetUpCoinText();
+        SetUpSoulsText();
+    }
     public void SetUpStaminaBar()
     {
         sliderRT = staminaBar.GetComponent<RectTransform>();
@@ -75,13 +89,22 @@ public class DisplayStats : MonoBehaviour {
     }
     private void SetUpCoinText()
     {
-        coinCount = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().inventory.coins;
-        if (coinCount == 0.0f)
+        if (inventory.coins == 0.0f)
             coinText.transform.parent.gameObject.SetActive(false);
         else
         {
             coinText.transform.parent.gameObject.SetActive(true);
-            coinText.text = coinCount.ToString();
+            coinText.text = inventory.coins.ToString();
+        }
+    }
+    private void SetUpSoulsText()
+    {
+        if (inventory.souls == 0.0f)
+            soulsText.transform.parent.gameObject.SetActive(false);
+        else
+        {
+            soulsText.transform.parent.gameObject.SetActive(true);
+            soulsText.text = inventory.souls.ToString();
         }
     }
     #endregion

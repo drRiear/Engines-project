@@ -86,11 +86,11 @@ public class ThornMovement : MonoBehaviour {
     private void PlayerCollision()
     {
         MessageDispatcher.Send(new Messages.PlayerHurted(myStats.damage));
-        CharacterManager.Instance.thornsList.Remove(gameObject);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
-    private void CrossEffect(Messages.Cross msg)
+    private void CrossUsed(Messages.Cross message)
     {
+        gameObject.SetActive(true);
         transform.position = startPosition;
         agred = false;
     }

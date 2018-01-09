@@ -9,13 +9,17 @@ public class ThornStats : MonoBehaviour
     [HideInInspector] public float speed;
     public float damage;
     [HideInInspector] public bool isAlive { get { return healthPoints > 0; } }
+    public float souls;
     #endregion
 
     #region Unity Events
     private void Awake()
     {
+        MessageDispatcher.AddListener(this);
+
         healthPoints = maxHealthPoints;
         speed = maxSpeed;
+        souls = 10.0f;
 
         AddToCharacterManager();
     }
@@ -28,19 +32,32 @@ public class ThornStats : MonoBehaviour
         else
             list.Add(gameObject);
     }
-
-    private void Update()
-    {
-        if (!isAlive)
-            Death();
-    }
     #endregion
 
     #region Private Methods
-    private void Death()
+    private void Hurted (Messages.EnemyHurted message)
     {
-        CharacterManager.Instance.enemiesList.Remove(gameObject);
-        Destroy(gameObject);
+        if (message.enemy != gameObject)
+            return;
+
+        healthPoints -= message.damage;
+
+        if (!isAlive)
+            MessageDispatcher.Send(new Messages.EnemyDead(gameObject, souls));
+    }
+    private void Death(Messages.EnemyDead message)
+    {
+        if (message.enemy != gameObject)
+            return;
+        gameObject.SetActive(false);
+    }
+    private void CrossUsed(Messages.Cross message)
+    {
+        if (isAlive)
+            return;
+
+        healthPoints = maxHealthPoints;
+        gameObject.SetActive(true);
     }
     #endregion
-}
+} 

@@ -121,7 +121,8 @@ public class PlayerController : MonoBehaviour
         {
             attackDelay = myStats.attackDelay;
             myStats.inAttack = true;
-            Instantiate(knifePrefab, transform.position, Quaternion.identity);
+            GameObject knife = Instantiate(knifePrefab, transform.position, Quaternion.identity);
+            knife.GetComponent<ThrowingKnifeBehaviour>().damage = myStats.damage;
         }
     }
     private void Dash()
@@ -203,11 +204,11 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void DisableControlls(Messages.PlayerDead msg)
+    private void DisableControlls(Messages.PlayerDead message)
     {
         CanIControll = false;
     }
-    private void EnableControlls(Messages.PlayerRevived msg)
+    private void EnableControlls(Messages.PlayerRevived message)
     {
         CanIControll = true;
     }

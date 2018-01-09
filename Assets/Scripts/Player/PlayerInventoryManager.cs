@@ -7,10 +7,11 @@ public class PlayerInventoryManager : MonoBehaviour {
     
     public float dropedCoins = 0.0f;
 
-    [HideInInspector]public Inventory inventory = new Inventory();
+    //[HideInInspector]
+    public Inventory inventory = new Inventory();
 
-    public string datafileName = "Inventory";
-    public Inventory inv = new Inventory();
+    //public string datafileName = "Inventory";
+    //public Inventory inv = new Inventory();
     //private DataManager dataManager;
 
 
@@ -22,21 +23,24 @@ public class PlayerInventoryManager : MonoBehaviour {
         //inv = dataManager.LoadFromJSON<Inventory>();
 
         MessageDispatcher.AddListener(this);
-
-        inventory.coins = 0.0f;
     }
     #endregion
 
     #region Private Methods
-    private void AddCoins(Messages.CoinPicketUp msg)
+    private void AddCoins(Messages.CoinPicketUp message)
     {
-        inventory.coins += msg.cost;
+        inventory.coins += message.cost;
         
         //dataManager.SaveToJSON<Inventory>(inventory);
     }
-    private void DropCoins(Messages.PlayerDead msg)
+    private void AddSouls(Messages.EnemyDead message)
+    {
+        inventory.souls += message.souls;
+    }
+    private void Death(Messages.PlayerDead message)
     {
         dropedCoins = inventory.coins;
+        inventory.coins = 0.0f;
         inventory.coins = 0.0f;
     }
     #endregion
@@ -47,4 +51,5 @@ public class PlayerInventoryManager : MonoBehaviour {
 public class Inventory
 {
     public float coins;
+    public float souls;
 }

@@ -51,10 +51,6 @@ public class PlayerStats : MonoBehaviour {
 
     //Death
     [HideInInspector] public Vector3 lastCrossPosition = new Vector3();
-
-    //Non-Player vars
-    [Header("Other")]
-    public DisplayStats displayStats;
     #endregion
 
     private void Awake()
@@ -100,7 +96,6 @@ public class PlayerStats : MonoBehaviour {
             return;
 
         maxStaminaPoints = newMaxStamina;
-        displayStats.SetUpStaminaBar();
     }
     private void CrossRegen(Messages.Cross message)
     {

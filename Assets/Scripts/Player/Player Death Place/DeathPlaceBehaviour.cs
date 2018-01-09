@@ -5,7 +5,6 @@ using UnityEngine;
 public class DeathPlaceBehaviour : MonoBehaviour
 {
     private Rect textRect;
-    private GUIStyle skin = new GUIStyle();
     private bool playerOnTrigger = false;
     private bool playerIsAlive = false;
     private float coins;
@@ -16,44 +15,40 @@ public class DeathPlaceBehaviour : MonoBehaviour
         MessageDispatcher.AddListener(this);
 
         coins = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().dropedCoins;
-
-        SetUpGUISkin();
-    }
-    private void OnGUI()
-    {
-        if (playerOnTrigger && playerIsAlive)
-            GUI.Label(textRect, "Press E to interact", skin);
+        
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == CharacterManager.Instance.player)
+        if (collision.gameObject == CharacterManager.Instance.player && playerIsAlive)
+        {
             playerOnTrigger = true;
+            GameObject go = transform.GetChild(0).gameObject;
+            go.SetActive(true);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject == CharacterManager.Instance.player)
+        {
             playerOnTrigger = false;
+            GameObject go = transform.GetChild(0).gameObject;
+            go.SetActive(false);
+        }
     }
     #endregion
 
     #region Private Methods
-    private void SetUpGUISkin()
-    {
-        textRect = new Rect(Screen.width / 2.0f, Screen.height / 5.0f, 10.0f, 100.0f);
-        skin.fontSize = 40;
-        skin.alignment = TextAnchor.MiddleCenter;
-    }
     private void Interaction(Messages.Interaction message)
     {
         if (!playerOnTrigger) return;
         MessageDispatcher.Send(new Messages.CoinPicketUp(coins));
         Destroy(gameObject);
     }
-    private void PlayerRevived(Messages.PlayerRevived msg)
+    private void PlayerRevived(Messages.PlayerRevived message)
     {
         playerIsAlive = true;
     }
-    private void PlayerDead(Messages.PlayerDead msd)
+    private void PlayerDead(Messages.PlayerDead message)
     {
         Destroy(gameObject);
     }

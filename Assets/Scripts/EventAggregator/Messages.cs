@@ -8,6 +8,21 @@ public class Messages
     public class Cross
     {
     }
+    public class CoinPicketUp
+    {
+        public float cost;
+        #region Constructors
+        public CoinPicketUp()
+        {
+        }
+        public CoinPicketUp(float cost)
+        {
+            this.cost = cost;
+        }
+        #endregion
+    }
+
+    #region Player Messages
     public class PlayerHurted
     {
         public float damage;
@@ -41,17 +56,32 @@ public class Messages
     public class PlayerRevived
     {
     }
-    public class CoinPicketUp
+    #endregion
+
+    public class EnemyHurted
     {
-        public float cost;
+        public GameObject enemy;
+        public float damage;
         #region Constructors
-        public CoinPicketUp()
+        public EnemyHurted()
         {
         }
-        public CoinPicketUp(float cost)
+
+        public EnemyHurted(GameObject enemy, float damage)
         {
-            this.cost = cost;
+            this.enemy = enemy;
+            this.damage = damage;
         }
         #endregion
+    }
+    public class EnemyDead
+    {
+        public GameObject enemy;
+        public float souls;
+        public EnemyDead(GameObject enemy, float souls)
+        {
+            this.enemy = enemy;
+            this.souls = souls;
+        }
     }
 }

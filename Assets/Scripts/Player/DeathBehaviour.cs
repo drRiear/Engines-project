@@ -11,9 +11,9 @@ public class DeathBehaviour : MonoBehaviour
         MessageDispatcher.AddListener(this);
 	}
 
-    private void SpawnDeathPlace(Messages.PlayerDead msg)
+    private void SpawnDeathPlace(Messages.PlayerDead message)
     {
-        Instantiate(deathPlacePrefab, msg.position, Quaternion.identity);
+        Instantiate(deathPlacePrefab, message.position, Quaternion.identity);
         Invoke("Revive", 1.0f);
     }
     private void Revive()
