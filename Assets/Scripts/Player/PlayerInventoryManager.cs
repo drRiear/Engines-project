@@ -4,11 +4,9 @@ using UnityEngine;
 using System.IO;
 
 public class PlayerInventoryManager : MonoBehaviour {
-    
-    public float dropedCoins = 0.0f;
 
-    //[HideInInspector]
-    public Inventory inventory = new Inventory();
+    [HideInInspector] public float dropedCoins = 0.0f;
+    [HideInInspector] public Inventory inventory = new Inventory();
 
     //public string datafileName = "Inventory";
     //public Inventory inv = new Inventory();

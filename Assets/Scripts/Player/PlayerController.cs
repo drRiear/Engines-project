@@ -28,8 +28,11 @@ public class PlayerController : MonoBehaviour
     [Header("Keys")]
     [SerializeField] private KeyCode interactionKey;
     [SerializeField] private KeyCode jumpKey;
+    [SerializeField] private KeyCode sprintKey;
+    [SerializeField] private KeyCode dashKey;
+    [SerializeField] private KeyCode ultiKey;
     #endregion
-    
+
     #region Unity Events
     private void Start()
     { 
@@ -89,12 +92,12 @@ public class PlayerController : MonoBehaviour
     {
         if (direction == 0)
             return;
-        if (Input.GetKeyDown(KeyCode.LeftShift) && myStats.staminaPoints > 0 && !myStats.inSprint)
+        if (Input.GetKeyDown(sprintKey) && myStats.staminaPoints > 0 && !myStats.inSprint)
         {
             myStats.runSpeed *= myStats.sprintMultiplier;
             myStats.inSprint = true;
         }
-        if ((Input.GetKeyUp(KeyCode.LeftShift) && myStats.inSprint) || myStats.staminaPoints <= 0)
+        if ((Input.GetKeyUp(sprintKey) && myStats.inSprint) || myStats.staminaPoints <= 0)
         {
             myStats.runSpeed = myStats.maxRunSpeed;
             myStats.inSprint = false;
@@ -133,7 +136,7 @@ public class PlayerController : MonoBehaviour
         switch (myStats.dashState)
         {
             case PlayerStats.DashState.ready:
-                if (Input.GetKeyDown(KeyCode.Space) && dashCooldownTimer <= 0 && canIDash)
+                if (Input.GetKeyDown(dashKey) && dashCooldownTimer <= 0 && canIDash)
                 {
                     oldVelocity = rb.velocity;
                     myStats.dashState = PlayerStats.DashState.dashing;
@@ -178,7 +181,7 @@ public class PlayerController : MonoBehaviour
                     myStats.ultiState = PlayerStats.UltiState.ready;
                 break;
             case PlayerStats.UltiState.ready:
-                if (Input.GetKey(KeyCode.Q))
+                if (Input.GetKey(ultiKey))
                     myStats.ultiState = PlayerStats.UltiState.ulting;
                 break;
             case PlayerStats.UltiState.ulting:

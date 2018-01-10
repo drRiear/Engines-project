@@ -76,11 +76,9 @@ public class Messages
     }
     public class EnemyDead
     {
-        public GameObject enemy;
         public float souls;
-        public EnemyDead(GameObject enemy, float souls)
+        public EnemyDead(float souls)
         {
-            this.enemy = enemy;
             this.souls = souls;
         }
     }

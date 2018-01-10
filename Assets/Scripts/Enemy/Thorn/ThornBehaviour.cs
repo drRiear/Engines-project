@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class ThornMovement : MonoBehaviour {
+public class ThornBehaviour : MonoBehaviour {
 
     #region Private Variables
     private GameObject player;
@@ -12,10 +12,12 @@ public class ThornMovement : MonoBehaviour {
     #endregion
 
     #region Public Variables
+    public float speed;
+    [Header("")]
     public ThornType type = ThornType.nonReturnable;
     public float agrRadius;
     [Tooltip("Only for returnable Thorns")]
-    public float visionRaduis;
+    public float visionRadius;
     #endregion
 
     #region Unity Events
@@ -44,7 +46,7 @@ public class ThornMovement : MonoBehaviour {
         if (type == ThornType.returnable)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, visionRaduis);
+            Gizmos.DrawWireSphere(transform.position, visionRadius);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -70,29 +72,62 @@ public class ThornMovement : MonoBehaviour {
 
         if (distance <= agrRadius)
             agred = true;
-        else if (distance >= visionRaduis)
+        else if (distance >= visionRadius)
             agred = false;
         Move();
     }
-
     private void Move()
     {
         if (agred)
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, myStats.speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         else if (!agred && transform.position != startPosition)
-            transform.position = Vector3.MoveTowards(transform.position, startPosition, myStats.speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
     }
-
     private void PlayerCollision()
     {
         MessageDispatcher.Send(new Messages.PlayerHurted(myStats.damage));
-        gameObject.SetActive(false);
+
+        if (!myStats.canRevive)
+            Destroy(gameObject);
+        else
+            gameObject.SetActive(false);
     }
+    #endregion
+
+    #region Message based methods
     private void CrossUsed(Messages.Cross message)
     {
-        gameObject.SetActive(true);
-        transform.position = startPosition;
-        agred = false;
+        if (!myStats.isAlive)
+        {
+            myStats.healthPoints = myStats.maxHealthPoints;
+            gameObject.SetActive(true);
+        }
+
+        if (agred)
+        {
+            transform.position = startPosition;
+            agred = false;
+        }
+
+    }
+    private void Hurted(Messages.EnemyHurted message)
+    {
+        if (message.enemy != gameObject)
+            return;
+
+        myStats.healthPoints -= message.damage;
+
+        if (!myStats.isAlive)
+            Death();
+    }
+    private void Death()
+    {
+        MessageDispatcher.Send(new Messages.EnemyDead(myStats.souls));
+        
+        if (!myStats.canRevive)
+            Destroy(gameObject);
+        else
+            gameObject.SetActive(false);
     }
     #endregion
 

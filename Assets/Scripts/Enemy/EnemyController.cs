@@ -129,7 +129,7 @@ public class EnemyController : MonoBehaviour {
         {
             distance = Vector2.Distance(transform.position, destination);
             direction.x = Mathf.Sign(transform.position.x - destination.x) * -1;
-            rb.velocity = direction * myStats.runSpeed;
+            //rb.velocity = direction * myStats.runSpeed;
             
             if (distance <= 1)
                 rb.velocity = Vector2.zero;

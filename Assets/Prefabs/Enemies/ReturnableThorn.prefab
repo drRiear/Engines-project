@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4572576987743014}
   - component: {fileID: 212595692218169822}
-  - component: {fileID: 60633193208742276}
+  - component: {fileID: 58656488529904062}
   - component: {fileID: 114752472353054064}
   - component: {fileID: 114970837296878426}
   m_Layer: 0
@@ -36,15 +36,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1345730655390976}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -50.206947, y: 7, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -65.1, y: -3.8008232, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
---- !u!60 &60633193208742276
-PolygonCollider2D:
+--- !u!58 &58656488529904062
+CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -52,77 +52,12 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0.66999996, y: 0.87, z: 0.74, w: 0.51}
-    pivot: {x: 0.49427855, y: 0.5217416}
-    oldSize: {x: 8, y: 8}
-    newSize: {x: 5.25, y: 5.58}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.76577145, y: -1.7139331}
-      - {x: 1.0757715, y: -1.533933}
-      - {x: 1.2057714, y: -1.423933}
-      - {x: 1.4157715, y: -1.2239331}
-      - {x: 1.5757715, y: -0.9939331}
-      - {x: 1.6757715, y: -0.7939331}
-      - {x: 2.0557714, y: -0.6039331}
-      - {x: 2.8857715, y: -0.2039331}
-      - {x: 3.1857715, y: -0.0739331}
-      - {x: 3.2857714, y: -0.003933105}
-      - {x: 3.2857714, y: 0.026066894}
-      - {x: 3.2757714, y: 0.036066893}
-      - {x: 2.9157715, y: 0.2160669}
-      - {x: 2.2357714, y: 0.5260669}
-      - {x: 2.0457714, y: 0.6160669}
-      - {x: 1.8757714, y: 0.69606686}
-      - {x: 1.6757715, y: 0.7960669}
-      - {x: 1.5957714, y: 0.9760669}
-      - {x: 1.4357715, y: 1.1860669}
-      - {x: 1.2357714, y: 1.3960669}
-      - {x: 1.0857714, y: 1.5160669}
-      - {x: 0.96577144, y: 1.5960668}
-      - {x: 0.7857715, y: 1.6860669}
-      - {x: 0.5857715, y: 2.0760667}
-      - {x: 0.30577147, y: 2.656067}
-      - {x: -0.0042285156, y: 3.2960668}
-      - {x: -0.044228513, y: 3.2960668}
-      - {x: -0.13422851, y: 3.136067}
-      - {x: -0.5942285, y: 2.136067}
-      - {x: -0.8142285, y: 1.6860669}
-      - {x: -0.9442285, y: 1.6260668}
-      - {x: -0.9942285, y: 1.5960668}
-      - {x: -1.1142285, y: 1.5160669}
-      - {x: -1.1942285, y: 1.4560668}
-      - {x: -1.3842285, y: 1.2760669}
-      - {x: -1.5642285, y: 1.0660669}
-      - {x: -1.7342285, y: 0.76606685}
-      - {x: -2.0242286, y: 0.6460669}
-      - {x: -2.6942284, y: 0.3160669}
-      - {x: -3.2942286, y: 0.036066893}
-      - {x: -3.3142285, y: 0.0060668946}
-      - {x: -3.3042285, y: -0.023933105}
-      - {x: -3.0942285, y: -0.1239331}
-      - {x: -2.2242284, y: -0.5439331}
-      - {x: -1.7242285, y: -0.7839331}
-      - {x: -1.5442284, y: -1.0839331}
-      - {x: -1.4342285, y: -1.2239331}
-      - {x: -1.1342285, y: -1.5139331}
-      - {x: -0.9842285, y: -1.6039331}
-      - {x: -0.8042285, y: -1.693933}
-      - {x: -0.09422851, y: -3.183933}
-      - {x: -0.034228515, y: -3.3039331}
-      - {x: -0.014228515, y: -3.3039331}
-      - {x: 0.015771484, y: -3.273933}
-      - {x: 0.30577147, y: -2.673933}
-      - {x: 0.7257715, y: -1.803933}
+  serializedVersion: 2
+  m_Radius: 4
 --- !u!114 &114752472353054064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,11 +69,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94141a8f3705ea0489e2932f4fccc615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canRevive: 1
   maxHealthPoints: 1
-  healthPoints: 0
   maxSpeed: 5
+  damage: 4
+  souls: 15
+  healthPoints: 0
   speed: 0
-  damage: 1
 --- !u!114 &114970837296878426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,7 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   agrRadius: 10
-  visionRaduis: 20
+  visionRadius: 20
 --- !u!212 &212595692218169822
 SpriteRenderer:
   m_ObjectHideFlags: 1

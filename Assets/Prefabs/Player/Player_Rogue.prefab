@@ -1151,8 +1151,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1575664024700340}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28, y: -4.95, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -29.73, y: -15.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4702314945410998}
@@ -1734,6 +1734,7 @@ MonoBehaviour:
   staminaPoints: 0
   staminaExpense: 0
   staminaRegen: 0
+  attackDelay: 0
   baseDamage: 0
   damage: 0
   maxRunSpeed: 0
@@ -1755,7 +1756,6 @@ MonoBehaviour:
   onMove: 0
   onGround: 0
   lastCrossPosition: {x: 0, y: 0, z: 0}
-  displayStats: {fileID: 0}
 --- !u!114 &114433997156623226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1767,8 +1767,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4e0cf3241465c4583e3a1188b39487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knifePrefab: {fileID: 1353223601696234, guid: 32b502e095c12ab43bc269eb3630a5d4,
+    type: 2}
   interactionKey: 101
   jumpKey: 119
+  sprintKey: 304
+  dashKey: 32
+  ultiKey: 113
 --- !u!114 &114670291056321656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1800,9 +1805,7 @@ MonoBehaviour:
   dropedCoins: 0
   inventory:
     coins: 0
-  datafileName: Inventory
-  inv:
-    coins: 0
+    souls: 0
 --- !u!114 &114838411479986208
 MonoBehaviour:
   m_ObjectHideFlags: 1
