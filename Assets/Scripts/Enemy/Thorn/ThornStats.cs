@@ -17,8 +17,6 @@ public class ThornStats : MonoBehaviour
     #region Unity Events
     private void Awake()
     {
-        MessageDispatcher.AddListener(this);
-
         healthPoints = maxHealthPoints;
 
         AddToCharacterManager();

@@ -90,7 +90,10 @@ public class ThornBehaviour : MonoBehaviour {
         if (!myStats.canRevive)
             Destroy(gameObject);
         else
+        {
+            myStats.healthPoints = 0.0f;
             gameObject.SetActive(false);
+        }
     }
     #endregion
 
@@ -122,8 +125,9 @@ public class ThornBehaviour : MonoBehaviour {
     }
     private void Death()
     {
-        MessageDispatcher.Send(new Messages.EnemyDead(myStats.souls));
-        
+        MessageDispatcher.Send(new Messages.EnemyDead(gameObject)); 
+        MessageDispatcher.Send(new Messages.SoulsPicketUp(myStats.souls));
+
         if (!myStats.canRevive)
             Destroy(gameObject);
         else

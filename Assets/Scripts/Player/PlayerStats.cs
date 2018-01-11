@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour {
     [HideInInspector] public float healthPoints;
     public float maxStaminaPoints;
     [HideInInspector] public float staminaPoints;
-    [HideInInspector] public float staminaExpense;
+    [HideInInspector] public float staminaUsage;
     [HideInInspector] public float staminaRegen;
 
     [Header("Attack")]
@@ -23,14 +23,14 @@ public class PlayerStats : MonoBehaviour {
 
     [Header("Movement")]
     public float maxRunSpeed;
-    public float runSpeed;
+    public float currentRunSpeed;
     public float sprintMultiplier;
     public float jumpHeight;
 
     [Header("Dash")]
-    public float maxDashDistance;
+    public float dashMaxDistance;
     public float dashCooldown;
-    public float dashDuration;
+    public float dashCost;
     [HideInInspector] public DashState dashState;
 
     [Header("Ultimate")]
@@ -44,9 +44,9 @@ public class PlayerStats : MonoBehaviour {
     //Bools
     [HideInInspector] public bool inAttack;
     [HideInInspector] public bool inSprint;
-    [HideInInspector] public bool inDash;
     [HideInInspector] public bool onMove;
     [HideInInspector] public bool onGround;
+    [HideInInspector] public bool canIControll = true;
     [HideInInspector] public bool isAlive { get { return healthPoints > 0; } }
 
     //Death
@@ -60,22 +60,22 @@ public class PlayerStats : MonoBehaviour {
 
         maxStaminaPoints = 100.0f;
         staminaPoints = maxStaminaPoints;
-        staminaExpense = 5.0f;
+        staminaUsage = 5.0f;
         staminaRegen = 10.0f;
 
         attackDelay = 0.5f;
         damage = 1.0f;
         baseDamage = damage;
 
-        maxRunSpeed = 10.0f;
-        runSpeed = maxRunSpeed;
+        maxRunSpeed = 20.0f;
+        currentRunSpeed = maxRunSpeed;
         sprintMultiplier = 2.0f;
         jumpHeight = 20.0f;             //+- = rb.velocity.y
 
-        maxDashDistance = 5f;
+        dashMaxDistance = 10.0f;
         dashCooldown = 1.0f;
-        dashDuration = 0.15f;
-        dashState = 0;
+        dashCost = 20.0f;
+        dashState = DashState.ready;
 
         ultiCost = 25.0f;
         ultiPoints = 0.0f;
@@ -97,12 +97,12 @@ public class PlayerStats : MonoBehaviour {
 
         maxStaminaPoints = newMaxStamina;
     }
-    private void CrossRegen(Messages.Cross message)
+    private void CrossUsed(Messages.Cross message)
     {
         healthPoints = maxHealthPoints;
         lastCrossPosition = transform.position;
     }
-    private void Hurt(Messages.PlayerHurted message)
+    private void Hurted(Messages.PlayerHurted message)
     {
         healthPoints -= message.damage;
 
@@ -112,7 +112,8 @@ public class PlayerStats : MonoBehaviour {
     #endregion
 
     #region Enumerations
-    public enum DashState { ready, dashing, onCooldown };
+    public enum State { idle, moving, sprinting, attacking, dashing, ulting}
+    public enum DashState { ready, dashing, cooldown };
     public enum UltiState { charging, ready, ulting };
     #endregion
 }

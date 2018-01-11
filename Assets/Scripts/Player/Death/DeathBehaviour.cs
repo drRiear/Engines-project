@@ -5,8 +5,9 @@ using UnityEngine;
 public class DeathBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject deathPlacePrefab;
+    [SerializeField] private float reviveDelay;
 
-	private void Awake ()
+    private void Awake ()
     {
         MessageDispatcher.AddListener(this);
 	}
@@ -14,8 +15,9 @@ public class DeathBehaviour : MonoBehaviour
     private void SpawnDeathPlace(Messages.PlayerDead message)
     {
         Instantiate(deathPlacePrefab, message.position, Quaternion.identity);
-        Invoke("Revive", 1.0f);
+        Invoke("Revive", reviveDelay);
     }
+
     private void Revive()
     {
         Transform currentTransform = GetComponent<Transform>();

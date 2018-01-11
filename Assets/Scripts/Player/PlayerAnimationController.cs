@@ -59,9 +59,9 @@ public class PlayerAnimationController : MonoBehaviour
     {
         animator.SetBool(deadParamHash, !myStats.isAlive);
 
-        Vector2 normalizedVelocity = rb.velocity.normalized;
-        animator.SetFloat(velocityXParamHash, normalizedVelocity.x);
-        animator.SetFloat(velocityYParamHash, normalizedVelocity.y);
+        float normalizedVelocityY = rb.velocity.normalized.y;
+        animator.SetFloat(velocityXParamHash, Input.GetAxis("Horizontal"));
+        animator.SetFloat(velocityYParamHash, normalizedVelocityY);
         
         int intSprint = myStats.inSprint ? 1 : 0;
         animator.SetFloat(sprintParamHash, intSprint);

@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1345730655390976}
   m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -11.767982, y: -5.7008233, z: 0}
+  m_LocalPosition: {x: -114.8, y: -5.7008233, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -52,7 +52,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canRevive: 1
   maxHealthPoints: 1
-  damage: 2
+  damage: 3
   souls: 15
   healthPoints: 0
 --- !u!114 &114970837296878426
@@ -85,10 +85,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 714edbc7af4031e4fa75b9ef1d67bd9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 5
   type: 0
   agrRadius: 10
   visionRadius: 0
-  speed: 0
 --- !u!212 &212595692218169822
 SpriteRenderer:
   m_ObjectHideFlags: 1

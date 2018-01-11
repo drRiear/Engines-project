@@ -47,7 +47,7 @@ public class DisplayStats : MonoBehaviour {
     {
         SetUpCoinText();
     }
-    private void UpdateSoulText(Messages.EnemyDead message)
+    private void UpdateSoulText(Messages.SoulsPicketUp message)
     {
         SetUpSoulsText();
     }

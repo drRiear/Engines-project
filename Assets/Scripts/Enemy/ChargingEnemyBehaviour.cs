@@ -150,7 +150,8 @@ public class ChargingEnemyBehaviour : MonoBehaviour
     }
     private void Death()
     {
-        MessageDispatcher.Send(new Messages.EnemyDead(myStats.souls));
+        MessageDispatcher.Send(new Messages.EnemyDead(gameObject));
+        MessageDispatcher.Send(new Messages.SoulsPicketUp(myStats.souls));
 
         if (!myStats.canRevive)
             Destroy(gameObject);

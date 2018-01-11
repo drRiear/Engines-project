@@ -3,20 +3,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    #region Variables
-    private bool CanIControll = true;
+    #region Private Variables
     private PlayerStats myStats;
-
-    //simple movement vars
-    private float jumpPower = 50;
     private Rigidbody2D rb;
+
+    private float jumpPower = 50.0f;
     private float direction;
-
-    //Dash vars
-    private Vector2 oldVelocity = Vector2.zero;
-    private float dashCooldownTimer = 0;
-    private float dashTimer;
-
     //Ulti vars
     private float ultiTimer = 0;
     //Attack vars
@@ -27,9 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject knifePrefab;
     [Header("Keys")]
     [SerializeField] private KeyCode interactionKey;
-    [SerializeField] private KeyCode jumpKey;
     [SerializeField] private KeyCode sprintKey;
-    [SerializeField] private KeyCode dashKey;
     [SerializeField] private KeyCode ultiKey;
     #endregion
 
@@ -38,7 +28,6 @@ public class PlayerController : MonoBehaviour
     { 
         rb = GetComponent<Rigidbody2D>();
         myStats = GetComponent<PlayerStats>();
-        dashTimer = myStats.dashDuration;
 
         MessageDispatcher.AddListener(this);
 
@@ -46,20 +35,16 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (CanIControll)
-        {
+        if (myStats.canIControll)
             Movement();
-
-            Dash();
-        }
     }
     private void Update()
     {
-        if (CanIControll)
+        if (myStats.canIControll)
         {
-            StaminaManagement();
-
             Sprint();
+
+            StaminaManagement();
 
             Attack();
 
@@ -75,42 +60,60 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         direction = Input.GetAxis("Horizontal");
-        myStats.onMove = direction != 0;
-        rb.velocity = new Vector2(direction * myStats.runSpeed, rb.velocity.y);
 
-        if (Input.GetKeyDown(jumpKey) && myStats.onGround)
+        myStats.onMove = (direction != 0.0f);
+        if (direction != 0.0f)
+            FlipScale();
+
+        MoveHorizontal();
+        JumpAndLand();
+    }
+    
+    private void MoveHorizontal()
+    {
+        transform.Translate(new Vector3(direction, 0.0f) * myStats.currentRunSpeed * Time.deltaTime);
+    }
+
+    private void JumpAndLand()
+    {
+        if (Input.GetButtonDown("Jump") && myStats.onGround)
         {
             MessageDispatcher.Send(new Messages.PlayerJump());
             rb.AddForce(Vector2.up * jumpPower * myStats.jumpHeight);
         }
-        Mathf.Clamp(rb.velocity.y, myStats.jumpHeight * -1, myStats.jumpHeight);
-
-        if (direction != 0)
-            Flip();
+        if (Input.GetButtonDown("Jump") && !myStats.onGround)
+        {
+            MessageDispatcher.Send(new Messages.PlayerJump());
+            rb.AddForce(Vector2.down * jumpPower * myStats.jumpHeight);
+        }
     }
+
     private void Sprint()
     {
-        if (direction == 0)
+        if (direction == 0.0f)
             return;
         if (Input.GetKeyDown(sprintKey) && myStats.staminaPoints > 0 && !myStats.inSprint)
         {
-            myStats.runSpeed *= myStats.sprintMultiplier;
-            myStats.inSprint = true;
+            if (myStats.currentRunSpeed == myStats.maxRunSpeed)
+            {
+                myStats.currentRunSpeed *= myStats.sprintMultiplier;
+                myStats.inSprint = true;
+            }
         }
         if ((Input.GetKeyUp(sprintKey) && myStats.inSprint) || myStats.staminaPoints <= 0)
         {
-            myStats.runSpeed = myStats.maxRunSpeed;
+            myStats.currentRunSpeed = myStats.maxRunSpeed;
             myStats.inSprint = false;
         }  
     }
     private void StaminaManagement()
     {
         if (myStats.inSprint && myStats.staminaPoints > 0)
-            myStats.staminaPoints -= myStats.staminaExpense * Time.deltaTime;
+            myStats.staminaPoints -= myStats.staminaUsage * Time.deltaTime;
         if (!myStats.inSprint && myStats.staminaPoints < myStats.maxStaminaPoints)
             myStats.staminaPoints += myStats.staminaRegen * Time.deltaTime;
     }
-    private void Flip()
+    private void FlipScale()
     {
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Sign(direction);
@@ -128,50 +131,9 @@ public class PlayerController : MonoBehaviour
             knife.GetComponent<ThrowingKnifeBehaviour>().damage = myStats.damage;
         }
     }
-    private void Dash()
-    {
-        float dashForse = Mathf.Sign(direction) * myStats.maxRunSpeed * myStats.maxDashDistance;
-        bool canIDash = myStats.staminaPoints > 20 && direction != 0 ? true : false;
-
-        switch (myStats.dashState)
-        {
-            case PlayerStats.DashState.ready:
-                if (Input.GetKeyDown(dashKey) && dashCooldownTimer <= 0 && canIDash)
-                {
-                    oldVelocity = rb.velocity;
-                    myStats.dashState = PlayerStats.DashState.dashing;
-                    myStats.staminaPoints -= 20.0f;
-                }
-                break;
-
-            case PlayerStats.DashState.dashing:
-                dashTimer -= Time.deltaTime;
-                dashCooldownTimer = myStats.dashCooldown;
-
-                myStats.inDash = true;
-                rb.velocity = new Vector2(dashForse, rb.velocity.y);
-                if (dashTimer <= 0)
-                {
-                    rb.velocity = oldVelocity;
-                    myStats.inDash = false;
-                    myStats.dashState = PlayerStats.DashState.onCooldown;
-                }
-                break;
-
-            case PlayerStats.DashState.onCooldown:
-                dashCooldownTimer -= Time.deltaTime;
-                dashTimer = myStats.dashDuration;
-                if (dashCooldownTimer < 0)
-                {
-                    myStats.dashState = PlayerStats.DashState.ready;
-                    dashCooldownTimer = 0;
-                }
-                break;
-        }
-    }
+   
     private void UltiMechanic()
     {
-
         switch (myStats.ultiState)
         {
             case PlayerStats.UltiState.charging:
@@ -205,15 +167,13 @@ public class PlayerController : MonoBehaviour
     {
         myStats.damage = myStats.ultiDamage;
     }
-
-
     private void DisableControlls(Messages.PlayerDead message)
     {
-        CanIControll = false;
+        myStats.canIControll = false;
     }
     private void EnableControlls(Messages.PlayerRevived message)
     {
-        CanIControll = true;
+        myStats.canIControll = true;
     }
 
     #endregion

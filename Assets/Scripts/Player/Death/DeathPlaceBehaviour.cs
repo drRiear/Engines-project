@@ -7,7 +7,8 @@ public class DeathPlaceBehaviour : MonoBehaviour
     private Rect textRect;
     private bool playerOnTrigger = false;
     private bool playerIsAlive = false;
-    private float coins;
+    [SerializeField] private float coins;
+    [SerializeField] private float souls;
 
     #region Unity Events
     private void Start()
@@ -15,7 +16,8 @@ public class DeathPlaceBehaviour : MonoBehaviour
         MessageDispatcher.AddListener(this);
 
         coins = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().dropedCoins;
-        
+        souls = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().dropedSouls;
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -42,6 +44,7 @@ public class DeathPlaceBehaviour : MonoBehaviour
     {
         if (!playerOnTrigger) return;
         MessageDispatcher.Send(new Messages.CoinPicketUp(coins));
+        MessageDispatcher.Send(new Messages.SoulsPicketUp(souls));
         Destroy(gameObject);
     }
     private void PlayerRevived(Messages.PlayerRevived message)

@@ -10,14 +10,27 @@ public class Messages
     }
     public class CoinPicketUp
     {
-        public float cost;
+        public float coins;
         #region Constructors
         public CoinPicketUp()
         {
         }
-        public CoinPicketUp(float cost)
+        public CoinPicketUp(float coins)
         {
-            this.cost = cost;
+            this.coins = coins;
+        }
+        #endregion
+    }
+    public class SoulsPicketUp
+    {
+        public float souls;
+        #region Constructors
+        public SoulsPicketUp()
+        {
+        }
+        public SoulsPicketUp(float souls)
+        {
+            this.souls = souls;
         }
         #endregion
     }
@@ -76,10 +89,10 @@ public class Messages
     }
     public class EnemyDead
     {
-        public float souls;
-        public EnemyDead(float souls)
+        public GameObject enemy;
+        public EnemyDead(GameObject enemy)
         {
-            this.souls = souls;
+            this.enemy = enemy;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.IO;
 public class PlayerInventoryManager : MonoBehaviour {
 
     [HideInInspector] public float dropedCoins = 0.0f;
+    [HideInInspector] public float dropedSouls = 0.0f;
     [HideInInspector] public Inventory inventory = new Inventory();
 
     //public string datafileName = "Inventory";
@@ -27,19 +28,21 @@ public class PlayerInventoryManager : MonoBehaviour {
     #region Private Methods
     private void AddCoins(Messages.CoinPicketUp message)
     {
-        inventory.coins += message.cost;
+        inventory.coins += message.coins;
         
         //dataManager.SaveToJSON<Inventory>(inventory);
     }
-    private void AddSouls(Messages.EnemyDead message)
+    private void AddSouls(Messages.SoulsPicketUp message)
     {
         inventory.souls += message.souls;
     }
     private void Death(Messages.PlayerDead message)
     {
         dropedCoins = inventory.coins;
+        dropedSouls = inventory.souls;
+
         inventory.coins = 0.0f;
-        inventory.coins = 0.0f;
+        inventory.souls = 0.0f;
     }
     #endregion
 
