@@ -95,4 +95,9 @@ public class Messages
             this.enemy = enemy;
         }
     }
+
+    public class StatsWindowOpened
+    {
+
+    }
 }

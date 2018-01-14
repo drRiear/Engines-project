@@ -43,13 +43,13 @@ public class PlayerDashController : MonoBehaviour
     {
         switch (myStats.dashState)
         {
-            case PlayerStats.DashState.ready:
+            case PlayerStats.DashState.Ready:
                 Ready();
                 break;
-            case PlayerStats.DashState.dashing:
+            case PlayerStats.DashState.Dashing:
                 Dashing();
                 break;
-            case PlayerStats.DashState.cooldown:
+            case PlayerStats.DashState.Cooldown:
                 Cooldown();
                 break;
         }
@@ -60,20 +60,20 @@ public class PlayerDashController : MonoBehaviour
         dashCooldownTimer = myStats.dashCooldown;
 
         if(Input.GetKeyDown(dashKey))
-            myStats.dashState = PlayerStats.DashState.dashing;
+            myStats.dashState = PlayerStats.DashState.Dashing;
     }
     private void Dashing()
     {
         rb.AddForce(Vector2.right * directionOfMove * myStats.dashMaxDistance * coefficient, ForceMode2D.Force); 
         myStats.staminaPoints -= myStats.dashCost;
-        myStats.dashState = PlayerStats.DashState.cooldown;
+        myStats.dashState = PlayerStats.DashState.Cooldown;
     }
     private void Cooldown()
     {
         dashCooldownTimer -= Time.deltaTime;
 
         if (dashCooldownTimer <= 0.0f)
-            myStats.dashState = PlayerStats.DashState.ready;
+            myStats.dashState = PlayerStats.DashState.Ready;
     }
     #endregion
 

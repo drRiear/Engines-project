@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
 
     private float jumpPower = 50.0f;
     private float direction;
-    //Ulti vars
-    private float ultiTimer = 0;
     //Attack vars
     private float attackDelay;
     #endregion
@@ -20,7 +18,7 @@ public class PlayerController : MonoBehaviour
     [Header("Keys")]
     [SerializeField] private KeyCode interactionKey;
     [SerializeField] private KeyCode sprintKey;
-    [SerializeField] private KeyCode ultiKey;
+    [SerializeField] private KeyCode statsWindowKey;
     #endregion
 
     #region Unity Events
@@ -40,19 +38,19 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        if (myStats.canIControll)
-        {
-            Sprint();
+        if (!myStats.canIControll) return;
 
-            StaminaManagement();
+        Sprint();
 
-            Attack();
+        StaminaManagement();
 
-            UltiMechanic();
+        Attack();
 
-            if (Input.GetKeyDown(interactionKey))
-                MessageDispatcher.Send(new Messages.Interaction());
-        }
+        if (Input.GetKeyDown(interactionKey))
+            MessageDispatcher.Send(new Messages.Interaction());
+
+        if (Input.GetKeyDown(statsWindowKey))
+            MessageDispatcher.Send(new Messages.StatsWindowOpened());
     }
     #endregion
     
@@ -81,11 +79,11 @@ public class PlayerController : MonoBehaviour
             MessageDispatcher.Send(new Messages.PlayerJump());
             rb.AddForce(Vector2.up * jumpPower * myStats.jumpHeight);
         }
-        if (Input.GetButtonDown("Jump") && !myStats.onGround)
-        {
-            MessageDispatcher.Send(new Messages.PlayerJump());
-            rb.AddForce(Vector2.down * jumpPower * myStats.jumpHeight);
-        }
+        //if (Input.GetButtonDown("Jump") && !myStats.onGround)
+        //{
+        //    MessageDispatcher.Send(new Messages.PlayerJump());
+        //    rb.AddForce(Vector2.down * jumpPower * myStats.jumpHeight);
+        //}
     }
 
     private void Sprint()
@@ -129,43 +127,13 @@ public class PlayerController : MonoBehaviour
             myStats.inAttack = true;
             GameObject knife = Instantiate(knifePrefab, transform.position, Quaternion.identity);
             knife.GetComponent<ThrowingKnifeBehaviour>().damage = myStats.damage;
+
+            if (knife.GetComponent<PlayerStatsReference>() == null)
+                knife.AddComponent<PlayerStatsReference>().stats = myStats;
+            else
+                knife.GetComponent<PlayerStatsReference>().stats = myStats;
+
         }
-    }
-   
-    private void UltiMechanic()
-    {
-        switch (myStats.ultiState)
-        {
-            case PlayerStats.UltiState.charging:
-                myStats.damage = myStats.baseDamage;
-                ultiTimer = myStats.ultiDuration;
-                if (myStats.CanIUlti)
-                    myStats.ultiState = PlayerStats.UltiState.ready;
-                break;
-            case PlayerStats.UltiState.ready:
-                if (Input.GetKey(ultiKey))
-                    myStats.ultiState = PlayerStats.UltiState.ulting;
-                break;
-            case PlayerStats.UltiState.ulting:
-                ultiTimer -= Time.deltaTime;
-
-                myStats.ultiPoints -= myStats.ultiCost * Time.deltaTime;
-                if (myStats.ultiPoints <= 0.0f)
-                    myStats.ultiPoints = 0.0f;
-
-                Ulti();
-
-                if (ultiTimer < 0)
-                {
-                    ultiTimer = 0;
-                    myStats.ultiState = PlayerStats.UltiState.charging;
-                }
-                break;
-        }
-    }
-    private void Ulti()
-    {
-        myStats.damage = myStats.ultiDamage;
     }
     private void DisableControlls(Messages.PlayerDead message)
     {

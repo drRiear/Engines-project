@@ -8,14 +8,16 @@ public class ThrowingKnifeBehaviour : MonoBehaviour {
     [SerializeField] private float speed;
     #endregion
     
-
     #region Private variables
     private Vector3 difference;
     [HideInInspector] public float damage;
+    private PlayerStats playerStats;
     #endregion
 
     private void Start()
     {
+        playerStats = GetComponent<PlayerStatsReference>().stats;
+
         difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         difference.Normalize();
         difference.z = 0.0f;
@@ -38,6 +40,7 @@ public class ThrowingKnifeBehaviour : MonoBehaviour {
     {
         if (CharacterManager.Instance.thornsList.Contains(collision.gameObject) || CharacterManager.Instance.enemiesList.Contains(collision.gameObject))
         {
+            playerStats.IncreaseUltiPoints(damage / playerStats.damageToUltiPoints);
             MessageDispatcher.Send(new Messages.EnemyHurted(collision.gameObject, damage));
             Destroy(gameObject);
         }

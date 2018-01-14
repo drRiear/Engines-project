@@ -11,7 +11,7 @@ public class EnemyStats : MonoBehaviour {
 
     #region Hiden Variables;
     [HideInInspector] public float healthPoints;
-    [HideInInspector] public bool isAlive { get { return healthPoints > 0; } }
+    public bool isAlive { get { return healthPoints > 0; } }
     #endregion
 
 

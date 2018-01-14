@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour {
-
-
+    
     #region Variables
-
+    [Header("Main stats")]
+    public float strength;
+    public float dexterity;
+    public float intelligence;
     [Header("HP/Stamina")]
-    [Tooltip("Maximum of player health")]
     public float maxHealthPoints;
     [HideInInspector] public float healthPoints;
     public float maxStaminaPoints;
@@ -20,6 +21,8 @@ public class PlayerStats : MonoBehaviour {
     public float attackDelay;
     public float baseDamage;
     public float damage;
+    public float damageToUltiPoints;    //coefficient
+
 
     [Header("Movement")]
     public float maxRunSpeed;
@@ -38,16 +41,17 @@ public class PlayerStats : MonoBehaviour {
     [HideInInspector] public float ultiPoints;
     public float ultiDuration;
     public float ultiDamage;
-    [HideInInspector] public bool CanIUlti { get { return ultiPoints == ultiCost; } }
-    [HideInInspector] public UltiState ultiState;
-
+    public bool CanIUlti { get { return ultiPoints == ultiCost; } }
+    //[HideInInspector]
+    public UltiState ultiState;
+    
     //Bools
     [HideInInspector] public bool inAttack;
     [HideInInspector] public bool inSprint;
     [HideInInspector] public bool onMove;
     [HideInInspector] public bool onGround;
     [HideInInspector] public bool canIControll = true;
-    [HideInInspector] public bool isAlive { get { return healthPoints > 0; } }
+    public bool isAlive { get { return healthPoints > 0; } }
 
     //Death
     [HideInInspector] public Vector3 lastCrossPosition = new Vector3();
@@ -66,6 +70,7 @@ public class PlayerStats : MonoBehaviour {
         attackDelay = 0.5f;
         damage = 1.0f;
         baseDamage = damage;
+        damageToUltiPoints = 0.5f;
 
         maxRunSpeed = 20.0f;
         currentRunSpeed = maxRunSpeed;
@@ -75,9 +80,9 @@ public class PlayerStats : MonoBehaviour {
         dashMaxDistance = 10.0f;
         dashCooldown = 1.0f;
         dashCost = 20.0f;
-        dashState = DashState.ready;
+        dashState = DashState.Ready;
 
-        ultiCost = 25.0f;
+        ultiCost = 5.0f;
         ultiPoints = 0.0f;
         ultiDuration = 3.0f;
         ultiDamage = 3.0f;
@@ -89,14 +94,21 @@ public class PlayerStats : MonoBehaviour {
         MessageDispatcher.AddListener(this);
     }
 
-    #region Private Methods
-    private void IncreaseStamina(float newMaxStamina)
+    #region Public Methods
+    public void IncreaseStamina(float newMaxStamina)
     {
-        if (newMaxStamina == maxStaminaPoints)
-            return;
-
         maxStaminaPoints = newMaxStamina;
     }
+
+    public void IncreaseUltiPoints(float points)
+    {
+        if (ultiPoints + points > ultiCost)
+            ultiPoints = ultiCost;
+        else
+            ultiPoints += points;
+    }
+    #endregion
+    #region Private Methods
     private void CrossUsed(Messages.Cross message)
     {
         healthPoints = maxHealthPoints;
@@ -112,8 +124,7 @@ public class PlayerStats : MonoBehaviour {
     #endregion
 
     #region Enumerations
-    public enum State { idle, moving, sprinting, attacking, dashing, ulting}
-    public enum DashState { ready, dashing, cooldown };
-    public enum UltiState { charging, ready, ulting };
+    public enum DashState { Ready, Dashing, Cooldown };
+    public enum UltiState { Ready, Ulting, Charging };
     #endregion
 }

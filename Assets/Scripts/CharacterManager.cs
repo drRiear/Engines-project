@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
-
-
-    #region
+    #region Vars
     public GameObject player;
     public List<GameObject> npcList;
     public List<GameObject> enemiesList;

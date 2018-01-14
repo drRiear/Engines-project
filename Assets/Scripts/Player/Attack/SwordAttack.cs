@@ -17,7 +17,7 @@ public class SwordAttack : MonoBehaviour {
             {
                 EnemyStats enemyStats = enemy.GetComponent<EnemyStats>();
                 enemyStats.healthPoints -= playerStats.damage;
-                if (playerStats.ultiPoints < playerStats.ultiCost && playerStats.ultiState == PlayerStats.UltiState.charging)
+                if (playerStats.ultiPoints < playerStats.ultiCost && playerStats.ultiState == PlayerStats.UltiState.Charging)
                     playerStats.ultiPoints += playerStats.damage;
             }
         }

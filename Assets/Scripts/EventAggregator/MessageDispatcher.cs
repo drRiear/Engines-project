@@ -5,11 +5,11 @@ using UnityEngine;
 
 public static class MessageDispatcher
 {
-    public static readonly List<Component> _Listeners = new List<Component>();
+    public static readonly List<Component> Listeners = new List<Component>();
 
-    public static void Send<T>(T message) where T : class
+    public static void Send<T>(T message)
     {
-        foreach (var component in _Listeners)
+        foreach (var component in Listeners)
             Send(message, component);
     }
 
@@ -31,19 +31,19 @@ public static class MessageDispatcher
 
             var param = parameters[0];
             if (param.ParameterType == message.GetType())
-                method.Invoke(component, new object[] { message });
+                method.Invoke(component, new object[] {message});
         }
     }
 
     public static void AddListener(Component component)
     {
-        if (_Listeners.Contains(component)) return;
-        _Listeners.Add(component);
-    }
-    public static void RemoveListener(Component component)
-    {
-        if (!_Listeners.Contains(component)) return;
-        _Listeners.Remove(component);
+        if (Listeners.Contains(component)) return;
+        Listeners.Add(component);
     }
 
+    public static void RemoveListener(Component component)
+    {
+        if (!Listeners.Contains(component)) return;
+        Listeners.Remove(component);
+    }
 }

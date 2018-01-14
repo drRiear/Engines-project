@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DeathBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject deathPlacePrefab;
     [SerializeField] private float reviveDelay;
 
-    private void Awake ()
+    private void Awake()
     {
         MessageDispatcher.AddListener(this);
-	}
+    }
 
     private void SpawnDeathPlace(Messages.PlayerDead message)
     {
