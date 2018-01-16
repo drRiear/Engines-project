@@ -92,11 +92,8 @@ public class PlayerController : MonoBehaviour
             return;
         if (Input.GetKeyDown(sprintKey) && myStats.staminaPoints > 0 && !myStats.inSprint)
         {
-            if (myStats.currentRunSpeed == myStats.maxRunSpeed)
-            {
-                myStats.currentRunSpeed *= myStats.sprintMultiplier;
-                myStats.inSprint = true;
-            }
+            myStats.currentRunSpeed *= myStats.sprintMultiplier;
+            myStats.inSprint = true;
         }
         if ((Input.GetKeyUp(sprintKey) && myStats.inSprint) || myStats.staminaPoints <= 0)
         {

@@ -5,19 +5,19 @@ using UnityEngine;
 public class DataManager 
 {
     
-    private string path;
+    private readonly string path;
 
     public DataManager(string filename)
     {
         string relativeFilePath = "Saved Data/" + filename + ".json";
         path = Path.Combine(Application.dataPath, relativeFilePath);         //Application.persistentDataPath can be used instead Application.dataPath
     }
-
+    
     public void CreateJSONFile()
     {
         if (File.Exists(path))
         {
-            Debug.LogWarning("Data file already exist.");
+            Debug.Log("Data file already exist. Rewriting this file.");
             return;
         }
         else
@@ -28,7 +28,8 @@ public class DataManager
     {
         if (!File.Exists(path))
         {
-            Debug.LogWarning("Data file does not exist. You need to create it first.");
+            Debug.LogWarning("Data file does not exist. Creating it.");
+            File.Create(path);
             return;
         }
 
@@ -43,7 +44,7 @@ public class DataManager
     {
         if (!File.Exists(path))
         {
-            Debug.LogWarning("Data file does not exist. You need to create it first.");
+            Debug.LogWarning("Data file does not exist. Nothing to load.");
             return default(T);
         }
 

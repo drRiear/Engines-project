@@ -40,10 +40,6 @@ public class Messages
     {
         public float damage;
         #region Constructors
-        public PlayerHurted()
-        {
-        }
-
         public PlayerHurted(float damage)
         {
             this.damage = damage;
@@ -68,6 +64,16 @@ public class Messages
     }
     public class PlayerRevived
     {
+    }
+
+    public class PlayerLevelUp
+    {
+        public PlayerStats.MainStats stat;
+
+        public PlayerLevelUp(PlayerStats.MainStats stat)
+        {
+            this.stat = stat;
+        }
     }
     #endregion
 

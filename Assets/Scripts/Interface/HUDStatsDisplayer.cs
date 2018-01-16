@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class DisplayStats : MonoBehaviour {
+public class HUDStatsDisplayer : MonoBehaviour
+{
     #region Public Variables
     [Header("Stats")]
     public Slider ultiBar;
@@ -26,6 +27,7 @@ public class DisplayStats : MonoBehaviour {
         MessageDispatcher.AddListener(this);
         playerStats = CharacterManager.Instance.player.GetComponent<PlayerStats>();
         inventory = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().inventory;
+        
 
         SetUpAll();
     }
@@ -51,6 +53,10 @@ public class DisplayStats : MonoBehaviour {
     {
         SetUpSoulsText();
     }
+    private void UpdateSoulText(Messages.PlayerLevelUp message)
+    {
+        SetUpSoulsText();
+    }
     private void Death(Messages.PlayerDead message)
     {
         SetUpCoinText();
@@ -66,7 +72,7 @@ public class DisplayStats : MonoBehaviour {
         SetUpCoinText();
         SetUpSoulsText();
     }
-    public void SetUpStaminaBar()
+    private void SetUpStaminaBar()
     {
         sliderRT = staminaBar.GetComponent<RectTransform>();
         Vector2 sizeDelta = new Vector2(playerStats.maxStaminaPoints * 2, sliderRT.sizeDelta.y);
@@ -74,7 +80,7 @@ public class DisplayStats : MonoBehaviour {
         staminaBar.maxValue = playerStats.maxStaminaPoints;
         staminaBar.value = playerStats.staminaPoints;
     }
-    public void SetUpHealthBar()
+    private void SetUpHealthBar()
     {
         sliderRT = healthBar.GetComponent<RectTransform>();
         Vector2 sizeDelta = new Vector2(playerStats.maxHealthPoints * 50, sliderRT.sizeDelta.y); // 1HP - 50px(?)
@@ -82,7 +88,7 @@ public class DisplayStats : MonoBehaviour {
         healthBar.maxValue = playerStats.maxHealthPoints;
         healthBar.value = playerStats.healthPoints;
     }
-    public void SetUpUltiBar()
+    private void SetUpUltiBar()
     {
         ultiBar.maxValue = playerStats.ultiCost;
         ultiBar.value = playerStats.ultiPoints;
@@ -109,4 +115,17 @@ public class DisplayStats : MonoBehaviour {
     }
     #endregion
     #endregion
+
+    private void LevelUp(Messages.PlayerLevelUp message)
+    {
+        switch (message.stat)
+        {
+            case PlayerStats.MainStats.strength:
+                SetUpHealthBar();
+                break;
+            case PlayerStats.MainStats.dexterity:
+                SetUpStaminaBar();
+                break;
+        }
+    }
 }

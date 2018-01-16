@@ -44,7 +44,7 @@ class PlayerUltiController : MonoBehaviour
     }
     private void Ready()
     {
-        if (Input.GetKey(ultiKey) && myStats.CanIUlti)
+        if (Input.GetKey(ultiKey) && myStats.canIUlti)
             myStats.ultiState = PlayerStats.UltiState.Ulting;
     }
 
@@ -65,7 +65,7 @@ class PlayerUltiController : MonoBehaviour
     private void Charging()
     {
         ultiTimer = myStats.ultiDuration;
-        if (myStats.CanIUlti)
+        if (myStats.canIUlti)
             myStats.ultiState = PlayerStats.UltiState.Ready;
     }
 

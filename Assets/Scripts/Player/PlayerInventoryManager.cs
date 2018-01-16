@@ -3,34 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class PlayerInventoryManager : MonoBehaviour {
-
+public class PlayerInventoryManager : MonoBehaviour
+{
+    #region Hidden Variables
     [HideInInspector] public float dropedCoins = 0.0f;
     [HideInInspector] public float dropedSouls = 0.0f;
-    [HideInInspector] public Inventory inventory = new Inventory();
+    #endregion
 
-    //public string datafileName = "Inventory";
-    //public Inventory inv = new Inventory();
-    //private DataManager dataManager;
+    #region Public Variables
+    public Inventory inventory;
+    public string datafileName = "Inventory";
+    #endregion
+
+
+    #region Public Variables
+    private DataManager dataManager;
+    #endregion
 
 
     #region Unity Events
     private void Awake ()
     {
-        //dataManager = new DataManager(datafileName);
-        //dataManager.CreateJSONFile();
-        //inv = dataManager.LoadFromJSON<Inventory>();
-
         MessageDispatcher.AddListener(this);
+
+        InitiateSave();
+
+        inventory = new Inventory();
     }
     #endregion
 
     #region Private Methods
+    private void InitiateSave()
+    {
+        dataManager = new DataManager(datafileName);
+        dataManager.CreateJSONFile();
+    }
+    #endregion
+
+    #region Message Based Methods
     private void AddCoins(Messages.CoinPicketUp message)
     {
         inventory.coins += message.coins;
-        
-        //dataManager.SaveToJSON<Inventory>(inventory);
     }
     private void AddSouls(Messages.SoulsPicketUp message)
     {
@@ -43,6 +56,11 @@ public class PlayerInventoryManager : MonoBehaviour {
 
         inventory.coins = 0.0f;
         inventory.souls = 0.0f;
+    }
+
+    private void CrossUsed(Messages.Cross message)
+    {
+        dataManager.SaveToJSON(inventory);
     }
     #endregion
 
