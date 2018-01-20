@@ -34,7 +34,8 @@ public class PlayerStats : MonoBehaviour
 
     #region Attack
     [Header("Attack")]
-    public float attackDelay;
+    [HideInInspector] public float attackDelay;
+    public float attackSpeed;
     public float baseDamage;
     public float damage;
     public float damageToUltiPoints;
@@ -101,7 +102,8 @@ public class PlayerStats : MonoBehaviour
         staminaRegen = 10.0f;
 
         //Attack
-        attackDelay = 0.5f;
+        attackSpeed = 10;
+        attackDelay = 10 / attackSpeed;
         damage = 1.0f;
         baseDamage = damage;
         damageToUltiPoints = 0.5f; // %
@@ -160,14 +162,18 @@ public class PlayerStats : MonoBehaviour
         maxStaminaPoints += 10.0f;
         staminaRegen += 0.5f;
         staminaUsage -= 0.1f;
-        attackDelay -= 0.1f;
         maxRunSpeed += 2.0f;
+        attackSpeed += 1.0f;
+        attackDelay = 10 / attackSpeed;
+
     }
     private void IncreaseIntelligence()
     {
         intelligence++;
         damageToUltiPoints += 0.05f;
         ultiCost -= 2.0f;
+        if (ultiPoints > ultiCost)
+            ultiPoints = ultiCost;
     }
     #endregion
     #region Message Based Methods

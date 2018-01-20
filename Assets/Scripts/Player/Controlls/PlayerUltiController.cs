@@ -53,7 +53,11 @@ class PlayerUltiController : MonoBehaviour
         ultiTimer -= Time.deltaTime;
 
         UltiStart();
-        myStats.ultiPoints -= myStats.ultiCost * Time.deltaTime;
+
+        if(myStats.ultiPoints > 0.0f)
+            myStats.ultiPoints -= myStats.ultiCost * Time.deltaTime;
+        else if (myStats.ultiPoints == 0.0f)
+            myStats.ultiPoints = 0.0f;
 
 
         if (ultiTimer <= 0)
