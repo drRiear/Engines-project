@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Player.Inventory;
 using UnityEngine;
 
 public class DeathPlaceBehaviour : MonoBehaviour
@@ -15,8 +14,8 @@ public class DeathPlaceBehaviour : MonoBehaviour
     {
         MessageDispatcher.AddListener(this);
 
-        coins = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().dropedCoins;
-        souls = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().dropedSouls;
+        coins = CharacterManager.Instance.player.GetComponent<InventoryManager>().dropedCoins;
+        souls = CharacterManager.Instance.player.GetComponent<InventoryManager>().dropedSouls;
 
     }
     private void OnTriggerEnter2D(Collider2D collision)

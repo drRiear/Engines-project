@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-
 class PlayerStatsReference : MonoBehaviour
 {
-    public PlayerStats stats;
+    public Player.Stats stats;
 }

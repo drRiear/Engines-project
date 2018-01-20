@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Player;
+using Player.Inventory;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -17,7 +17,7 @@ public class HUDStatsDisplayer : MonoBehaviour
 
     #region Private Variables
     RectTransform sliderRT;
-    private PlayerStats playerStats;
+    private Stats playerStats;
     private Inventory inventory;
     #endregion
 
@@ -25,8 +25,8 @@ public class HUDStatsDisplayer : MonoBehaviour
     void Start ()
     {
         MessageDispatcher.AddListener(this);
-        playerStats = CharacterManager.Instance.player.GetComponent<PlayerStats>();
-        inventory = CharacterManager.Instance.player.GetComponent<PlayerInventoryManager>().inventory;
+        playerStats = CharacterManager.Instance.player.GetComponent<Stats>();
+        inventory = CharacterManager.Instance.player.GetComponent<InventoryManager>().inventory;
         
 
         SetUpAll();
@@ -120,10 +120,10 @@ public class HUDStatsDisplayer : MonoBehaviour
     {
         switch (message.stat)
         {
-            case PlayerStats.MainStats.strength:
+            case Stats.MainStats.strength:
                 SetUpHealthBar();
                 break;
-            case PlayerStats.MainStats.dexterity:
+            case Stats.MainStats.dexterity:
                 SetUpStaminaBar();
                 break;
         }

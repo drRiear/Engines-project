@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 
 public class Messages
 {
@@ -68,9 +69,9 @@ public class Messages
 
     public class PlayerLevelUp
     {
-        public PlayerStats.MainStats stat;
+        public Stats.MainStats stat;
 
-        public PlayerLevelUp(PlayerStats.MainStats stat)
+        public PlayerLevelUp(Stats.MainStats stat)
         {
             this.stat = stat;
         }

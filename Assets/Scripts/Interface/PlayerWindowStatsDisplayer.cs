@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerWindowStatsDisplayer : MonoBehaviour
 {
-    private PlayerStats playerStats;
+    private Stats playerStats;
 
     #region Inspector Variables
     [Header("Bars")]
@@ -43,7 +44,7 @@ public class PlayerWindowStatsDisplayer : MonoBehaviour
     #region Unity Events
     private void Start()
     {
-        playerStats = CharacterManager.Instance.player.GetComponent<PlayerStats>();
+        playerStats = CharacterManager.Instance.player.GetComponent<Stats>();
         MessageDispatcher.AddListener(this);
         SetUpAll();
     }
@@ -128,13 +129,13 @@ public class PlayerWindowStatsDisplayer : MonoBehaviour
         LevelUp();
         switch (message.stat)
         {
-            case PlayerStats.MainStats.strength:
+            case Stats.MainStats.strength:
                 UpdateStrength();
                 break;
-            case PlayerStats.MainStats.dexterity:
+            case Stats.MainStats.dexterity:
                 UpdateDexterity();
                 break;
-            case PlayerStats.MainStats.intelligence:
+            case Stats.MainStats.intelligence:
                 UpdateIntelligence();
                 break;
         }

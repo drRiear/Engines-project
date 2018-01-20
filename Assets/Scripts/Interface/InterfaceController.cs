@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class InterfaceController : MonoBehaviour
@@ -13,14 +14,14 @@ public class InterfaceController : MonoBehaviour
 
     #region Private Variables
     private bool statsWindowOpened = false;
-    private PlayerStats playerStats;
+    private Stats playerStats;
     #endregion
     
     #region Unity Events
     private void Start()
     {
         MessageDispatcher.AddListener(this);
-        playerStats = CharacterManager.Instance.player.GetComponent<PlayerStats>();
+        playerStats = CharacterManager.Instance.player.GetComponent<Stats>();
     }
 
     private void Update()

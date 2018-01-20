@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 
-public class DeathBehaviour : MonoBehaviour
+namespace Player.Death
 {
-    [SerializeField] private GameObject deathPlacePrefab;
-    [SerializeField] private float reviveDelay;
-
-    private void Awake()
+    public class DeathBehaviour : MonoBehaviour
     {
-        MessageDispatcher.AddListener(this);
-    }
+        [SerializeField] private GameObject deathPlacePrefab;
+        [SerializeField] private float reviveDelay;
 
-    private void SpawnDeathPlace(Messages.PlayerDead message)
-    {
-        Instantiate(deathPlacePrefab, message.position, Quaternion.identity);
-        Invoke("Revive", reviveDelay);
-    }
+        private void Awake()
+        {
+            MessageDispatcher.AddListener(this);
+        }
 
-    private void Revive()
-    {
-        Transform currentTransform = GetComponent<Transform>();
-        currentTransform.position = GetComponent<PlayerStats>().lastCrossPosition;
-        MessageDispatcher.Send(new Messages.PlayerRevived());
+        private void SpawnDeathPlace(Messages.PlayerDead message)
+        {
+            Instantiate(deathPlacePrefab, message.position, Quaternion.identity);
+            Invoke("Revive", reviveDelay);
+        }
+
+        private void Revive()
+        {
+            Transform currentTransform = GetComponent<Transform>();
+            currentTransform.position = GetComponent<Stats>().lastCrossPosition;
+            MessageDispatcher.Send(new Messages.PlayerRevived());
+        }
     }
 }
