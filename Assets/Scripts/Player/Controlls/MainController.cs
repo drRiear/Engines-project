@@ -48,15 +48,24 @@ namespace Player.Controlls
 
             Attack();
 
+            CheckInputs();
+        }
+        #endregion
+
+        #region Private Methods
+        
+        private void CheckInputs()
+        {
             if (Input.GetKeyDown(interactionKey))
                 MessageDispatcher.Send(new Messages.Interaction());
 
             if (Input.GetKeyDown(statsWindowKey))
                 MessageDispatcher.Send(new Messages.StatsWindowOpened());
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+                Application.Quit();
         }
-        #endregion
-    
-        #region Private Methods
+
         private void Movement()
         {
             direction = Input.GetAxis("Horizontal");

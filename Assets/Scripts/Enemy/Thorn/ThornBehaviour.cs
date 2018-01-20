@@ -1,139 +1,147 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ThornBehaviour : MonoBehaviour {
+namespace Enemy.Thorn
+{
+    public class ThornBehaviour : MonoBehaviour {
 
-    #region Private Variables
-    private GameObject player;
-    private ThornStats myStats;
+        #region Private Variables
+        private GameObject player;
+        private Stats myStats;
 
-    private Vector3 startPosition;
-    private bool agred = false;
-    #endregion
+        private Vector3 startPosition;
+        private bool agred = false;
+        #endregion
 
-    #region Public Variables
-    public float speed;
-    [Header("")]
-    public ThornType type = ThornType.nonReturnable;
-    public float agrRadius;
-    [Tooltip("Only for returnable Thorns")]
-    public float visionRadius;
-    #endregion
+        #region Inspector Variables
+        [SerializeField] private bool drawGizmos;
+        #endregion
 
-    #region Unity Events
-    private void Start()
-    {
-        myStats = GetComponent<ThornStats>();
+        #region Public Variables
+        public float speed;
+        [Header("")]
+        public ThornType type = ThornType.nonReturnable;
+        public float agrRadius;
+        [Tooltip("Only for returnable Thorns")]
+        public float visionRadius;
+        #endregion
+
+        #region Unity Events
+        private void Start()
+        {
+            myStats = GetComponent<Stats>();
         
-        player = CharacterManager.Instance.player;
+            player = CharacterManager.Instance.player;
 
-        startPosition = transform.position;
+            startPosition = transform.position;
 
-        MessageDispatcher.AddListener(this);
-    }
-    private void Update()
-    {
-        if (type == ThornType.nonReturnable)
-            CheckDistance_NR();
-        else if (type == ThornType.returnable)
-            CheckDistance_R();
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, agrRadius);
-
-        if (type == ThornType.returnable)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, visionRadius);
+            MessageDispatcher.AddListener(this);
         }
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == player)
-            PlayerCollision();
-    }
-    #endregion
+        private void Update()
+        {
+            if (type == ThornType.nonReturnable)
+                CheckDistance_NR();
+            else if (type == ThornType.returnable)
+                CheckDistance_R();
+        }
+        private void OnDrawGizmos()
+        {
+            if (!drawGizmos) return;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, agrRadius);
+
+            if (type == ThornType.returnable)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(transform.position, visionRadius);
+            }
+        }
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject == player)
+                PlayerCollision();
+        }
+        #endregion
 
 
-    #region Private Methods
+        #region Private Methods
     
-    private void CheckDistance_NR()
-    {
-        var distance = Vector2.Distance(transform.position, player.transform.position);
-        if (distance <= agrRadius)
-            agred = true;
-        Move();
-    }
-    private void CheckDistance_R()
-    {
-        var distance = Vector2.Distance(transform.position, player.transform.position);
-
-        if (distance <= agrRadius)
-            agred = true;
-        else if (distance >= visionRadius)
-            agred = false;
-        Move();
-    }
-    private void Move()
-    {
-        if (agred)
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
-        else if (!agred && transform.position != startPosition)
-            transform.position = Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
-    }
-    private void PlayerCollision()
-    {
-        MessageDispatcher.Send(new Messages.PlayerHurted(myStats.damage));
-
-        if (!myStats.canRevive)
-            Destroy(gameObject);
-        else
+        private void CheckDistance_NR()
         {
-            myStats.healthPoints = 0.0f;
-            gameObject.SetActive(false);
+            var distance = Vector2.Distance(transform.position, player.transform.position);
+            if (distance <= agrRadius)
+                agred = true;
+            Move();
         }
-    }
-    #endregion
-
-    #region Message based methods
-    private void CrossUsed(Messages.Cross message)
-    {
-        if (!myStats.isAlive)
+        private void CheckDistance_R()
         {
-            myStats.healthPoints = myStats.maxHealthPoints;
-            gameObject.SetActive(true);
-        }
+            var distance = Vector2.Distance(transform.position, player.transform.position);
 
-        if (agred)
+            if (distance <= agrRadius)
+                agred = true;
+            else if (distance >= visionRadius)
+                agred = false;
+            Move();
+        }
+        private void Move()
         {
-            transform.position = startPosition;
-            agred = false;
+            if (agred)
+                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+            else if (!agred && transform.position != startPosition)
+                transform.position = Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
         }
+        private void PlayerCollision()
+        {
+            MessageDispatcher.Send(new Messages.PlayerHurted(myStats.damage));
 
+            if (!myStats.canRevive)
+                Destroy(gameObject);
+            else
+            {
+                myStats.healthPoints = 0.0f;
+                gameObject.SetActive(false);
+            }
+        }
+        #endregion
+
+        #region Message based methods
+        private void CrossUsed(Messages.Cross message)
+        {
+            if (!myStats.isAlive)
+            {
+                myStats.healthPoints = myStats.maxHealthPoints;
+                gameObject.SetActive(true);
+            }
+
+            if (agred)
+            {
+                transform.position = startPosition;
+                agred = false;
+            }
+
+        }
+        private void Hurted(Messages.EnemyHurted message)
+        {
+            if (message.enemy != gameObject)
+                return;
+
+            myStats.healthPoints -= message.damage;
+
+            if (!myStats.isAlive)
+                Death();
+        }
+        private void Death()
+        {
+            MessageDispatcher.Send(new Messages.EnemyDead(gameObject)); 
+            MessageDispatcher.Send(new Messages.SoulsPicketUp(myStats.souls));
+
+            if (!myStats.canRevive)
+                Destroy(gameObject);
+            else
+                gameObject.SetActive(false);
+        }
+        #endregion
+
+        public enum ThornType { nonReturnable, returnable };
     }
-    private void Hurted(Messages.EnemyHurted message)
-    {
-        if (message.enemy != gameObject)
-            return;
-
-        myStats.healthPoints -= message.damage;
-
-        if (!myStats.isAlive)
-            Death();
-    }
-    private void Death()
-    {
-        MessageDispatcher.Send(new Messages.EnemyDead(gameObject)); 
-        MessageDispatcher.Send(new Messages.SoulsPicketUp(myStats.souls));
-
-        if (!myStats.canRevive)
-            Destroy(gameObject);
-        else
-            gameObject.SetActive(false);
-    }
-    #endregion
-
-    public enum ThornType { nonReturnable, returnable };
 }

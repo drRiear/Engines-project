@@ -11,13 +11,14 @@ public class DataManager
     {
         string relativeFilePath = "Saved Data/" + filename + ".json";
         path = Path.Combine(Application.dataPath, relativeFilePath);         //Application.persistentDataPath can be used instead Application.dataPath
+        CreateJSONFile();
     }
     
     public void CreateJSONFile()
     {
         if (File.Exists(path))
         {
-            Debug.Log("Data file already exist. Rewriting this file.");
+            //Debug.Log("Data file already exist. Rewriting this file.");
             return;
         }
         else
@@ -28,7 +29,7 @@ public class DataManager
     {
         if (!File.Exists(path))
         {
-            Debug.LogWarning("Data file does not exist. Creating it.");
+            //Debug.LogWarning("Data file does not exist. Creating it.");
             File.Create(path);
             return;
         }
@@ -44,10 +45,10 @@ public class DataManager
     {
         if (!File.Exists(path))
         {
-            Debug.LogWarning("Data file does not exist. Nothing to load.");
+            //Debug.LogWarning("Data file does not exist. Nothing to load.");
             return default(T);
         }
-
+        
         StreamReader reader = new StreamReader(path);
         string jsonString = reader.ReadToEnd();
         reader.Close();

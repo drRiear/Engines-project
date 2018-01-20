@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections;
 
-public class Cross : MonoBehaviour {
+public class NPCBehaviour : MonoBehaviour
+{
+    public Canvas interactionCanvas;
 
     private bool playerOnTrigger = false;
 
@@ -14,7 +17,7 @@ public class Cross : MonoBehaviour {
         if (collision.gameObject == CharacterManager.Instance.player)
         {
             playerOnTrigger = true;
-            transform.GetChild(0).gameObject.SetActive(true);
+            interactionCanvas.gameObject.SetActive(true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -22,7 +25,8 @@ public class Cross : MonoBehaviour {
         if (collision.gameObject == CharacterManager.Instance.player)
         {
             playerOnTrigger = false;
-            transform.GetChild(0).gameObject.SetActive(false);
+            interactionCanvas.gameObject.SetActive(false);
+            MessageDispatcher.Send(new Messages.DialogueStops(gameObject));
         }
     }
     #endregion
@@ -31,12 +35,8 @@ public class Cross : MonoBehaviour {
     private void Interaction(Messages.Interaction message)
     {
         if (!playerOnTrigger) return;
-       
-        MessageDispatcher.Send(new Messages.Cross());
-    }
-    private void Reviving(Messages.PlayerRevived message)
-    {
-        MessageDispatcher.Send(new Messages.Cross());
+        interactionCanvas.gameObject.SetActive(false);
+        MessageDispatcher.Send(new Messages.DialogueStart(gameObject));
     }
     #endregion
 }

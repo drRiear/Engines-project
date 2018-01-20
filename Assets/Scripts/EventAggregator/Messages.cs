@@ -3,6 +3,22 @@ using UnityEngine;
 
 public class Messages
 {
+    public class DialogueStart
+    {
+        public GameObject npc;
+        public DialogueStart(GameObject npc)
+        {
+            this.npc = npc;
+        }
+    }
+    public class DialogueStops
+    {
+        public GameObject npc;
+        public DialogueStops(GameObject npc)
+        {
+            this.npc = npc;
+        }
+    }
     public class Interaction
     {
     }
