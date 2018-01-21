@@ -176,20 +176,21 @@ namespace Player
                 ultiPoints = ultiCost;
         }
         #endregion
+
         #region Message Based Methods
         private void CrossUsed(Messages.Cross message)
         {
             healthPoints = maxHealthPoints;
             lastCrossPosition = transform.position;
         }
-        private void Hurted(Messages.PlayerHurted message)
+        private void Hurted(Messages.Player.Hurted message)
         {
             healthPoints -= message.damage;
 
             if (!isAlive)
-                MessageDispatcher.Send(new Messages.PlayerDead(transform.position));      //Insert player revive controller
+                MessageDispatcher.Send(new Messages.Player.Dead(transform.position));      //Insert player revive controller
         }
-        private void LevelUp(Messages.PlayerLevelUp message)
+        private void LevelUp(Messages.Player.LevelUp message)
         {
             switch (message.stat)
             {

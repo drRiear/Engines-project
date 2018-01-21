@@ -200,7 +200,7 @@ namespace Enemy
                 force = Mathf.Clamp(force, 0.0f, 75.0f);
 
                 if (_collider.gameObject == CharacterManager.Instance.player)
-                    MessageDispatcher.Send(new Messages.PlayerHurted(force / (explosionForce / 2)));
+                    MessageDispatcher.Send(new Messages.Player.Hurted(force / (explosionForce / 2)));
 
                 rigidbody_component.AddForce(direction * force, ForceMode2D.Impulse);
             }
@@ -211,7 +211,7 @@ namespace Enemy
 
         private void Death()
         {
-            MessageDispatcher.Send(new Messages.EnemyDead(gameObject));
+            MessageDispatcher.Send(new Messages.Enemy.Dead(gameObject));
             MessageDispatcher.Send(new Messages.SoulsPicketUp(myStats.souls));
 
             if (!myStats.canRevive)
@@ -222,7 +222,7 @@ namespace Enemy
         #endregion
 
         #region Message based Methods
-        private void Hurted(Messages.EnemyHurted message)
+        private void Hurted(Messages.Enemy.Hurted message)
         {
             //Damade resist while charging
             if (state == State.Wharge)

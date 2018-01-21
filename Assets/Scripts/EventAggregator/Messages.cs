@@ -1,24 +1,40 @@
 ﻿using Player;
 using UnityEngine;
 
-public class Messages
+namespace Messages
 {
-    public class DialogueStart
+    public class Dialogue
     {
-        public GameObject npc;
-        public DialogueStart(GameObject npc)
+        public class Start
         {
-            this.npc = npc;
+            public GameObject npc;
+
+            public Start(GameObject npc)
+            {
+                this.npc = npc;
+            }
+        }
+
+        public class Stops
+        {
+            public GameObject npc;
+
+            public Stops(GameObject npc)
+            {
+                this.npc = npc;
+            }
+        }
+        public class GetAnswer
+        {
+            public DialogueSystem.Lines.Answer answer;
+
+            public GetAnswer(DialogueSystem.Lines.Answer answer)
+            {
+                this.answer = answer;
+            }
         }
     }
-    public class DialogueStops
-    {
-        public GameObject npc;
-        public DialogueStops(GameObject npc)
-        {
-            this.npc = npc;
-        }
-    }
+
     public class Interaction
     {
     }
@@ -52,70 +68,89 @@ public class Messages
         #endregion
     }
 
-    #region Player Messages
-    public class PlayerHurted
+    public class Player
     {
-        public float damage;
-        #region Constructors
-        public PlayerHurted(float damage)
+        public class Hurted
         {
-            this.damage = damage;
-        }
-        #endregion
-    }
-    public class PlayerJump
-    {
-    }
-    public class PlayerLanded
-    {
-    }
-    public class PlayerDead
-    {
-        public Vector3 position;
-        #region Constructors
-        public PlayerDead(Vector3 position)
-        {
-            this.position = position;
-        }
-        #endregion
-    }
-    public class PlayerRevived
-    {
-    }
+            public float damage;
 
-    public class PlayerLevelUp
-    {
-        public Stats.MainStats stat;
+            #region Constructors
 
-        public PlayerLevelUp(Stats.MainStats stat)
-        {
-            this.stat = stat;
+            public Hurted(float damage)
+            {
+                this.damage = damage;
+            }
+
+            #endregion
         }
-    }
-    #endregion
 
-    public class EnemyHurted
-    {
-        public GameObject enemy;
-        public float damage;
-        #region Constructors
-        public EnemyHurted()
+        public class Jump
         {
         }
 
-        public EnemyHurted(GameObject enemy, float damage)
+        public class Landed
         {
-            this.enemy = enemy;
-            this.damage = damage;
         }
-        #endregion
-    }
-    public class EnemyDead
-    {
-        public GameObject enemy;
-        public EnemyDead(GameObject enemy)
+
+        public class Dead
         {
-            this.enemy = enemy;
+            public Vector3 position;
+
+            #region Constructors
+
+            public Dead(Vector3 position)
+            {
+                this.position = position;
+            }
+
+            #endregion
+        }
+
+        public class Revived
+        {
+        }
+
+        public class LevelUp
+        {
+            public Stats.MainStats stat;
+
+            public LevelUp(Stats.MainStats stat)
+            {
+                this.stat = stat;
+            }
+        }
+    }
+
+    public class Enemy
+    {
+        public class Hurted
+        {
+            public GameObject enemy;
+            public float damage;
+
+            #region Constructors
+
+            public Hurted()
+            {
+            }
+
+            public Hurted(GameObject enemy, float damage)
+            {
+                this.enemy = enemy;
+                this.damage = damage;
+            }
+
+            #endregion
+        }
+
+        public class Dead
+        {
+            public GameObject enemy;
+
+            public Dead(GameObject enemy)
+            {
+                this.enemy = enemy;
+            }
         }
     }
 

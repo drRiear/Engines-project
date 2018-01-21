@@ -3,19 +3,16 @@ using UnityEngine;
 
 public class DeathPlaceBehaviour : MonoBehaviour
 {
-    private Rect textRect;
     private bool playerOnTrigger = false;
     private bool playerIsAlive = false;
-    [SerializeField] private float coins;
-    [SerializeField] private float souls;
+    private Inventory inventory;
 
     #region Unity Events
     private void Start()
     {
         MessageDispatcher.AddListener(this);
 
-        coins = CharacterManager.Instance.player.GetComponent<InventoryManager>().dropedCoins;
-        souls = CharacterManager.Instance.player.GetComponent<InventoryManager>().dropedSouls;
+        inventory = CharacterManager.Instance.player.GetComponent<InventoryManager>().dropedInventory;
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -23,8 +20,7 @@ public class DeathPlaceBehaviour : MonoBehaviour
         if (collision.gameObject == CharacterManager.Instance.player && playerIsAlive)
         {
             playerOnTrigger = true;
-            GameObject go = transform.GetChild(0).gameObject;
-            go.SetActive(true);
+            transform.GetChild(0).gameObject.SetActive(true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -32,8 +28,7 @@ public class DeathPlaceBehaviour : MonoBehaviour
         if (collision.gameObject == CharacterManager.Instance.player)
         {
             playerOnTrigger = false;
-            GameObject go = transform.GetChild(0).gameObject;
-            go.SetActive(false);
+            transform.GetChild(0).gameObject.SetActive(false);
         }
     }
     #endregion
@@ -42,15 +37,15 @@ public class DeathPlaceBehaviour : MonoBehaviour
     private void Interaction(Messages.Interaction message)
     {
         if (!playerOnTrigger) return;
-        MessageDispatcher.Send(new Messages.CoinPicketUp(coins));
-        MessageDispatcher.Send(new Messages.SoulsPicketUp(souls));
+        MessageDispatcher.Send(new Messages.CoinPicketUp(inventory.coins));
+        MessageDispatcher.Send(new Messages.SoulsPicketUp(inventory.souls));
         Destroy(gameObject);
     }
-    private void PlayerRevived(Messages.PlayerRevived message)
+    private void PlayerRevived(Messages.Player.Revived message)
     {
         playerIsAlive = true;
     }
-    private void PlayerDead(Messages.PlayerDead message)
+    private void PlayerDead(Messages.Player.Dead message)
     {
         Destroy(gameObject);
     }

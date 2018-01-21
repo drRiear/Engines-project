@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class NPCBehaviour : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class NPCBehaviour : MonoBehaviour
         {
             playerOnTrigger = false;
             interactionCanvas.gameObject.SetActive(false);
-            MessageDispatcher.Send(new Messages.DialogueStops(gameObject));
+            MessageDispatcher.Send(new Messages.Dialogue.Stops(gameObject));
         }
     }
     #endregion
@@ -36,7 +37,15 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (!playerOnTrigger) return;
         interactionCanvas.gameObject.SetActive(false);
-        MessageDispatcher.Send(new Messages.DialogueStart(gameObject));
+        MessageDispatcher.Send(new Messages.Dialogue.Start(gameObject));
+    }
+    #endregion
+
+    #region Public Methods
+    public void ToNextScene()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex + 1);
     }
     #endregion
 }

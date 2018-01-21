@@ -43,7 +43,7 @@ namespace Player.Attack
             if (CharacterManager.Instance.thornsList.Contains(collision.gameObject) || CharacterManager.Instance.enemiesList.Contains(collision.gameObject))
             {
                 playerStats.IncreaseUltiPoints(damage / playerStats.damageToUltiPoints);
-                MessageDispatcher.Send(new Messages.EnemyHurted(collision.gameObject, damage));
+                MessageDispatcher.Send(new Messages.Enemy.Hurted(collision.gameObject, damage));
                 Destroy(gameObject);
             }
             //rewrite

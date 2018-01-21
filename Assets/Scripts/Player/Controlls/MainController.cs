@@ -62,7 +62,7 @@ namespace Player.Controlls
             if (Input.GetKeyDown(statsWindowKey))
                 MessageDispatcher.Send(new Messages.StatsWindowOpened());
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetButtonDown("Cancel"))
                 Application.Quit();
         }
 
@@ -87,12 +87,12 @@ namespace Player.Controlls
         {
             if (Input.GetButtonDown("Jump") && myStats.onGround)
             {
-                MessageDispatcher.Send(new Messages.PlayerJump());
+                MessageDispatcher.Send(new Messages.Player.Jump());
                 rb.AddForce(Vector2.up * jumpPower * myStats.jumpHeight);
             }
             //if (Input.GetButtonDown("Jump") && !myStats.onGround)
             //{
-            //    MessageDispatcher.Send(new Messages.PlayerJump());
+            //    MessageDispatcher.Send(new Messages.Jump());
             //    rb.AddForce(Vector2.down * jumpPower * myStats.jumpHeight);
             //}
         }
@@ -129,7 +129,7 @@ namespace Player.Controlls
         {
             attackDelay -= Time.deltaTime;
 
-            if (Input.GetMouseButton(0) && attackDelay <= 0)
+            if (Input.GetButtonDown("Fire1") && attackDelay <= 0)
             {
                 attackDelay = myStats.attackDelay;
                 myStats.inAttack = true;
@@ -143,11 +143,11 @@ namespace Player.Controlls
 
             }
         }
-        private void DisableControlls(Messages.PlayerDead message)
+        private void DisableControlls(Messages.Player.Dead message)
         {
             myStats.canIControll = false;
         }
-        private void EnableControlls(Messages.PlayerRevived message)
+        private void EnableControlls(Messages.Player.Revived message)
         {
             myStats.canIControll = true;
         }

@@ -92,7 +92,7 @@ namespace Enemy.Thorn
         }
         private void PlayerCollision()
         {
-            MessageDispatcher.Send(new Messages.PlayerHurted(myStats.damage));
+            MessageDispatcher.Send(new Messages.Player.Hurted(myStats.damage));
 
             if (!myStats.canRevive)
                 Destroy(gameObject);
@@ -120,7 +120,7 @@ namespace Enemy.Thorn
             }
 
         }
-        private void Hurted(Messages.EnemyHurted message)
+        private void Hurted(Messages.Enemy.Hurted message)
         {
             if (message.enemy != gameObject)
                 return;
@@ -132,7 +132,7 @@ namespace Enemy.Thorn
         }
         private void Death()
         {
-            MessageDispatcher.Send(new Messages.EnemyDead(gameObject)); 
+            MessageDispatcher.Send(new Messages.Enemy.Dead(gameObject)); 
             MessageDispatcher.Send(new Messages.SoulsPicketUp(myStats.souls));
 
             if (!myStats.canRevive)

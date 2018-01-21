@@ -34,7 +34,7 @@ public class Cross : MonoBehaviour {
        
         MessageDispatcher.Send(new Messages.Cross());
     }
-    private void Reviving(Messages.PlayerRevived message)
+    private void Reviving(Messages.Player.Revived message)
     {
         MessageDispatcher.Send(new Messages.Cross());
     }

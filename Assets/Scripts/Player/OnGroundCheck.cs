@@ -40,9 +40,9 @@ namespace Player
         private void PainfulLand()
         {
             if (myStats.onGround && rb.velocity.y < -1.0f)
-                MessageDispatcher.Send(new Messages.PlayerLanded());
+                MessageDispatcher.Send(new Messages.Player.Landed());
             if (myStats.onGround && Mathf.Abs(rb.velocity.y) > myStats.jumpHeight * 2.0f)
-                MessageDispatcher.Send(new Messages.PlayerHurted(CalculateLandDamage()));
+                MessageDispatcher.Send(new Messages.Player.Hurted(CalculateLandDamage()));
         }
         private int CalculateLandDamage()
         {

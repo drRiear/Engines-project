@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DialogueSystem
 {
-    public class Dialogue : MonoBehaviour
+    public class Displayer : MonoBehaviour
     {
         #region Public Variables
         public string textFileName;
@@ -17,11 +17,10 @@ namespace DialogueSystem
         #endregion
 
         #region Private Variables
-        private Lines _lines;
+        public Lines _lines;
         private IEnumerator currentCoroutine;
         private GameObject thisNPC;
         #endregion
-
 
         #region Unity Events
         private void Awake()
@@ -30,18 +29,13 @@ namespace DialogueSystem
             thisNPC = transform.parent.gameObject;
             LoadText();
         }
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Y))
-                LoadText();
-        }
         #endregion
 
         #region Private Methods
         private void LoadText()
         {
             DataManager dm = new DataManager(textFileName);
-            
+
             _lines = dm.LoadFromJSON<Lines>();
             _lines.SetQueue();
         }
@@ -57,9 +51,19 @@ namespace DialogueSystem
                 DialogueEnd();
                 return;
             }
-            
+
+            CheckLineForAnswer();
+
             currentCoroutine = PrintPhrase(_lines.queue[0]);
             StartCoroutine(currentCoroutine);
+        }
+
+        private void CheckLineForAnswer()
+        {
+            int currentLineIndex = _lines.linesList.IndexOf(_lines.queue[0]);
+            foreach (var answer in _lines.answers)
+                if (answer.lineIndex == currentLineIndex)
+                    MessageDispatcher.Send(new Messages.Dialogue.GetAnswer(answer));
         }
 
         private void DialogueEnd()
@@ -80,18 +84,17 @@ namespace DialogueSystem
         }
         #endregion
 
-        #region Private Methods
-        private void StartDialogue(Messages.DialogueStart message)
+        #region Message Based Methods
+        private void StartDialogue(Messages.Dialogue.Start message)
         {
             if (message.npc != thisNPC) return;
-            
 
             if (!dialogueCanvas.gameObject.activeInHierarchy)
                 dialogueCanvas.gameObject.SetActive(true);
             
             Talk();
         }
-        private void StopDialogue(Messages.DialogueStops message)
+        private void StopDialogue(Messages.Dialogue.Stops message)
         {
             if (message.npc != thisNPC) return;
 

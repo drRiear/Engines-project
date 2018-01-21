@@ -16,6 +16,7 @@ namespace Player
         private int velocityXParamHash;
         private int velocityYParamHash;
         #endregion
+
         #region Public Variables
         public AudioController audioController;
     
@@ -27,6 +28,7 @@ namespace Player
         public string velocityXParamName = "Horizontal velocity";
         public string velocityYParamName = "Vertical velocity";
         #endregion
+
         #region Unity Events
         private void Awake()
         {
@@ -68,7 +70,7 @@ namespace Player
             int intSprint = myStats.inSprint ? 1 : 0;
             animator.SetFloat(sprintParamHash, intSprint);
         }
-        private void Hurted(Messages.PlayerHurted message)
+        private void Hurted(Messages.Player.Hurted message)
         {
             animator.SetTrigger(hitParamHash);
         }

@@ -36,10 +36,10 @@ GameObject:
   - component: {fileID: 4814374482360748}
   - component: {fileID: 212563949896967882}
   - component: {fileID: 70406520366496408}
-  - component: {fileID: 114821313463946692}
   - component: {fileID: 114707674291266484}
+  - component: {fileID: 114821313463946692}
   m_Layer: 0
-  m_Name: Enemy 1
+  m_Name: Exploder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   canRevive: 1
   maxHealthPoints: 5
   damage: 3
-  souls: 25
+  souls: 250
   healthPoints: 0
 --- !u!114 &114821313463946692
 MonoBehaviour:
@@ -114,14 +114,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6883c48e01549854cb3f0a4d9c146a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
   head: {fileID: 4631079494799094}
   distanceOffset: {x: 5, y: 5}
   distanceOfView: 15
   distanceOfAggression: 10
   distanceOfExplosionTrigger: 5
   chargeSpeed: 5
-  explosionRadius: 0
-  explosionForce: 0
+  explosionRadius: 10
+  explosionForce: 25
+  explosionDelay: 0
 --- !u!212 &212563949896967882
 SpriteRenderer:
   m_ObjectHideFlags: 1

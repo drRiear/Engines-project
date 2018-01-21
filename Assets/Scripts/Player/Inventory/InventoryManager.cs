@@ -8,15 +8,13 @@ namespace Player.Inventory
     public class InventoryManager : MonoBehaviour
     {
         #region Hidden Variables
-        [HideInInspector] public float dropedCoins = 0.0f;
-        [HideInInspector] public float dropedSouls = 0.0f;
+        [HideInInspector] public Inventory dropedInventory;
+        [HideInInspector] public Inventory inventory;
         #endregion
 
         #region Public Variables
-        public Inventory inventory;
         public string datafileName = "Inventory";
         #endregion
-
 
         #region Public Variables
         private DataManager dataManager;
@@ -51,13 +49,11 @@ namespace Player.Inventory
         {
             inventory.souls += message.souls;
         }
-        private void Death(Messages.PlayerDead message)
+        private void Death(Messages.Player.Dead message)
         {
-            dropedCoins = inventory.coins;
-            dropedSouls = inventory.souls;
+            dropedInventory = inventory;
 
-            inventory.coins = 0.0f;
-            inventory.souls = 0.0f;
+            inventory = new Inventory();
         }
 
         private void CrossUsed(Messages.Cross message)

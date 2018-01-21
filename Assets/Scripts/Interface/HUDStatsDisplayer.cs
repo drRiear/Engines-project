@@ -53,11 +53,11 @@ public class HUDStatsDisplayer : MonoBehaviour
     {
         SetUpSoulsText();
     }
-    private void UpdateSoulText(Messages.PlayerLevelUp message)
+    private void UpdateSoulText(Messages.Player.LevelUp message)
     {
         SetUpSoulsText();
     }
-    private void Death(Messages.PlayerDead message)
+    private void Death(Messages.Player.Dead message)
     {
         SetUpCoinText();
         SetUpSoulsText();
@@ -116,7 +116,7 @@ public class HUDStatsDisplayer : MonoBehaviour
     #endregion
     #endregion
 
-    private void LevelUp(Messages.PlayerLevelUp message)
+    private void LevelUp(Messages.Player.LevelUp message)
     {
         switch (message.stat)
         {

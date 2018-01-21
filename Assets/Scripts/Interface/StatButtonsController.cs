@@ -6,15 +6,15 @@ public class StatButtonsController : MonoBehaviour
 {
     public void StrengthOnClick()
     {
-        MessageDispatcher.Send(new Messages.PlayerLevelUp(Stats.MainStats.strength));
+        MessageDispatcher.Send(new Messages.Player.LevelUp(Stats.MainStats.strength));
     }
     public void DexterityOnClick()
     {
-        MessageDispatcher.Send(new Messages.PlayerLevelUp(Stats.MainStats.dexterity));
+        MessageDispatcher.Send(new Messages.Player.LevelUp(Stats.MainStats.dexterity));
     }
     public void IntelligenceOnClick()
     {
-        MessageDispatcher.Send(new Messages.PlayerLevelUp(Stats.MainStats.intelligence));
+        MessageDispatcher.Send(new Messages.Player.LevelUp(Stats.MainStats.intelligence));
     }
 
 }

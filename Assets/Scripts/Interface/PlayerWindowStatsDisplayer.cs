@@ -124,7 +124,7 @@ public class PlayerWindowStatsDisplayer : MonoBehaviour
     #endregion
 
     #region Message Based Method
-    private void LevelUp(Messages.PlayerLevelUp message)
+    private void LevelUp(Messages.Player.LevelUp message)
     {
         LevelUp();
         switch (message.stat)

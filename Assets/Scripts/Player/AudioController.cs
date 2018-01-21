@@ -27,16 +27,16 @@ namespace Player
 
         #region Private Methods
 
-        private void Hurted(Messages.PlayerHurted message)
+        private void Hurted(Messages.Player.Hurted message)
         {
             hurtSource.Play();
         }
-        private void Jump(Messages.PlayerJump message)
+        private void Jump(Messages.Player.Jump message)
         {
             jumpSource.Play();
         }
     
-        private void Land(Messages.PlayerLanded message)
+        private void Land(Messages.Player.Landed message)
         {
             landSource.Play();
         }
