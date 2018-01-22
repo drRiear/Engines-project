@@ -8,7 +8,8 @@ namespace DialogueSystem
     public class Displayer : MonoBehaviour
     {
         #region Public Variables
-        public string textFileName;
+
+        public LinesScriptable _linesScriptable;
         [Space]
         public float timeToPrintLetter = 0.05f;
         [Header("UI Elements")]
@@ -17,7 +18,6 @@ namespace DialogueSystem
         #endregion
 
         #region Private Variables
-        public Lines _lines;
         private IEnumerator currentCoroutine;
         private GameObject thisNPC;
         #endregion
@@ -27,26 +27,17 @@ namespace DialogueSystem
         {
             MessageDispatcher.AddListener(this);
             thisNPC = transform.parent.gameObject;
-            LoadText();
         }
         #endregion
 
         #region Private Methods
-        private void LoadText()
-        {
-            DataManager dm = new DataManager(textFileName);
-
-            _lines = dm.LoadFromJSON<Lines>();
-            _lines.SetQueue();
-        }
-
         private void Talk()
         {
             if (currentCoroutine != null)
                 StopCoroutine(currentCoroutine);
             phraseText.text = "";
 
-            if (_lines.queue.Count == 0)
+            if (_linesScriptable.queue.Count == 0)
             {
                 DialogueEnd();
                 return;
@@ -54,27 +45,27 @@ namespace DialogueSystem
 
             CheckLineForAnswer();
 
-            currentCoroutine = PrintPhrase(_lines.queue[0]);
+            currentCoroutine = PrintPhrase(_linesScriptable.queue[0]);
             StartCoroutine(currentCoroutine);
         }
 
         private void CheckLineForAnswer()
         {
-            int currentLineIndex = _lines.linesList.IndexOf(_lines.queue[0]);
-            foreach (var answer in _lines.answers)
+            int currentLineIndex = _linesScriptable.linesList.IndexOf(_linesScriptable.queue[0]);
+            foreach (var answer in _linesScriptable.answers)
                 if (answer.lineIndex == currentLineIndex)
                     MessageDispatcher.Send(new Messages.Dialogue.GetAnswer(answer));
         }
 
         private void DialogueEnd()
         {
-            _lines.SetQueue();
+            _linesScriptable.SetQueue();
             dialogueCanvas.gameObject.SetActive(false);
         }
 
         private IEnumerator PrintPhrase(string phrase)
         {
-            _lines.UnQueue(phrase);
+            _linesScriptable.UnQueue(phrase);
 
             foreach (var c in phrase)
             { 
@@ -94,10 +85,8 @@ namespace DialogueSystem
             
             Talk();
         }
-        private void StopDialogue(Messages.Dialogue.Stops message)
+        private void StopDialogue(Messages.Dialogue.Stop message)
         {
-            if (message.npc != thisNPC) return;
-
             DialogueEnd();
         }
         #endregion

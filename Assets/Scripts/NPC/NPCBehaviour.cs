@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class NPCBehaviour : MonoBehaviour
 {
     public Canvas interactionCanvas;
-
     private bool playerOnTrigger = false;
 
     #region Unity Events
@@ -27,7 +26,7 @@ public class NPCBehaviour : MonoBehaviour
         {
             playerOnTrigger = false;
             interactionCanvas.gameObject.SetActive(false);
-            MessageDispatcher.Send(new Messages.Dialogue.Stops(gameObject));
+            MessageDispatcher.Send(new Messages.Dialogue.Stop(gameObject));
         }
     }
     #endregion
@@ -46,6 +45,16 @@ public class NPCBehaviour : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
+    }
+
+    public void StopDialogue()
+    {
+        MessageDispatcher.Send(new Messages.Dialogue.Stop(gameObject));
+    }
+
+    public void GetReward()
+    {
+        MessageDispatcher.Send(new Messages.CoinPicketUp(50));
     }
     #endregion
 }

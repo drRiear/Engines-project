@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
+using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -13,7 +15,8 @@ namespace DialogueSystem
         #endregion
 
         #region Private Variables
-        private Lines.Answer answer;
+        private LinesScriptable.Answer answer;
+        private bool isButtonSetUpped;
         #endregion
 
         #region Unity Events
@@ -23,8 +26,7 @@ namespace DialogueSystem
         }
         private void Update()
         {
-            
-            if (answer != null)
+            if (answer != null && !isButtonSetUpped)
                 GetAnswer();
         }
         #endregion
@@ -53,14 +55,20 @@ namespace DialogueSystem
                     EnableButton(3);
                     break;
             }
+            isButtonSetUpped = true;
         }
 
         private void EnableButton(int index)
         {
             answerButtonList[index].gameObject.SetActive(true);
             answerButtonList[index].GetComponentInChildren<Text>().text = answer.answersList[index];
+            answerButtonList[index].onClick.AddListener(delegate { Invoke(index); });
         }
 
+        private void Invoke(int index)
+        {
+            answer.answerActions[index].Invoke();
+        }
         #endregion
 
         #region Message Based Methods
@@ -68,9 +76,9 @@ namespace DialogueSystem
         {
             answer = message.answer;
         }
-        private void StartDialogue(Messages.Dialogue.Start message)
+        private void GetAnswer(Messages.Dialogue.Stop message)
         {
-
+            isButtonSetUpped = false;
         }
         #endregion
     }

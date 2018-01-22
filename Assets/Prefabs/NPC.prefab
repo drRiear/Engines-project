@@ -1755,18 +1755,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114526359413326794}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114851387118020768}
-        m_MethodName: ToNextScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114710050265379408
@@ -1780,14 +1769,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532203e969d040579acbd147c639b895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _linesScriptable: {fileID: 11400000, guid: 155473860357cbc4a80da7ae9d6d843b, type: 2}
   textFileName: dialogue
   timeToPrintLetter: 0.05
   dialogueCanvas: {fileID: 223678672482573664}
   phraseText: {fileID: 114367174909997280}
-  _lines:
-    linesList: []
-    queue: []
-    answers: []
 --- !u!114 &114832082788057364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1826,18 +1812,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114456605811937722}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114851387118020768}
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114851387118020768

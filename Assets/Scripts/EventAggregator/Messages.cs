@@ -15,20 +15,20 @@ namespace Messages
             }
         }
 
-        public class Stops
+        public class Stop
         {
             public GameObject npc;
 
-            public Stops(GameObject npc)
+            public Stop(GameObject npc)
             {
                 this.npc = npc;
             }
         }
         public class GetAnswer
         {
-            public DialogueSystem.Lines.Answer answer;
-
-            public GetAnswer(DialogueSystem.Lines.Answer answer)
+            public DialogueSystem.LinesScriptable.Answer answer;
+            
+            public GetAnswer(DialogueSystem.LinesScriptable.Answer answer)
             {
                 this.answer = answer;
             }
