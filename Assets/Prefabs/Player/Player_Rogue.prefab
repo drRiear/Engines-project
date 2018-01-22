@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 114185472103188798}
   - component: {fileID: 114826342130400186}
   - component: {fileID: 114838411479986208}
+  - component: {fileID: 114174265015059422}
   m_Layer: 0
   m_Name: Player_Rogue
   m_TagString: Untagged
@@ -788,7 +789,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1100298123640700}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.238, y: -2, z: -0.07174803}
+  m_LocalPosition: {x: -0.238, y: -2, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 4963824798068440}
@@ -1153,7 +1154,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1575664024700340}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -100.76726, y: -8.397541, z: 0}
+  m_LocalPosition: {x: -133.23, y: -10.82, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4702314945410998}
@@ -1348,7 +1349,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1575664024700340}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6a60b68e7a32a9c4fa0cf7e740f8c84d, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1703,6 +1704,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114174265015059422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1575664024700340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f5b0c87ce11ca4b9bd5e8c22c24083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ultiTimer: 0
+  ultiKey: 113
 --- !u!114 &114185472103188798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1741,34 +1755,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e4f1958d8c277c4cba6917252705feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 5
-  healthPoints: 5
-  maxStaminaPoints: 100
-  staminaPoints: 100
-  staminaUsage: 5
-  staminaRegen: 10
-  attackDelay: 0.5
-  baseDamage: 1
-  damage: 1
-  maxRunSpeed: 20
-  currentRunSpeed: 20
-  sprintMultiplier: 2
-  jumpHeight: 20
-  dashMaxDistance: 5
-  dashCooldown: 1
+  strength: 0
+  dexterity: 0
+  intelligence: 0
+  level: 0
+  soulsToNextLevel: 0
+  maxHealthPoints: 0
+  healthPoints: 0
+  maxStaminaPoints: 0
+  staminaPoints: 0
+  staminaUsage: 0
+  staminaRegen: 0
+  attackDelay: 0
+  attackSpeed: 0
+  baseDamage: 0
+  damage: 0
+  damageToUltiPoints: 0
+  maxRunSpeed: 0
+  currentRunSpeed: 0
+  sprintMultiplier: 0
+  jumpHeight: 0
+  dashMaxDistance: 0
+  dashCooldown: 0
   dashCost: 0
-  dashState: 1
-  ultiCost: 25
+  dashState: 0
+  ultiCost: 0
   ultiPoints: 0
-  ultiDuration: 3
-  ultiDamage: 3
+  ultiDuration: 0
+  ultiDamage: 0
   ultiState: 0
   inAttack: 0
   inSprint: 0
   onMove: 0
-  onGround: 1
+  onGround: 0
   canIControll: 1
-  lastCrossPosition: {x: -80.292015, y: 2.9808235, z: 0}
+  lastCrossPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114433997156623226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1784,7 +1805,7 @@ MonoBehaviour:
     type: 2}
   interactionKey: 101
   sprintKey: 304
-  ultiKey: 113
+  statsWindowKey: 99
 --- !u!114 &114670291056321656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1813,11 +1834,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ef235ec47a2ff4b957fc496cbd0f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropedCoins: 0
-  dropedSouls: 0
+  dropedInventory:
+    coins: 0
+    souls: 0
   inventory:
     coins: 5
     souls: 0
+  datafileName: Inventory
 --- !u!114 &114838411479986208
 MonoBehaviour:
   m_ObjectHideFlags: 1

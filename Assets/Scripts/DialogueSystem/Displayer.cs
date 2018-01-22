@@ -43,8 +43,6 @@ namespace DialogueSystem
                 return;
             }
 
-            CheckLineForAnswer();
-
             currentCoroutine = PrintPhrase(_linesScriptable.queue[0]);
             StartCoroutine(currentCoroutine);
         }
@@ -59,12 +57,14 @@ namespace DialogueSystem
 
         private void DialogueEnd()
         {
-            _linesScriptable.SetQueue();
-            dialogueCanvas.gameObject.SetActive(false);
+            MessageDispatcher.Send(new Messages.Dialogue.Stop(thisNPC));
+
         }
 
         private IEnumerator PrintPhrase(string phrase)
         {
+            CheckLineForAnswer();
+
             _linesScriptable.UnQueue(phrase);
 
             foreach (var c in phrase)
@@ -87,7 +87,8 @@ namespace DialogueSystem
         }
         private void StopDialogue(Messages.Dialogue.Stop message)
         {
-            DialogueEnd();
+            _linesScriptable.SetQueue();
+            dialogueCanvas.gameObject.SetActive(false);
         }
         #endregion
     }

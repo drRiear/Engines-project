@@ -35,7 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4814374482360748}
   - component: {fileID: 212563949896967882}
-  - component: {fileID: 70406520366496408}
+  - component: {fileID: 61862294473530294}
   - component: {fileID: 114707674291266484}
   - component: {fileID: 114821313463946692}
   m_Layer: 0
@@ -65,15 +65,15 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1408112777520952}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -25.8, y: -16.02, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 0}
+  m_LocalPosition: {x: -25.8, y: -11.76, z: 0}
+  m_LocalScale: {x: -3, y: 3, z: 0}
   m_Children:
   - {fileID: 4631079494799094}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &70406520366496408
-CapsuleCollider2D:
+--- !u!61 &61862294473530294
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -85,8 +85,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.64, y: 1.43}
-  m_Direction: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 1.28}
+    newSize: {x: 0.64, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 1.28}
+  m_EdgeRadius: 0
 --- !u!114 &114707674291266484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101,7 +111,7 @@ MonoBehaviour:
   canRevive: 1
   maxHealthPoints: 5
   damage: 3
-  souls: 250
+  souls: 20
   healthPoints: 0
 --- !u!114 &114821313463946692
 MonoBehaviour:
@@ -114,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6883c48e01549854cb3f0a4d9c146a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 0
+  drawGizmos: 1
   head: {fileID: 4631079494799094}
   distanceOffset: {x: 5, y: 5}
   distanceOfView: 15

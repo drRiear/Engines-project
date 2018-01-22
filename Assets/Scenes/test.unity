@@ -397,6 +397,11 @@ Prefab:
       propertyPath: drawGizmos
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114707674291266484, guid: 07ffe6380781c1746b482aa8231bcbd8,
+        type: 2}
+      propertyPath: souls
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07ffe6380781c1746b482aa8231bcbd8, type: 2}
   m_IsPrefabParent: 0

@@ -16,7 +16,6 @@ namespace DialogueSystem
 
         #region Private Variables
         private LinesScriptable.Answer answer;
-        private bool isButtonSetUpped;
         #endregion
 
         #region Unity Events
@@ -24,61 +23,48 @@ namespace DialogueSystem
         {
             MessageDispatcher.AddListener(this);
         }
-        private void Update()
-        {
-            if (answer != null && !isButtonSetUpped)
-                GetAnswer();
-        }
         #endregion
 
         #region Private Methods
-        private void GetAnswer()
+        private void EnableButton(int buttonCount)
         {
-            switch (answer.answersList.Count)
+            for (int i = 0; i < buttonCount; i++)
             {
-                case 1:
-                    EnableButton(0);
-                    break;
-                case 2:
-                    EnableButton(0);
-                    EnableButton(1);
-                    break;
-                case 3:
-                    EnableButton(0);
-                    EnableButton(1);
-                    EnableButton(2);
-                    break;
-                case 4:
-                    EnableButton(0);
-                    EnableButton(1);
-                    EnableButton(2);
-                    EnableButton(3);
-                    break;
+                answerButtonList[i].gameObject.SetActive(true);
+                answerButtonList[i].GetComponentInChildren<Text>().text = answer.answersList[i];
+                var i1 = i;
+                answerButtonList[i].onClick.AddListener(delegate { InvokeEvents(answer.answerActions[i1]); });
             }
-            isButtonSetUpped = true;
         }
 
-        private void EnableButton(int index)
+        private void InvokeEvents(UnityEvent ev)
         {
-            answerButtonList[index].gameObject.SetActive(true);
-            answerButtonList[index].GetComponentInChildren<Text>().text = answer.answersList[index];
-            answerButtonList[index].onClick.AddListener(delegate { Invoke(index); });
+            if (ev == null) return;
+            ev.Invoke();
         }
 
-        private void Invoke(int index)
+        private void DisableButton(int buttonCount)
         {
-            answer.answerActions[index].Invoke();
+            for (int i = 0; i < buttonCount; i++)
+            {
+                answerButtonList[i].gameObject.SetActive(false);
+                if (answerButtonList[i].onClick.GetPersistentEventCount() != 0)
+                    answerButtonList[i].onClick.RemoveAllListeners();
+            }
         }
+
         #endregion
 
         #region Message Based Methods
         private void GetAnswer(Messages.Dialogue.GetAnswer message)
         {
             answer = message.answer;
+            EnableButton(answer.answersList.Count);
         }
-        private void GetAnswer(Messages.Dialogue.Stop message)
+        private void StopDialogue(Messages.Dialogue.Stop message)
         {
-            isButtonSetUpped = false;
+            if(answer != null)
+                DisableButton(answer.answersList.Count);
         }
         #endregion
     }

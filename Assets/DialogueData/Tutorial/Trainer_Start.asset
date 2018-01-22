@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0893bdbfc14f4792bfa921c5d8be08f7, type: 3}
+  m_Name: Trainer_Start
+  m_EditorClassIdentifier: 
+  linesList:
+  - We are here to test you.
+  - You can`t fall back. Enter the cave to start test.
+  - Use CROSS and if they defeat you , you can return to our world.
+  - If you complete the test you can be one of Us and I give you a reward.
+  queue:
+  - If you complete the test you can be one of Us and I give you a reward.
+  answers: []

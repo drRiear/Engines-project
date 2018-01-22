@@ -1769,8 +1769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532203e969d040579acbd147c639b895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _linesScriptable: {fileID: 11400000, guid: 155473860357cbc4a80da7ae9d6d843b, type: 2}
-  textFileName: dialogue
+  _linesScriptable: {fileID: 0}
   timeToPrintLetter: 0.05
   dialogueCanvas: {fileID: 223678672482573664}
   phraseText: {fileID: 114367174909997280}

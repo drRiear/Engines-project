@@ -5,12 +5,17 @@ using UnityEngine.Events;
 namespace DialogueSystem
 {
     [System.Serializable]
-    [CreateAssetMenu(fileName = "Lines", menuName = "Dialogue/Lines", order = 1)]
+    [CreateAssetMenu(fileName = "Lines", menuName = "Dialogue/Lines")]
     public class LinesScriptable : ScriptableObject
     {
-        public List<string> linesList = new List<string>();
+        [TextArea] public List<string> linesList = new List<string>();
         [HideInInspector] public List<string> queue = new List<string>();
         public List<Answer> answers = new List<Answer>();
+
+        public void OnEnable()
+        {
+            SetQueue();
+        }
 
         public void SetQueue()
         {
