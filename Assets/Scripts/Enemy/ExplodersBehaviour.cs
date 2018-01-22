@@ -111,7 +111,11 @@ namespace Enemy
                     break;
             }
         }
-
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject == CharacterManager.Instance.player)
+                state = State.Explosion;
+        }
         private void FixedUpdate()
         {
             if ((distanceToPlayer.x <= distanceOfView + distanceOffset.x && distanceToPlayer.x > 0.0f) 
