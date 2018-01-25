@@ -115,7 +115,7 @@ namespace Player
             jumpHeight = 20.0f;             //+- = rb.velocity.y
 
             //Dash
-            dashMaxDistance = 10.0f;
+            dashMaxDistance = 15.0f;
             dashCooldown = 1.0f;
             dashCost = 20.0f;
             dashState = DashState.Ready;

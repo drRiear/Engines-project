@@ -1154,7 +1154,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1575664024700340}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -133.23, y: -10.82, z: 0}
+  m_LocalPosition: {x: -132.8, y: -10.82, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4702314945410998}
@@ -1349,7 +1349,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1575664024700340}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 6a60b68e7a32a9c4fa0cf7e740f8c84d, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1371,8 +1371,7 @@ AudioSource:
   m_GameObject: {fileID: 1118454923845460}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243410560894007106, guid: 0560f5965de39ae49aa32f71657b0cf1,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1452,8 +1451,7 @@ AudioSource:
   m_GameObject: {fileID: 1238260918937378}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243410560894007106, guid: 0560f5965de39ae49aa32f71657b0cf1,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1533,8 +1531,7 @@ AudioSource:
   m_GameObject: {fileID: 1884623498502394}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243157793007768768, guid: 0560f5965de39ae49aa32f71657b0cf1,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2d07eba8eab06cb45898cb11da4a54e2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1614,8 +1611,7 @@ AudioSource:
   m_GameObject: {fileID: 1459648352159080}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243863383790658010, guid: 0560f5965de39ae49aa32f71657b0cf1,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1871,10 +1867,10 @@ MonoBehaviour:
   landSource: {fileID: 82383815641076140}
   footstepsSource: {fileID: 82798410286663770}
   footstepClips:
-  - {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}
-  - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
-  - {fileID: 8300000, guid: 5a9383dda6cabc047b7a297602e93eb4, type: 3}
-  - {fileID: 8300000, guid: e9714160ce34f2b4ab63ff8c27bd68e1, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!212 &212054819719807858
 SpriteRenderer:
   m_ObjectHideFlags: 1
